@@ -51,6 +51,14 @@ const Home = () => {
                     <div className={styles.mid3}>
                         <img className={styles.trump} src={trump} alt="trump" />
                     </div>
+                    <div className={styles.blw1}>
+                        <img className={styles.cartoon3} src={cartoon} alt="cartoon3" />
+                        <div className={styles.cartoonText3}>유익한!</div>
+                    </div>
+                    <div className={styles.blw2}>
+                        <img className={styles.leftbottom} src={leftbottom} alt="leftbottom" />
+                        <img className={styles.duce} src={duce} alt="duce" />
+                    </div>
                 </div>
             </div>
         </Layout>
