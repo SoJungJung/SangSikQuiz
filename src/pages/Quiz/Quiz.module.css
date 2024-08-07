@@ -1,123 +1,150 @@
 .container {
-  position: relative;
-  width: 100%;
-  height: 100vh; /* Full height to accommodate all content */
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full height to accommodate all content */
 }
 
 .topdiv {
-  position: relative;
-  height: 195px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    position: relative;
+    height: 195px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .lefttop {
-  position: absolute;
-  top: 0;
-  left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .righttop {
-  position: absolute;
-  top: 0;
-  right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .pointShow {
-  position: relative;
-  width: 206px;
-  height: 67px;
-  right: 100px;
-  bottom: 20px;
-  /* left: 50%;
+    position: relative;
+    width: 206px;
+    height: 67px;
+    right: 100px;
+    bottom: 20px;
+    /* left: 50%;
   transform: translateX(-50%); */
-  text-align: center;
-  /* margin-left: 20px; */
+    text-align: center;
+    /* margin-left: 20px; */
 }
 
 .point {
-  color: #000;
-  font-family: Inter, sans-serif;
-  font-style: normal;
-  font-size: 20px;
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-size: 20px;
 }
 
 .pointText {
-  position: absolute;
-  font-size: 35px;
-  top: 7px;
-  left: 10px;
+    position: absolute;
+    font-size: 35px;
+    top: 7px;
+    left: 10px;
 
-  color: white;
+    color: white;
 }
 
 .quizShow {
-  position: relative;
-  width: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .quiz {
-  font-family: Inter, sans-serif;
-  font-style: normal;
-  font-size: 20px;
-  /* padding: 10px; */
-  background-color: #f0f0f0;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-size: 20px;
+    /* padding: 10px; */
+    background-color: #f0f0f0;
 }
 
 .quizText {
-  position: absolute;
-  width: 300px;
-  text-align: left;
-  font-size: 30px;
+    position: absolute;
+    width: 300px;
+    text-align: left;
+    font-size: 30px;
 }
 .answerShow {
-  position: absolute;
-  top: 400px;
-  width: 100%;
-  text-align: center;
+    position: relative;
+    top: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.answerShow div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
+.circleDiv {
+    position: relative;
+}
+.circle {
+    width: 75px;
+    height: 75px;
+    background-color: #4caf50;
+    border-radius: 100%;
+    position: relative;
+    left: 15px;
+    z-index: 2;
 }
 
-.awr {
-  font-family: Inter, sans-serif;
-  font-style: normal;
-  font-size: 20px;
-  margin: 10px 0;
+.circleText {
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.answerDiv {
+    display: flex;
+    align-items: center;
+}
+.rectangle {
+    width: 240px;
+    height: 50px;
+    position: relative;
+    background-color: #fff9c4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 15px;
+    z-index: 1;
 }
 
 .numshow {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-  text-align: center;
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
 }
 
 .num {
-  font-family: Inter, sans-serif;
-  font-style: normal;
-  font-size: 20px;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-size: 20px;
 }
 
 .bottomdiv {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: left;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: left;
 }
 
 .leftbottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
