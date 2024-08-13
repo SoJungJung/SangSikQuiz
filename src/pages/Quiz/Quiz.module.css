@@ -107,6 +107,45 @@
     align-items: center;
 }
 
+.circle2 {
+    width: 75px;
+    height: 75px;
+    background-color: #ffc107;
+    border-radius: 100%;
+    position: relative;
+    left: 15px;
+    z-index: 2;
+}
+
+.circleText2 {
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle3 {
+    width: 75px;
+    height: 75px;
+    background-color: #ff6f61;
+    border-radius: 100%;
+    position: relative;
+    left: 15px;
+    z-index: 2;
+}
+
+.circleText3 {
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .answerDiv {
     display: flex;
     align-items: center;
@@ -123,19 +162,17 @@
     z-index: 1;
 }
 
-.numshow {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-}
-
-.num {
+.numText {
     font-family: Inter, sans-serif;
     font-style: normal;
     font-size: 20px;
+    text-align: center;
 }
-
+.num {
+    position: relative;
+    bottom: 20px;
+    width: 100%;
+}
 .bottomdiv {
     position: absolute;
     bottom: 0;
@@ -144,7 +181,7 @@
 }
 
 .leftbottom {
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 0;
 }

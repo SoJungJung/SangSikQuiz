@@ -36,6 +36,22 @@ const Quiz = () => {
                             <div className={styles.rectangleText}>정답입니다</div>
                         </div>
                     </div>
+                    <div className={styles.answerDiv}>
+                        <div className={styles.circle2}>
+                            <div className={styles.circleText2}>2</div>
+                        </div>
+                        <div className={styles.rectangle}>
+                            <div className={styles.rectangleText}>정답입니다</div>
+                        </div>
+                    </div>
+                    <div className={styles.answerDiv}>
+                        <div className={styles.circle3}>
+                            <div className={styles.circleText3}>3</div>
+                        </div>
+                        <div className={styles.rectangle}>
+                            <div className={styles.rectangleText}>정답입니다</div>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.numshow}>
                     <div>

@@ -1,0 +1,116 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #b71c1c;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.topdiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.crtAswShow {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: #f3e5f5;
+    border-radius: 50px;
+    padding: 10px 20px;
+    width: 90%; */
+    position: relative;
+}
+
+.crtAsw {
+    margin-right: 10px;
+}
+
+.crtAswShowText {
+    font-size: 24px;
+    color: #000000;
+    font-weight: bold;
+    position: absolute;
+    left: 80px;
+}
+
+.rstImgShow {
+    position: relative;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.rstImgFrame {
+    position: relative;
+    top: 0;
+    width: 100%;
+    border-radius: 20px;
+}
+
+.rstImg {
+    position: absolute;
+    width: 80%;
+    border-radius: 20px;
+    z-index: 1;
+}
+
+.wrgAswShow {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.wrgAswDiv {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: #f3e5f5;
+    border-radius: 50px;
+    padding: 10px 20px;
+    width: 90%; */
+}
+
+.wrgAsw {
+    margin-right: 10px; /* 텍스트와 이미지 간격 추가 */
+}
+
+.wrgAswShowText {
+    font-size: 24px;
+    color: #000000;
+    font-weight: bold;
+    position: absolute;
+    left: 80px;
+}
+
+.quoteShow {
+    width: 390px;
+    height: 175px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffe0b2;
+    border-radius: 50px;
+    padding: 10px;
+    text-align: center;
+}
+
+.quoteText {
+    font-size: 20px;
+    color: #000000;
+    font-style: italic;
+    font-weight: bold;
+    position: relative;
+    right: 20px;
+}
