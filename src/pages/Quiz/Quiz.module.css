@@ -105,6 +105,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 24px;
 }
 
 .circle2 {
@@ -117,16 +118,6 @@
     z-index: 2;
 }
 
-.circleText2 {
-    width: 75px;
-    height: 75px;
-    position: absolute;
-    top: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .circle3 {
     width: 75px;
     height: 75px;
@@ -137,21 +128,25 @@
     z-index: 2;
 }
 
-.circleText3 {
-    width: 75px;
-    height: 75px;
-    position: absolute;
-    top: 0px;
+.answerShow {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
 }
 .answerDiv {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    opacity: 75%;
+}
+.answerDiv:hover {
+    opacity: 100%;
+}
+
+.midAnswerDiv {
+    margin: 15px 0 15px 0;
 }
 .rectangle {
-    width: 240px;
+    width: 270px;
     height: 50px;
     position: relative;
     background-color: #fff9c4;
@@ -161,22 +156,29 @@
     right: 15px;
     z-index: 1;
 }
-
-.numText {
-    font-family: Inter, sans-serif;
+.rectangleText {
     font-style: normal;
-    font-size: 20px;
+    font-size: 24px;
     text-align: center;
 }
-.num {
+.numShow {
+    width: 120px;
+    height: 50px;
+    border-radius: 20px;
+    background-color: #5bc0eb;
+    color: white;
+    font-size: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    bottom: 20px;
-    width: 100%;
+    left: 300px;
+    top: 150px;
 }
+
 .bottomdiv {
     position: absolute;
     bottom: 0;
-    width: 100%;
     text-align: left;
 }
 
