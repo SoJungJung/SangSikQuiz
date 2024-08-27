@@ -19,12 +19,7 @@ const Quiz = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [randomNumber, setRandomNumber] = useState(null);
-
-    useEffect(() => {
-        const number = Math.floor(Math.random() * 10);
-        setRandomNumber(number);
-    }, []);
+    const [randomQuiz, setRandomQuiz] = useState(null);
 
     useEffect(() => {
         // JSON 파일 요청하기
@@ -36,7 +31,17 @@ const Quiz = () => {
                 return response.json();
             })
             .then((jsonData) => {
-                setData(jsonData);
+                // Combine all quizzes from all difficulty levels into one array
+                const allQuizzes = [
+                    ...jsonData.easy,
+                    ...jsonData.intermediate,
+                    ...jsonData.difficult,
+                    ...jsonData['super-difficult'],
+                ];
+
+                // Pick a random quiz from the combined array
+                const randomIndex = Math.floor(Math.random() * allQuizzes.length);
+                setRandomQuiz(allQuizzes[randomIndex]);
                 setLoading(false);
             })
             .catch((err) => {
@@ -54,8 +59,9 @@ const Quiz = () => {
         return <div>Error: {error}</div>;
     }
 
-    console.log(data.difficult[1].answer[0].TRUE);
-    let nowQuiz = data.difficult[randomNumber];
+    // 정답과 오답의 색상을 다르게 설정
+    const circleClasses = [styles.circle, styles.circle2, styles.circle3];
+
     return (
         <Layout>
             <div className={styles.container}>
@@ -71,33 +77,23 @@ const Quiz = () => {
                 </div>
                 <div className={styles.quizShow}>
                     <img className={styles.quiz} src={quiz} alt="quiz" />
-                    <div className={styles.quizText}>{nowQuiz.quiz}</div>
+                    <div className={styles.quizText}>{randomQuiz.quiz}</div>
                 </div>
                 <div className={styles.answerShow}>
-                    <div className={styles.answerDiv} onClick={() => handleDivClick(true)}>
-                        <div className={styles.circle}>
-                            <div className={styles.circleText}>1</div>
+                    {randomQuiz.answer.map((ans, index) => (
+                        <div
+                            key={index}
+                            className={`${styles.answerDiv} ${index === 1 ? styles.midAnswerDiv : ''}`}
+                            onClick={() => handleDivClick(ans.TRUE !== undefined)}
+                        >
+                            <div className={circleClasses[index % circleClasses.length]}>
+                                <div className={styles.circleText}>{index + 1}</div>
+                            </div>
+                            <div className={styles.rectangle}>
+                                <div className={styles.rectangleText}>{ans.TRUE ? ans.TRUE : ans.FALSE}</div>
+                            </div>
                         </div>
-                        <div className={styles.rectangle}>
-                            <div className={styles.rectangleText}>{nowQuiz.answer[0].TRUE}</div>
-                        </div>
-                    </div>
-                    <div className={`${styles.answerDiv} ${styles.midAnswerDiv}`} onClick={() => handleDivClick(false)}>
-                        <div className={styles.circle2}>
-                            <div className={styles.circleText}>2</div>
-                        </div>
-                        <div className={styles.rectangle}>
-                            <div className={styles.rectangleText}>{nowQuiz.answer[1].FALSE}</div>
-                        </div>
-                    </div>
-                    <div className={styles.answerDiv}>
-                        <div className={styles.circle3}>
-                            <div className={styles.circleText}>3</div>
-                        </div>
-                        <div className={styles.rectangle}>
-                            <div className={styles.rectangleText}>{nowQuiz.answer[2].FALSE}</div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
                 <div className={styles.numShow}>0 / 10</div>
                 <div className={styles.bottomdiv}>

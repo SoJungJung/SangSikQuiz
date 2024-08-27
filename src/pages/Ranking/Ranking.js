@@ -1,27 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Ranking.module.css';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
 
 const Ranking = () => {
     const navigate = useNavigate();
+    const [rankings, setRankings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const handleRetry = () => {
         navigate('/');
     };
 
-    const ranks = [
-        '1. djagpdud',
-        '2. qkqh',
-        '3. dlwnsgud',
-        '2. gorqkqh',
-        '5. user5',
-        '6. user6',
-        '7. user7',
-        '8. user8',
-        '9. user9',
-        '10. user10',
-    ];
+    useEffect(() => {
+        // Fetch the rankings JSON data
+        fetch('/rankings.json')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((jsonData) => {
+                setRankings(jsonData.rankings);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <Layout>
@@ -30,9 +47,9 @@ const Ranking = () => {
                 <div className={styles.rankBox}>
                     <div className={styles.rankTitle}>RANK</div>
                     <div className={styles.rankList}>
-                        {ranks.map((rank, index) => (
-                            <div key={index} className={styles.rankItem}>
-                                {rank}
+                        {rankings.map((rank) => (
+                            <div key={rank.position} className={styles.rankItem}>
+                                {rank.position}. {rank.nickname} - {rank.score}점
                             </div>
                         ))}
                     </div>

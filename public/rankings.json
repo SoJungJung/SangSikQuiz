@@ -1,0 +1,104 @@
+{
+    "rankings": [
+        {
+            "position": 1,
+            "nickname": "이준형",
+            "score": 100
+        },
+        {
+            "position": 2,
+            "nickname": "엄혜영",
+            "score": 90
+        },
+        {
+            "position": 3,
+            "nickname": "펠레",
+            "score": 80
+        },
+        {
+            "position": 4,
+            "nickname": "마라도나",
+            "score": 70
+        },
+        {
+            "position": 5,
+            "nickname": "차붐",
+            "score": 60
+        },
+        {
+            "position": 6,
+            "nickname": "토티",
+            "score": 50
+        },
+        {
+            "position": 7,
+            "nickname": "에릭 칸토나",
+            "score": 40
+        },
+        {
+            "position": 8,
+            "nickname": "호날두",
+            "score": 30
+        },
+        {
+            "position": 9,
+            "nickname": "메시",
+            "score": 20
+        },
+        {
+            "position": 10,
+            "nickname": "루니",
+            "score": 10
+        },
+        {
+            "position": 11,
+            "nickname": "지단",
+            "score": 10
+        },
+        {
+            "position": 12,
+            "nickname": "호베르투 카를루스",
+            "score": 0
+        },
+        {
+            "position": 13,
+            "nickname": "크루이프",
+            "score": 0
+        },
+        {
+            "position": 14,
+            "nickname": "베컴",
+            "score": 0
+        },
+        {
+            "position": 15,
+            "nickname": "지뉴",
+            "score": 0
+        },
+        {
+            "position": 16,
+            "nickname": "카카",
+            "score": 0
+        },
+        {
+            "position": 17,
+            "nickname": "네드베드",
+            "score": 0
+        },
+        {
+            "position": 18,
+            "nickname": "아드리아노",
+            "score": 0
+        },
+        {
+            "position": 19,
+            "nickname": "이니에스타",
+            "score": 0
+        },
+        {
+            "position": 20,
+            "nickname": "푸욜",
+            "score": 0
+        }
+    ]
+}
