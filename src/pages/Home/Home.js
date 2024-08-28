@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import lefttop from './lefttop.png';
 import leftbottom from './leftbottom.png';
 import righttop from './righttop.png';
@@ -7,6 +7,8 @@ import otto from './otto.png';
 import duce from './duce.png';
 import cartoon from './cartoon.png';
 import cartoon2 from './cartoon2.png';
+import audio1 from './audio1.mp3'; // Import your first MP3 file
+import audio2 from './audio2.mp3'; // Import your second MP3 file
 import styles from './Home.module.css';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
@@ -14,9 +16,25 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
     const navigate = useNavigate();
 
+    // Function to handle playing random audio on component mount
+    useEffect(() => {
+        const audios = [audio1, audio2]; // Array of audio files
+        const randomAudio = audios[Math.floor(Math.random() * audios.length)]; // Select one randomly
+
+        const audio = new Audio(randomAudio); // Create new audio object
+        audio.play(); // Play the selected audio
+
+        // Optional: Clean up when the component unmounts
+        return () => {
+            audio.pause(); // Pause audio if still playing
+            audio.currentTime = 0; // Reset the audio to the beginning
+        };
+    }, []);
+
     const handleClickNext = () => {
         navigate('/quiz');
     };
+
     return (
         <Layout>
             <div className={styles.container}>
