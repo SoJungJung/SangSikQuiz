@@ -5,11 +5,11 @@
 .redBackground {
     background-color: red;
 }
+
 .container {
     position: relative;
     width: 100%;
     height: 100vh;
-    /* background-color: #b71c1c; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -22,17 +22,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* padding: 10px; */
 }
 
 .crtAswShow {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    /* background-color: #f3e5f5;
-    border-radius: 50px;
-    padding: 10px 20px;
-    width: 90%; */
     position: relative;
 }
 
@@ -51,17 +46,13 @@
 .rstImgShow {
     position: relative;
     width: 90%;
+    height: 430px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
-}
-
-.rstImgFrame {
-    position: relative;
-    top: 0;
-    width: 100%;
-    border-radius: 20px;
+    background-color: white;
+    border-radius: 40px;
 }
 
 .rstImg {
@@ -69,6 +60,10 @@
     width: 70%;
     border-radius: 20px;
     z-index: 1;
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    display: block;
 }
 
 .wrgAswShow {
@@ -83,10 +78,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: #f3e5f5;
-    border-radius: 50px;
-    padding: 10px 20px;
-    width: 90%; */
 }
 
 .wrgAswShowText {
@@ -115,4 +106,21 @@
     font-style: italic;
     font-weight: bold;
     position: relative;
+}
+
+/* Style for the continue button */
+.cntButton {
+    background-color: #ffd700; /* Yellow */
+    color: #333333; /* Dark text for contrast */
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.cntButton:hover {
+    background-color: #ffc107; /* Darker yellow on hover */
 }

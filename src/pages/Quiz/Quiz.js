@@ -10,19 +10,38 @@ import { useNavigate } from 'react-router-dom';
 
 const Quiz = () => {
     const navigate = useNavigate();
-
-    const handleDivClick = (isRight) => {
-        navigate(`/answer?isRight=${isRight}`);
-        console.log('함수 실행일 수도');
-    };
-
-    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [randomQuiz, setRandomQuiz] = useState(null);
+    //문제 카운트 및 점수 상태 추가
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+    const [score, setScore] = useState(0);
+
+    //handleDivClick 업데이트
+    const handleDivClick = (isRight) => {
+        if (isRight) {
+            setCorrectAnswersCount((prevCount) => prevCount + 1);
+            setScore((prevScore) => prevScore + 10);
+        }
+
+        if (currentQuestionIndex < 9) {
+            setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+            navigate(`/answer?isRight=${isRight}`);
+        } else {
+            navigate(`/result?score=${score + (isRight ? 10 : 0)}`);
+        }
+
+        console.log('함수 실행일 수도');
+    };
+
+    // Function to shuffle the answers
+    const shuffleAnswers = (answers) => {
+        return answers.sort(() => Math.random() - 0.5);
+    };
 
     useEffect(() => {
-        // JSON 파일 요청하기
+        // Fetch JSON file
         fetch('/example.json')
             .then((response) => {
                 if (!response.ok) {
@@ -31,17 +50,37 @@ const Quiz = () => {
                 return response.json();
             })
             .then((jsonData) => {
-                // Combine all quizzes from all difficulty levels into one array
-                const allQuizzes = [
-                    ...jsonData.easy,
-                    ...jsonData.intermediate,
-                    ...jsonData.difficult,
-                    ...jsonData['super-difficult'],
+                // Function to randomly select n items from an array
+                const getRandomItems = (array, n, level) => {
+                    const shuffled = array.sort(() => 0.5 - Math.random());
+                    return shuffled.slice(0, n).map((item) => ({ ...item, level }));
+                };
+
+                // Select quizzes based on difficulty
+                const superDifficultQuizzes = getRandomItems(jsonData['super-difficult'], 2, 'super-difficult');
+                const difficultQuizzes = getRandomItems(jsonData.difficult, 2, 'difficult');
+                const intermediateQuizzes = getRandomItems(jsonData.intermediate, 4, 'intermediate');
+                const easyQuizzes = getRandomItems(jsonData.easy, 2, 'easy');
+
+                // Combine selected quizzes
+                const selectedQuizzes = [
+                    ...superDifficultQuizzes,
+                    ...difficultQuizzes,
+                    ...intermediateQuizzes,
+                    ...easyQuizzes,
                 ];
 
-                // Pick a random quiz from the combined array
-                const randomIndex = Math.floor(Math.random() * allQuizzes.length);
-                setRandomQuiz(allQuizzes[randomIndex]);
+                // Log the level of each quiz
+                selectedQuizzes.forEach((quiz) => console.log(`Quiz Level: ${quiz.level}`));
+
+                // Pick a random quiz from the combined selected quizzes
+                const randomIndex = Math.floor(Math.random() * selectedQuizzes.length);
+                const selectedQuiz = selectedQuizzes[randomIndex];
+
+                // Shuffle the answers of the selected quiz
+                selectedQuiz.answer = shuffleAnswers(selectedQuiz.answer);
+
+                setRandomQuiz(selectedQuiz);
                 setLoading(false);
             })
             .catch((err) => {
@@ -50,7 +89,7 @@ const Quiz = () => {
             });
     }, []);
 
-    // 데이터가 로드되었는지 확인
+    // Check if data is loading
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -59,7 +98,7 @@ const Quiz = () => {
         return <div>Error: {error}</div>;
     }
 
-    // 정답과 오답의 색상을 다르게 설정
+    // Set different colors for correct and incorrect answers
     const circleClasses = [styles.circle, styles.circle2, styles.circle3];
 
     return (
@@ -72,7 +111,7 @@ const Quiz = () => {
                         <div>
                             <img className={styles.point} src={point} alt="point" />
                         </div>
-                        <div className={styles.pointText}>점수:</div>
+                        <div className={styles.pointText}>점수: {score}</div>
                     </div>
                 </div>
                 <div className={styles.quizShow}>
@@ -95,7 +134,7 @@ const Quiz = () => {
                         </div>
                     ))}
                 </div>
-                <div className={styles.numShow}>0 / 10</div>
+                <div className={styles.numShow}>{currentQuestionIndex + 1} / 10</div>
                 <div className={styles.bottomdiv}>
                     <img className={styles.leftbottom} src={leftbottom} alt="Left Bottom" />
                 </div>
