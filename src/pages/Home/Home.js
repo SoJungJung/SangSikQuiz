@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import lefttop from './lefttop.png';
 import leftbottom from './leftbottom.png';
 import righttop from './righttop.png';
@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const navigate = useNavigate();
+    const [nickname, setNickname] = useState('');
 
     // Function to handle playing random audio on component mount
     useEffect(() => {
@@ -32,7 +33,13 @@ const Home = () => {
     }, []);
 
     const handleClickNext = () => {
-        navigate('/quiz');
+        if (nickname.trim() !== '') {
+            localStorage.setItem('nickname', nickname); // Save nickname to Local Storage
+            localStorage.setItem('score', 0); // Initialize score to 0
+            navigate('/quiz'); // Navigate to quiz
+        } else {
+            alert('Please enter a nickname.'); // Alert if nickname is empty
+        }
     };
 
     return (
@@ -40,7 +47,7 @@ const Home = () => {
             <div className={styles.container}>
                 <div className={styles.topdiv}>
                     <img className={styles.lefttop} src={lefttop} alt="lefttop" />
-                    <img className={styles.righttop} src={righttop} alt={righttop} />
+                    <img className={styles.righttop} src={righttop} alt="righttop" />
                     <div className={styles.title}>
                         싱글벙글
                         <br />
@@ -61,7 +68,12 @@ const Home = () => {
                             <img className={styles.cartoon} src={cartoon} alt="cartoon" />
                             <div className={styles.cartoonText2}>어려운!</div>
                         </div>
-                        <input className={styles.nicknameInput} placeholder="닉네임을 입력해라" />
+                        <input
+                            className={styles.nicknameInput}
+                            placeholder="닉네임을 입력해라"
+                            value={nickname}
+                            onChange={(e) => setNickname(e.target.value)}
+                        />
                         <button className={styles.start} onClick={handleClickNext}>
                             시작하기
                         </button>

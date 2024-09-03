@@ -8,6 +8,8 @@ const Ranking = () => {
     const [rankings, setRankings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [userPosition, setUserPosition] = useState(null);
+    const [nickname, setNickname] = useState('');
 
     const handleRetry = () => {
         navigate('/');
@@ -23,7 +25,31 @@ const Ranking = () => {
                 return response.json();
             })
             .then((jsonData) => {
-                setRankings(jsonData.rankings);
+                // Get the nickname and score from Local Storage
+                const nickname = localStorage.getItem('nickname');
+                const score = parseInt(localStorage.getItem('score'), 10);
+                setNickname(nickname);
+
+                let updatedRankings = jsonData.rankings;
+
+                if (nickname && !isNaN(score)) {
+                    // Add the current user's score to the rankings
+                    updatedRankings = [...updatedRankings, { position: updatedRankings.length + 1, nickname, score }];
+
+                    // Sort the rankings based on score in descending order
+                    updatedRankings.sort((a, b) => b.score - a.score);
+
+                    // Update the position of each rank
+                    updatedRankings.forEach((rank, index) => {
+                        rank.position = index + 1;
+                    });
+
+                    // Find the user's position
+                    const userRank = updatedRankings.find((rank) => rank.nickname === nickname && rank.score === score);
+                    setUserPosition(userRank.position);
+                }
+
+                setRankings(updatedRankings);
                 setLoading(false);
             })
             .catch((err) => {
@@ -43,7 +69,9 @@ const Ranking = () => {
     return (
         <Layout>
             <div className={styles.container}>
-                <div className={styles.title}>너 자신을 알라 너는 딸랑 n등</div>
+                <div className={styles.title}>
+                    {nickname ? `너 자신을 알라 ${nickname} 너는 딸랑 ${userPosition}등` : '너 자신을 알라'}
+                </div>
                 <div className={styles.rankBox}>
                     <div className={styles.rankTitle}>RANK</div>
                     <div className={styles.rankList}>

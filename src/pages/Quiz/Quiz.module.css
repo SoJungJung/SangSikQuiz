@@ -1,7 +1,7 @@
 .container {
     position: relative;
     width: 100%;
-    height: 100vh; /* Full height to accommodate all content */
+    height: 100vh;
 }
 
 .topdiv {
@@ -30,10 +30,7 @@
     height: 67px;
     right: 100px;
     bottom: 20px;
-    /* left: 50%;
-  transform: translateX(-50%); */
     text-align: center;
-    /* margin-left: 20px; */
 }
 
 .point {
@@ -48,7 +45,6 @@
     font-size: 35px;
     top: 7px;
     left: 10px;
-
     color: white;
 }
 
@@ -65,7 +61,6 @@
     font-family: Inter, sans-serif;
     font-style: normal;
     font-size: 20px;
-    /* padding: 10px; */
     background-color: #f0f0f0;
 }
 
@@ -75,69 +70,58 @@
     text-align: left;
     font-size: 30px;
 }
-.answerShow {
-    position: relative;
-    top: 20px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.circleDiv {
-    position: relative;
-}
-.circle {
-    width: 75px;
-    height: 75px;
-    background-color: #4caf50;
-    border-radius: 100%;
-    position: relative;
-    left: 15px;
-    z-index: 2;
-}
-
-.circleText {
-    width: 75px;
-    height: 75px;
-    position: absolute;
-    top: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-}
-
-.circle2 {
-    width: 75px;
-    height: 75px;
-    background-color: #ffc107;
-    border-radius: 100%;
-    position: relative;
-    left: 15px;
-    z-index: 2;
-}
-
-.circle3 {
-    width: 75px;
-    height: 75px;
-    background-color: #ff6f61;
-    border-radius: 100%;
-    position: relative;
-    left: 15px;
-    z-index: 2;
-}
 
 .answerShow {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 20px;
 }
+
+.circleDiv {
+    position: relative;
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 가운데 정렬 */
+}
+
+.circle,
+.circle2,
+.circle3 {
+    width: 4rem; /* 기본 크기 */
+    height: 4rem; /* 기본 크기 */
+    border-radius: 100%;
+    position: relative;
+    left: 15px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem; /* 텍스트 크기 */
+    transition: width 0.3s ease, height 0.3s ease, font-size 0.3s ease; /* 크기 변화 애니메이션 */
+}
+
+.circle {
+    background-color: #4caf50;
+}
+
+.circle2 {
+    background-color: #ffc107;
+}
+
+.circle3 {
+    background-color: #ff6f61;
+}
+
 .answerDiv {
     display: flex;
     align-items: center;
     cursor: pointer;
     opacity: 75%;
+    margin: 10px 0;
 }
+
 .answerDiv:hover {
     opacity: 100%;
 }
@@ -145,22 +129,27 @@
 .midAnswerDiv {
     margin: 15px 0 15px 0;
 }
+
 .rectangle {
     width: 270px;
-    height: 50px;
-    position: relative;
     background-color: #fff9c4;
     display: flex;
     justify-content: center;
     align-items: center;
     right: 15px;
     z-index: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: all 0.3s ease; /* 크기 변화 애니메이션 */
 }
+
 .rectangleText {
     font-style: normal;
     font-size: 24px;
     text-align: center;
+    word-wrap: break-word;
 }
+
 .numShow {
     width: 120px;
     height: 50px;

@@ -13,13 +13,15 @@ const Quiz = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [randomQuiz, setRandomQuiz] = useState(null);
-    //문제 카운트 및 점수 상태 추가
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
     const [score, setScore] = useState(0);
 
-    //handleDivClick 업데이트
-    const handleDivClick = (isRight) => {
+    // Function to handle when an answer is clicked
+    const handleDivClick = (answer, isRight) => {
+        const correctAnswer = randomQuiz.answer.find((ans) => ans.TRUE)?.TRUE;
+        const selectedAnswer = answer.TRUE || answer.FALSE;
+
         if (isRight) {
             setCorrectAnswersCount((prevCount) => prevCount + 1);
             setScore((prevScore) => prevScore + 10);
@@ -27,21 +29,22 @@ const Quiz = () => {
 
         if (currentQuestionIndex < 9) {
             setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-            navigate(`/answer?isRight=${isRight}`);
+            navigate(
+                `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
+                    correctAnswer
+                )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
+            );
         } else {
             navigate(`/result?score=${score + (isRight ? 10 : 0)}`);
         }
-
-        console.log('함수 실행일 수도');
     };
 
-    // Function to shuffle the answers
+    // Function to shuffle answers
     const shuffleAnswers = (answers) => {
         return answers.sort(() => Math.random() - 0.5);
     };
 
     useEffect(() => {
-        // Fetch JSON file
         fetch('/example.json')
             .then((response) => {
                 if (!response.ok) {
@@ -50,7 +53,6 @@ const Quiz = () => {
                 return response.json();
             })
             .then((jsonData) => {
-                // Function to randomly select n items from an array
                 const getRandomItems = (array, n, level) => {
                     const shuffled = array.sort(() => 0.5 - Math.random());
                     return shuffled.slice(0, n).map((item) => ({ ...item, level }));
@@ -89,7 +91,6 @@ const Quiz = () => {
             });
     }, []);
 
-    // Check if data is loading
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -123,7 +124,7 @@ const Quiz = () => {
                         <div
                             key={index}
                             className={`${styles.answerDiv} ${index === 1 ? styles.midAnswerDiv : ''}`}
-                            onClick={() => handleDivClick(ans.TRUE !== undefined)}
+                            onClick={() => handleDivClick(ans, ans.TRUE !== undefined)}
                         >
                             <div className={circleClasses[index % circleClasses.length]}>
                                 <div className={styles.circleText}>{index + 1}</div>

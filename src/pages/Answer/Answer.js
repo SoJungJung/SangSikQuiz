@@ -6,7 +6,6 @@ import wrgAsw from './wrgAsw.png';
 import Layout from '../../Layout';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-// Import your images here
 import rstImgCorrect1 from './rstImgCorrect1.png';
 import rstImgCorrect2 from './rstImgCorrect2.jpg';
 import rstImgCorrect3 from './rstImgCorrect3.jpg';
@@ -32,6 +31,8 @@ const Answer = () => {
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const isRight = queryParams.get('isRight') === 'true';
+    const correctAnswer = queryParams.get('correctAnswer');
+    const selectedAnswer = queryParams.get('selectedAnswer');
 
     const [quote, setQuote] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -48,7 +49,6 @@ const Answer = () => {
                 return response.json();
             })
             .then((jsonData) => {
-                // Select quotes based on correctness
                 const quotesArray = isRight ? jsonData.quotes.correct : jsonData.quotes.incorrect;
                 const randomIndex = Math.floor(Math.random() * quotesArray.length);
                 setQuote(quotesArray[randomIndex]);
@@ -61,7 +61,6 @@ const Answer = () => {
 
         // Select random images based on correctness
         if (isRight) {
-            // Correct answer images
             const correctImages = [
                 rstImgCorrect1,
                 rstImgCorrect2,
@@ -77,7 +76,6 @@ const Answer = () => {
             const randomCorrectImage = correctImages[Math.floor(Math.random() * correctImages.length)];
             setSelectedImage(randomCorrectImage);
         } else {
-            // Incorrect answer images
             const wrongImages = [
                 rstImgWrong1,
                 rstImgWrong2,
@@ -112,7 +110,7 @@ const Answer = () => {
                 <div className={styles.topdiv}>
                     <div className={styles.crtAswShow}>
                         <img className={styles.crtAsw} src={crtAsw} alt="Correct Answer Icon" />
-                        <div className={styles.crtAswShowText}>정답: 오토 폰 비스마르크</div>
+                        <div className={styles.crtAswShowText}>정답: {correctAnswer}</div>
                     </div>
                 </div>
                 <div className={styles.rstImgShow}>
@@ -123,7 +121,7 @@ const Answer = () => {
                     <div className={styles.wrgAswShow}>
                         <div className={styles.wrgAswDiv}>
                             <img className={styles.wrgAsw} src={wrgAsw} alt="Wrong Answer Icon" />
-                            <div className={styles.wrgAswShowText}>당신의 답: 헬무트 폰 몰트케</div>
+                            <div className={styles.wrgAswShowText}>당신의 답: {selectedAnswer}</div>
                         </div>
                     </div>
                 )}
