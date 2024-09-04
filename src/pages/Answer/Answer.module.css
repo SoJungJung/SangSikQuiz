@@ -9,7 +9,7 @@
 .container {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -33,30 +33,42 @@
 
 .crtAsw {
     margin-right: 10px;
+    width: 390px;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 50px;
+    text-align: center;
 }
 
 .crtAswShowText {
+    width: 390px;
+    height: 130px;
     font-size: 24px;
     color: #000000;
     font-weight: bold;
     position: absolute;
-    left: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .rstImgShow {
     position: relative;
     width: 90%;
-    height: 430px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
     background-color: white;
     border-radius: 40px;
 }
 
 .rstImg {
-    position: absolute;
+    position: relative;
     width: 70%;
     border-radius: 20px;
     z-index: 1;
@@ -71,7 +83,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 20px;
 }
 
 .wrgAswDiv {
@@ -80,12 +91,29 @@
     align-items: center;
 }
 
+.wrgAsw {
+    width: 390px;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 50px;
+    padding: 10px;
+    text-align: center;
+}
+
 .wrgAswShowText {
+    width: 360px;
+    height: 130px;
     font-size: 24px;
     color: #000000;
     font-weight: bold;
     position: absolute;
-    left: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .quoteShow {
@@ -118,7 +146,6 @@
     border-radius: 30px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 20px;
 }
 
 .cntButton:hover {

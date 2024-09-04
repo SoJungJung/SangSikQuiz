@@ -13,33 +13,54 @@ const Quiz = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [randomQuiz, setRandomQuiz] = useState(null);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
-    const [score, setScore] = useState(0);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
+        return parseInt(localStorage.getItem('currentQuestionIndex'), 10) || 0;
+    });
+    const [correctAnswersCount, setCorrectAnswersCount] = useState(() => {
+        return parseInt(localStorage.getItem('correctAnswersCount'), 10) || 0;
+    });
+    const [score, setScore] = useState(() => {
+        return parseInt(localStorage.getItem('score'), 10) || 0;
+    });
 
-    // Function to handle when an answer is clicked
     const handleDivClick = (answer, isRight) => {
         const correctAnswer = randomQuiz.answer.find((ans) => ans.TRUE)?.TRUE;
         const selectedAnswer = answer.TRUE || answer.FALSE;
 
         if (isRight) {
-            setCorrectAnswersCount((prevCount) => prevCount + 1);
-            setScore((prevScore) => prevScore + 10);
+            setCorrectAnswersCount((prevCount) => {
+                const newCount = prevCount + 1;
+                console.log('Correct answers count updated:', newCount);
+                localStorage.setItem('correctAnswersCount', newCount);
+                return newCount;
+            });
+
+            setScore((prevScore) => {
+                const newScore = prevScore + 10;
+                console.log('Score updated:', newScore);
+                localStorage.setItem('score', newScore);
+                return newScore;
+            });
         }
 
-        if (currentQuestionIndex < 9) {
-            setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-            navigate(
-                `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
-                    correctAnswer
-                )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
-            );
-        } else {
-            navigate(`/result?score=${score + (isRight ? 10 : 0)}`);
-        }
+        setCurrentQuestionIndex((prevIndex) => {
+            const newIndex = prevIndex + 1;
+            console.log('Current question index updated:', newIndex);
+            localStorage.setItem('currentQuestionIndex', newIndex);
+
+            if (newIndex < 10) {
+                navigate(
+                    `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
+                        correctAnswer
+                    )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
+                );
+            } else {
+                navigate(`/result`);
+            }
+            return newIndex;
+        });
     };
 
-    // Function to shuffle answers
     const shuffleAnswers = (answers) => {
         return answers.sort(() => Math.random() - 0.5);
     };
@@ -58,13 +79,11 @@ const Quiz = () => {
                     return shuffled.slice(0, n).map((item) => ({ ...item, level }));
                 };
 
-                // Select quizzes based on difficulty
                 const superDifficultQuizzes = getRandomItems(jsonData['super-difficult'], 2, 'super-difficult');
                 const difficultQuizzes = getRandomItems(jsonData.difficult, 2, 'difficult');
                 const intermediateQuizzes = getRandomItems(jsonData.intermediate, 4, 'intermediate');
                 const easyQuizzes = getRandomItems(jsonData.easy, 2, 'easy');
 
-                // Combine selected quizzes
                 const selectedQuizzes = [
                     ...superDifficultQuizzes,
                     ...difficultQuizzes,
@@ -72,14 +91,11 @@ const Quiz = () => {
                     ...easyQuizzes,
                 ];
 
-                // Log the level of each quiz
                 selectedQuizzes.forEach((quiz) => console.log(`Quiz Level: ${quiz.level}`));
 
-                // Pick a random quiz from the combined selected quizzes
                 const randomIndex = Math.floor(Math.random() * selectedQuizzes.length);
                 const selectedQuiz = selectedQuizzes[randomIndex];
 
-                // Shuffle the answers of the selected quiz
                 selectedQuiz.answer = shuffleAnswers(selectedQuiz.answer);
 
                 setRandomQuiz(selectedQuiz);
@@ -99,7 +115,6 @@ const Quiz = () => {
         return <div>Error: {error}</div>;
     }
 
-    // Set different colors for correct and incorrect answers
     const circleClasses = [styles.circle, styles.circle2, styles.circle3];
 
     return (

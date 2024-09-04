@@ -140,10 +140,11 @@
     z-index: 1;
     padding: 10px;
     box-sizing: border-box;
-    transition: all 0.3s ease; /* 크기 변화 애니메이션 */
+    transition: all 0.3s ease;
 }
 
 .rectangleText {
+    width: 235px;
     font-style: normal;
     font-size: 24px;
     text-align: center;

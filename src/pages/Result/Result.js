@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Result.module.css';
 import level from './level.png';
 import lvlImgFrame from './lvlImgFrame.png';
@@ -9,17 +9,35 @@ import { useNavigate } from 'react-router-dom';
 
 const Result = () => {
     const navigate = useNavigate();
+    const [score, setScore] = useState(0);
+    const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+    const [totalQuestions, setTotalQuestions] = useState(0);
+
+    useEffect(() => {
+        // Load results from local storage
+        const storedScore = localStorage.getItem('score');
+        const storedCorrectAnswersCount = localStorage.getItem('correctAnswersCount');
+        const storedTotalQuestions = localStorage.getItem('totalQuestions');
+
+        setScore(storedScore ? parseInt(storedScore, 10) : 0);
+        setCorrectAnswersCount(storedCorrectAnswersCount ? parseInt(storedCorrectAnswersCount, 10) : 0);
+        setTotalQuestions(storedTotalQuestions ? parseInt(storedTotalQuestions, 10) : 0);
+    }, []);
 
     const handleClickNext = () => {
         navigate('/ranking');
     };
+
     return (
         <Layout>
             <div className={styles.container}>
                 <div className={styles.topdiv}>
                     <div className={styles.levelShow}>
                         <img className={styles.level} src={level} alt="level" />
-                        <div className={styles.levelShowText}>당신의 상식 수준은 OOO입니다.</div>
+                        <div className={styles.levelShowText}>당신의 점수는 {score}점입니다.</div>
+                        <div className={styles.levelShowText}>
+                            맞춘 문제 수: {correctAnswersCount}개 / 총 문제 수: {totalQuestions}개
+                        </div>
                     </div>
                 </div>
                 <div className={styles.lvlImgShow}>
@@ -29,7 +47,7 @@ const Result = () => {
                 <div className={styles.expShow}>
                     <div className={styles.expShowDiv}>
                         <img className={styles.exp} src={exp} alt="exp" />
-                        <div className={styles.expShowText}>스티브 발머수준</div>
+                        <div className={styles.expShowText}>스티브 발머 수준</div>
                     </div>
                 </div>
                 <div className={styles.expQuoteShow}>

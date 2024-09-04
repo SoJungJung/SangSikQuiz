@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Answer.module.css';
-import crtAsw from './crtAsw.png';
-import rstImgFrame from './rstImgFrame.png';
-import wrgAsw from './wrgAsw.png';
 import Layout from '../../Layout';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -40,7 +37,6 @@ const Answer = () => {
     const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
-        // Fetch quote JSON file
         fetch('/quote.json')
             .then((response) => {
                 if (!response.ok) {
@@ -59,7 +55,6 @@ const Answer = () => {
                 setLoading(false);
             });
 
-        // Select random images based on correctness
         if (isRight) {
             const correctImages = [
                 rstImgCorrect1,
@@ -109,18 +104,17 @@ const Answer = () => {
             <div className={`${styles.container} ${isRight ? styles.greenBackground : styles.redBackground}`}>
                 <div className={styles.topdiv}>
                     <div className={styles.crtAswShow}>
-                        <img className={styles.crtAsw} src={crtAsw} alt="Correct Answer Icon" />
+                        <div className={styles.crtAsw}></div>
                         <div className={styles.crtAswShowText}>정답: {correctAnswer}</div>
                     </div>
                 </div>
                 <div className={styles.rstImgShow}>
-                    {/* Display the randomly selected image */}
                     <img className={styles.rstImg} src={selectedImage} alt="Result Image" />
                 </div>
                 {!isRight && (
                     <div className={styles.wrgAswShow}>
                         <div className={styles.wrgAswDiv}>
-                            <img className={styles.wrgAsw} src={wrgAsw} alt="Wrong Answer Icon" />
+                            <div className={styles.wrgAsw}></div>
                             <div className={styles.wrgAswShowText}>당신의 답: {selectedAnswer}</div>
                         </div>
                     </div>
@@ -128,9 +122,11 @@ const Answer = () => {
                 <div className={styles.quoteShow}>
                     <div className={styles.quoteText}>{quote && `"${quote.quote}" - ${quote.author}`}</div>
                 </div>
-                <button className={styles.cntButton} onClick={handleContinue}>
-                    다음 문제로
-                </button>
+                <div>
+                    <button className={styles.cntButton} onClick={handleContinue}>
+                        다음 문제로
+                    </button>
+                </div>
             </div>
         </Layout>
     );
