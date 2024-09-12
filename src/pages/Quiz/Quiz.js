@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Quiz.module.css';
 import lefttop from './lefttop.png';
 import leftbottom from './leftbottom.png';
@@ -6,49 +7,43 @@ import righttop from './righttop.png';
 import point from './point.png';
 import quiz from './quiz.png';
 import Layout from '../../Layout';
-import { useNavigate } from 'react-router-dom';
 
 const Quiz = () => {
     const navigate = useNavigate();
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [randomQuiz, setRandomQuiz] = useState(null);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
-        return parseInt(localStorage.getItem('currentQuestionIndex'), 10) || 0;
-    });
-    const [correctAnswersCount, setCorrectAnswersCount] = useState(() => {
-        return parseInt(localStorage.getItem('correctAnswersCount'), 10) || 0;
-    });
-    const [score, setScore] = useState(() => {
-        return parseInt(localStorage.getItem('score'), 10) || 0;
-    });
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
+        () => parseInt(localStorage.getItem('currentQuestionIndex'), 10) || 0
+    );
+    const [correctAnswersCount, setCorrectAnswersCount] = useState(
+        () => parseInt(localStorage.getItem('correctAnswersCount'), 10) || 0
+    );
+    const [score, setScore] = useState(() => parseInt(localStorage.getItem('score'), 10) || 0);
 
-    const handleDivClick = (answer, isRight) => {
-        const correctAnswer = randomQuiz.answer.find((ans) => ans.TRUE)?.TRUE;
-        const selectedAnswer = answer.TRUE || answer.FALSE;
+    // 문제 선택 로직
+    const handleDivClick = useCallback(
+        (answer, isRight) => {
+            const correctAnswer = randomQuiz.answer.find((ans) => ans.TRUE)?.TRUE;
+            const selectedAnswer = answer.TRUE || answer.FALSE;
 
-        if (isRight) {
-            setCorrectAnswersCount((prevCount) => {
-                const newCount = prevCount + 1;
-                console.log('Correct answers count updated:', newCount);
-                localStorage.setItem('correctAnswersCount', newCount);
-                return newCount;
-            });
+            // 상태 업데이트 및 로컬 스토리지에 저장
+            const newQuestionIndex = currentQuestionIndex + 1;
+            const newCorrectAnswersCount = isRight ? correctAnswersCount + 1 : correctAnswersCount;
+            const newScore = isRight ? score + 10 : score;
 
-            setScore((prevScore) => {
-                const newScore = prevScore + 10;
-                console.log('Score updated:', newScore);
-                localStorage.setItem('score', newScore);
-                return newScore;
-            });
-        }
+            setCurrentQuestionIndex(newQuestionIndex);
+            setCorrectAnswersCount(newCorrectAnswersCount);
+            setScore(newScore);
 
-        setCurrentQuestionIndex((prevIndex) => {
-            const newIndex = prevIndex + 1;
-            console.log('Current question index updated:', newIndex);
-            localStorage.setItem('currentQuestionIndex', newIndex);
+            // 로컬 스토리지에 저장
+            localStorage.setItem('currentQuestionIndex', newQuestionIndex);
+            localStorage.setItem('correctAnswersCount', newCorrectAnswersCount);
+            localStorage.setItem('score', newScore);
 
-            if (newIndex < 10) {
+            // 마지막 문제인지 확인
+            if (newQuestionIndex < 10) {
                 navigate(
                     `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
                         correctAnswer
@@ -57,66 +52,62 @@ const Quiz = () => {
             } else {
                 navigate(`/result`);
             }
-            return newIndex;
-        });
-    };
+        },
+        [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
+    );
 
-    const shuffleAnswers = (answers) => {
-        return answers.sort(() => Math.random() - 0.5);
-    };
-
+    // 퀴즈 데이터를 가져오는 useEffect
     useEffect(() => {
-        fetch('/example.json')
-            .then((response) => {
+        const fetchQuizData = async () => {
+            try {
+                const response = await fetch('/example.json');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
-            })
-            .then((jsonData) => {
+                const jsonData = await response.json();
+
                 const getRandomItems = (array, n, level) => {
-                    const shuffled = array.sort(() => 0.5 - Math.random());
-                    return shuffled.slice(0, n).map((item) => ({ ...item, level }));
+                    return array
+                        .sort(() => 0.5 - Math.random())
+                        .slice(0, n)
+                        .map((item) => ({ ...item, level }));
                 };
 
-                const superDifficultQuizzes = getRandomItems(jsonData['super-difficult'], 2, 'super-difficult');
-                const difficultQuizzes = getRandomItems(jsonData.difficult, 2, 'difficult');
-                const intermediateQuizzes = getRandomItems(jsonData.intermediate, 4, 'intermediate');
-                const easyQuizzes = getRandomItems(jsonData.easy, 2, 'easy');
-
                 const selectedQuizzes = [
-                    ...superDifficultQuizzes,
-                    ...difficultQuizzes,
-                    ...intermediateQuizzes,
-                    ...easyQuizzes,
+                    ...getRandomItems(jsonData['super-difficult'], 2, 'super-difficult'),
+                    ...getRandomItems(jsonData.difficult, 2, 'difficult'),
+                    ...getRandomItems(jsonData.intermediate, 4, 'intermediate'),
+                    ...getRandomItems(jsonData.easy, 2, 'easy'),
                 ];
-
-                selectedQuizzes.forEach((quiz) => console.log(`Quiz Level: ${quiz.level}`));
 
                 const randomIndex = Math.floor(Math.random() * selectedQuizzes.length);
                 const selectedQuiz = selectedQuizzes[randomIndex];
-
-                selectedQuiz.answer = shuffleAnswers(selectedQuiz.answer);
+                selectedQuiz.answer = selectedQuiz.answer.sort(() => Math.random() - 0.5);
 
                 setRandomQuiz(selectedQuiz);
                 setLoading(false);
-            })
-            .catch((err) => {
+            } catch (err) {
                 setError(err.message);
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchQuizData();
     }, []);
 
+    // 로딩 상태 처리
     if (loading) {
         return <div>Loading...</div>;
     }
 
+    // 에러 상태 처리
     if (error) {
         return <div>Error: {error}</div>;
     }
 
     const circleClasses = [styles.circle, styles.circle2, styles.circle3];
 
+    // JSX
     return (
         <Layout>
             <div className={styles.container}>

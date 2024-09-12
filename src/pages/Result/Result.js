@@ -100,7 +100,7 @@ const Result = () => {
     };
 
     // Determine the level based on the score
-    const levelIndex = Math.floor(score / 10);
+    const levelIndex = determineLevelIndex(score); // Update here with the new function
     const levelData = levels[levelIndex];
 
     return (
@@ -110,9 +110,6 @@ const Result = () => {
                     <div className={styles.levelShow}>
                         <img className={styles.level} src={level} alt="level" />
                         <div className={styles.levelShowText}>당신의 점수는 {score}점입니다.</div>
-                        {/* <div className={styles.levelShowText}>
-                            맞춘 문제 수: {correctAnswersCount}개 / 총 문제 수: {totalQuestions}개
-                        </div> */}
                     </div>
                 </div>
                 <div className={styles.lvlImgShow}>

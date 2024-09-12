@@ -8,7 +8,8 @@ import duce from './duce.png';
 import cartoon from './cartoon.png';
 import cartoon2 from './cartoon2.png';
 import audio1 from './audio1.mp3'; // Import your first MP3 file
-import audio2 from './audio2.mp3'; // Import your second MP3 file
+import audio2 from './audio2.mp3';
+import audio3 from './audio3.mp3'; // Import your second MP3 file
 import styles from './Home.module.css';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +20,7 @@ const Home = () => {
 
     // Function to handle playing random audio on component mount
     useEffect(() => {
-        const audios = [audio1, audio2]; // Array of audio files
+        const audios = [audio1, audio2, audio3]; // Array of audio files
         const randomAudio = audios[Math.floor(Math.random() * audios.length)]; // Select one randomly
 
         const audio = new Audio(randomAudio); // Create new audio object

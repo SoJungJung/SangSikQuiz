@@ -12,6 +12,14 @@ const Ranking = () => {
     const [nickname, setNickname] = useState('');
 
     const handleRetry = () => {
+        // 로컬 스토리지 초기화
+        localStorage.removeItem('currentQuestionIndex');
+        localStorage.removeItem('correctAnswersCount');
+        localStorage.removeItem('score');
+        localStorage.removeItem('nickname');
+        localStorage.removeItem('totalQuestions');
+
+        // 퀴즈 첫 페이지로 이동
         navigate('/');
     };
 
