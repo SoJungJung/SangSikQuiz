@@ -57,7 +57,12 @@ const Result = () => {
             quote: '지식은 말하는 사람이 아니라, 듣는 사람의 것이다.',
             description: '고대 그리스 수학자, 철학자',
         },
-        { img: lvlImg6, name: '루이 브라유', quote: '지식은 불을 켜고 어둠을 몰아낸다.', description: '점자 발명가' },
+        {
+            img: lvlImg6,
+            name: '루이 브라유',
+            quote: '지식은 불을 켜고 어둠을 몰아낸다.',
+            description: '점자 발명가',
+        },
         {
             img: lvlImg7,
             name: '로버트 메톤',
@@ -92,15 +97,32 @@ const Result = () => {
 
         setScore(storedScore ? parseInt(storedScore, 10) : 0);
         setCorrectAnswersCount(storedCorrectAnswersCount ? parseInt(storedCorrectAnswersCount, 10) : 0);
-        setTotalQuestions(storedTotalQuestions ? parseInt(storedTotalQuestions, 10) : 0);
+        setTotalQuestions(storedTotalQuestions ? parseInt(storedTotalQuestions, 10) : 10); // 기본값을 10으로 설정
     }, []);
 
     const handleClickNext = () => {
         navigate('/ranking');
     };
 
+    // 점수에 따라 levelIndex를 결정하는 함수 추가
+    const determineLevelIndex = (score) => {
+        const maxScore = totalQuestions * 10; // 각 문제당 10점
+        const percentage = (score / maxScore) * 100;
+
+        if (percentage >= 90) return 0; // 피터 드러커
+        else if (percentage >= 80) return 1; // 소크라테스
+        else if (percentage >= 70) return 2; // 조지프 러디어드 키플링
+        else if (percentage >= 60) return 3; // 칼 세이건
+        else if (percentage >= 50) return 4; // 탈레스
+        else if (percentage >= 40) return 5; // 루이 브라유
+        else if (percentage >= 30) return 6; // 로버트 메톤
+        else if (percentage >= 20) return 7; // 케니스 올센
+        else if (percentage >= 10) return 8; // 스티브 발머
+        else return 9; // 찰스 듀얼
+    };
+
     // Determine the level based on the score
-    const levelIndex = determineLevelIndex(score); // Update here with the new function
+    const levelIndex = determineLevelIndex(score);
     const levelData = levels[levelIndex];
 
     return (
