@@ -167,7 +167,6 @@ const Quiz = () => {
                     </div>
                 </div>
                 <div className={styles.quizShow}>
-                    <img className={styles.quiz} src={quiz} alt="quiz" />
                     <div className={styles.quizText}>{randomQuiz.quiz}</div>
                 </div>
                 <div className={styles.answerShow}>

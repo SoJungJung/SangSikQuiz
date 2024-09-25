@@ -135,20 +135,14 @@ const Result = () => {
         <Layout>
             <div className={styles.container}>
                 <div className={styles.topdiv}>
-                    <div className={styles.levelShow}>
-                        <img className={styles.level} src={level} alt="level" />
-                        <div className={styles.levelShowText}>당신의 점수는 {score}점입니다.</div>
-                    </div>
+                    <div className={styles.levelShowText}>당신의 점수는 {score}점입니다.</div>
                 </div>
                 <div className={styles.lvlImgShow}>
                     <img className={styles.lvlImgFrame} src={lvlImgFrame} alt="" />
                     <img className={styles.lvlImg} src={levelData.img} alt={levelData.name} />
                 </div>
-                <div className={styles.expShow}>
-                    <div className={styles.expShowDiv}>
-                        <div className={styles.exp} alt="exp" />
-                        <div className={styles.expShowText}>{levelData.name} 수준</div>
-                    </div>
+                <div className={styles.exp}>
+                    <div className={styles.expShowText}>{levelData.name} 수준</div>
                 </div>
                 <div className={styles.expQuoteShow}>
                     <div>
