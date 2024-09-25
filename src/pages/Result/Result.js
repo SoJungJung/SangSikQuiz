@@ -3,7 +3,6 @@ import styles from './Result.module.css';
 import level from './level.png';
 import lvlImgFrame from './lvlImgFrame.png';
 
-// Importing 10 different images
 import lvlImg1 from './lvlImg1.jpg';
 import lvlImg2 from './lvlImg2.jpg';
 import lvlImg3 from './lvlImg3.jpg';
@@ -14,18 +13,16 @@ import lvlImg7 from './lvlImg7.jpg';
 import lvlImg8 from './lvlImg8.jpg';
 import lvlImg9 from './lvlImg9.jpg';
 import lvlImg10 from './lvlImg10.jpg';
-
-import exp from './exp.png';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
 
 const Result = () => {
     const navigate = useNavigate();
     const [score, setScore] = useState(0);
-    const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
-    const [totalQuestions, setTotalQuestions] = useState(0);
+    const [totalQuestions, setTotalQuestions] = useState(10); // 기본값을 10으로 설정
+    const [loading, setLoading] = useState(true);
 
-    // Array for images, names, and quotes based on the score ranges
+    // 점수에 따른 레벨 데이터 배열
     const levels = [
         {
             img: lvlImg1,
@@ -73,7 +70,7 @@ const Result = () => {
             img: lvlImg8,
             name: '케니스 올센',
             quote: '개인이 자기 집에 컴퓨터를 가질 이유가 없다.',
-            description: 'IBM의 설립자',
+            description: 'DEC의 설립자',
         },
         {
             img: lvlImg9,
@@ -90,21 +87,22 @@ const Result = () => {
     ];
 
     useEffect(() => {
-        // Load results from local storage
+        // 로컬 스토리지에서 점수와 총 문제 수를 가져옵니다.
         const storedScore = localStorage.getItem('score');
-        const storedCorrectAnswersCount = localStorage.getItem('correctAnswersCount');
         const storedTotalQuestions = localStorage.getItem('totalQuestions');
 
+        // 점수와 총 문제 수를 상태로 설정합니다.
         setScore(storedScore ? parseInt(storedScore, 10) : 0);
-        setCorrectAnswersCount(storedCorrectAnswersCount ? parseInt(storedCorrectAnswersCount, 10) : 0);
-        setTotalQuestions(storedTotalQuestions ? parseInt(storedTotalQuestions, 10) : 10); // 기본값을 10으로 설정
+        setTotalQuestions(storedTotalQuestions ? parseInt(storedTotalQuestions, 10) : 10);
+
+        setLoading(false);
     }, []);
 
     const handleClickNext = () => {
         navigate('/ranking');
     };
 
-    // 점수에 따라 levelIndex를 결정하는 함수 추가
+    // 점수에 따라 levelIndex를 결정하는 함수
     const determineLevelIndex = (score) => {
         const maxScore = totalQuestions * 10; // 각 문제당 10점
         const percentage = (score / maxScore) * 100;
@@ -121,9 +119,17 @@ const Result = () => {
         else return 9; // 찰스 듀얼
     };
 
-    // Determine the level based on the score
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    // 점수에 따라 레벨 인덱스를 결정하고 해당 데이터를 가져옵니다.
     const levelIndex = determineLevelIndex(score);
     const levelData = levels[levelIndex];
+
+    if (!levelData) {
+        return <div>Error: Level data not found.</div>;
+    }
 
     return (
         <Layout>
@@ -135,12 +141,12 @@ const Result = () => {
                     </div>
                 </div>
                 <div className={styles.lvlImgShow}>
-                    <img className={styles.lvlImgFrame} src={lvlImgFrame} alt="lvlImgFrame" />
-                    <img className={styles.lvlImg} src={levelData.img} alt="level image" />
+                    <img className={styles.lvlImgFrame} src={lvlImgFrame} alt="" />
+                    <img className={styles.lvlImg} src={levelData.img} alt={levelData.name} />
                 </div>
                 <div className={styles.expShow}>
                     <div className={styles.expShowDiv}>
-                        <img className={styles.exp} src={exp} alt="exp" />
+                        <div className={styles.exp} alt="exp" />
                         <div className={styles.expShowText}>{levelData.name} 수준</div>
                     </div>
                 </div>

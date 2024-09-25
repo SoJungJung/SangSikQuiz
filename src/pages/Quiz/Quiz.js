@@ -57,11 +57,15 @@ const Quiz = () => {
                     )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
                 );
             } else {
-                // 퀴즈 완료 시 로컬 스토리지 초기화
+                // 퀴즈 완료 시 점수와 총 문제 수를 로컬 스토리지에 저장
+                localStorage.setItem('score', newScore);
+                localStorage.setItem('totalQuestions', 10); // 총 문제 수 저장
+
+                // 불필요한 데이터만 삭제
                 localStorage.removeItem('selectedQuizzes');
                 localStorage.removeItem('currentQuestionIndex');
                 localStorage.removeItem('correctAnswersCount');
-                localStorage.removeItem('score');
+
                 navigate(`/result`);
             }
         },
@@ -79,29 +83,45 @@ const Quiz = () => {
                     }
                     const jsonData = await response.json();
 
-                    // 모든 퀴즈를 하나의 배열로 수집
-                    let allQuestions = [];
+                    // 난이도별 문제 분류
+                    const levels = {
+                        'super-difficult': [],
+                        difficult: [],
+                        intermediate: [],
+                        easy: [],
+                    };
+
+                    // 각 난이도별로 문제를 그룹화
                     Object.keys(jsonData).forEach((level) => {
-                        const questions = jsonData[level].map((item) => ({ ...item, level }));
-                        allQuestions = allQuestions.concat(questions);
+                        jsonData[level].forEach((item) => {
+                            levels[level].push({ ...item, level });
+                        });
                     });
 
-                    if (allQuestions.length < 10) {
-                        throw new Error('Not enough questions available.');
-                    }
+                    // 난이도별 문제 선택 로직 (최소 1개, 최대 5개)
+                    const selectRandomQuestions = (questions, min, max) => {
+                        const count = Math.floor(Math.random() * (max - min + 1)) + min;
+                        return questions.sort(() => Math.random() - 0.5).slice(0, count);
+                    };
 
-                    // 모든 퀴즈를 섞은 후 10개를 선택
-                    allQuestions.sort(() => Math.random() - 0.5);
-                    const quizzes = allQuestions.slice(0, 10);
+                    let selectedQuestions = [
+                        ...selectRandomQuestions(levels['super-difficult'], 1, 5),
+                        ...selectRandomQuestions(levels['difficult'], 1, 5),
+                        ...selectRandomQuestions(levels['intermediate'], 1, 5),
+                        ...selectRandomQuestions(levels['easy'], 1, 5),
+                    ];
+
+                    // 전체 문제 중에서 10개를 무작위로 선택
+                    selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
 
                     // 선택된 퀴즈의 답변도 섞기
-                    quizzes.forEach((quiz) => {
+                    selectedQuestions.forEach((quiz) => {
                         quiz.answer = quiz.answer.sort(() => Math.random() - 0.5);
                     });
 
                     // 상태 및 로컬 스토리지에 저장
-                    setSelectedQuizzes(quizzes);
-                    localStorage.setItem('selectedQuizzes', JSON.stringify(quizzes));
+                    setSelectedQuizzes(selectedQuestions);
+                    localStorage.setItem('selectedQuizzes', JSON.stringify(selectedQuestions));
                 }
                 setLoading(false);
             } catch (err) {

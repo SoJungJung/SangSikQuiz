@@ -109,7 +109,7 @@ const Answer = () => {
                     </div>
                 </div>
                 <div className={styles.rstImgShow}>
-                    <img className={styles.rstImg} src={selectedImage} alt="Result Image" />
+                    <img className={styles.rstImg} src={selectedImage} alt="ResultThing" />
                 </div>
                 {!isRight && (
                     <div className={styles.wrgAswShow}>
