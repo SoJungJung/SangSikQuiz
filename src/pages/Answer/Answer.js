@@ -3,26 +3,6 @@ import styles from './Answer.module.css';
 import Layout from '../../Layout';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import rstImgCorrect1 from './rstImgCorrect1.png';
-import rstImgCorrect2 from './rstImgCorrect2.jpg';
-import rstImgCorrect3 from './rstImgCorrect3.jpg';
-import rstImgCorrect4 from './rstImgCorrect4.jpg';
-import rstImgCorrect5 from './rstImgCorrect5.jpeg';
-import rstImgCorrect6 from './rstImgCorrect6.png';
-import rstImgCorrect7 from './rstImgCorrect7.jpg';
-import rstImgCorrect8 from './rstImgCorrect8.jpeg';
-import rstImgCorrect9 from './rstImgCorrect9.jpeg';
-import rstImgCorrect10 from './rstImgCorrect10.webp';
-import rstImgWrong1 from './rstImgWrong1.gif';
-import rstImgWrong2 from './rstImgWrong2.jpg';
-import rstImgWrong3 from './rstImgWrong3.jpg';
-import rstImgWrong4 from './rstImgWrong4.jpg';
-import rstImgWrong5 from './rstImgWrong5.jpg';
-import rstImgWrong6 from './rstImgWrong6.jpeg';
-import rstImgWrong7 from './rstImgWrong7.jpeg';
-import rstImgWrong8 from './rstImgWrong8.jpeg';
-import rstImgWrong9 from './rstImgWrong9.jpeg';
-
 const Answer = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -47,44 +27,15 @@ const Answer = () => {
             .then((jsonData) => {
                 const quotesArray = isRight ? jsonData.quotes.correct : jsonData.quotes.incorrect;
                 const randomIndex = Math.floor(Math.random() * quotesArray.length);
-                setQuote(quotesArray[randomIndex]);
+                const selectedQuote = quotesArray[randomIndex];
+                setQuote(selectedQuote);
+                setSelectedImage(selectedQuote.image);
                 setLoading(false);
             })
             .catch((err) => {
                 setError(err.message);
                 setLoading(false);
             });
-
-        if (isRight) {
-            const correctImages = [
-                rstImgCorrect1,
-                rstImgCorrect2,
-                rstImgCorrect3,
-                rstImgCorrect4,
-                rstImgCorrect5,
-                rstImgCorrect6,
-                rstImgCorrect7,
-                rstImgCorrect8,
-                rstImgCorrect9,
-                rstImgCorrect10,
-            ];
-            const randomCorrectImage = correctImages[Math.floor(Math.random() * correctImages.length)];
-            setSelectedImage(randomCorrectImage);
-        } else {
-            const wrongImages = [
-                rstImgWrong1,
-                rstImgWrong2,
-                rstImgWrong3,
-                rstImgWrong4,
-                rstImgWrong5,
-                rstImgWrong6,
-                rstImgWrong7,
-                rstImgWrong8,
-                rstImgWrong9,
-            ];
-            const randomWrongImage = wrongImages[Math.floor(Math.random() * wrongImages.length)];
-            setSelectedImage(randomWrongImage);
-        }
     }, [isRight]);
 
     if (loading) {

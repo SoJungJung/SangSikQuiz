@@ -3,157 +3,195 @@
         "correct": [
             {
                 "quote": "인간은 파멸할지언정 패배하지는 않는다.",
-                "author": "헤밍웨이, '노인과 바다'"
+                "author": "헤밍웨이, '노인과 바다'",
+                "image": "images/quote/rstImgCorrect.png"
             },
             {
                 "quote": "호모 사피엔스! 참으로 창의적이고, 꺾이지 않는 종족이로다.",
-                "author": "닥터 후"
+                "author": "닥터 후",
+                "image": "images/quote/rstImgCorrect1.png"
             },
             {
                 "quote": "지식은 힘이다.",
-                "author": "프랜시스 베이컨"
+                "author": "프랜시스 베이컨",
+                "image": "images/quote/rstImgCorrect2.jpg"
             },
             {
                 "quote": "배움은 절대 끝나지 않는 여정이다.",
-                "author": "아인슈타인"
+                "author": "아인슈타인",
+                "image": "images/quote/rstImgCorrect3.jpg"
             },
             {
                 "quote": "지식은 우리가 가지고 있는 유일한 영원한 자산이다.",
-                "author": "소크라테스"
+                "author": "소크라테스",
+                "image": "images/quote/rstImgCorrect4.jpg"
             },
             {
                 "quote": "지식의 유일한 원천은 경험이다.",
-                "author": "아인슈타인"
+                "author": "아인슈타인",
+                "image": "images/quote/rstImgCorrect5.jpeg"
             },
             {
                 "quote": "지식은 진정한 자유다.",
-                "author": "헨리 데이비드 소로"
+                "author": "헨리 데이비드 소로",
+                "image": "images/quote/rstImgCorrect6.png"
             },
             {
                 "quote": "지혜는 그 자체로 힘이다.",
-                "author": "톰 스토파드"
+                "author": "톰 스토파드",
+                "image": "images/quote/rstImgCorrect7.jpg"
             },
             {
                 "quote": "지혜는 실천에서 나온다.",
-                "author": "조지프 주버"
+                "author": "조지프 주버",
+                "image": "images/quote/rstImgCorrect8.jpeg"
             },
             {
                 "quote": "우리 모두는 우리의 별들에 도달하려고 합니다.",
-                "author": "칼 세이건"
+                "author": "칼 세이건",
+                "image": "images/quote/rstImgCorrect9.jpeg"
             },
             {
                 "quote": "지식의 나무는 끝없이 성장한다.",
-                "author": "조지 버나드 쇼"
+                "author": "조지 버나드 쇼",
+                "image": "images/quote/rstImgCorrect10.webp"
             },
             {
                 "quote": "인간의 가능성은 무한합니다.",
-                "author": "익명"
+                "author": "익명",
+                "image": "images/quote/rstImgCorrect.png"
             },
             {
                 "quote": "창의성은 지식보다 중요하다.",
-                "author": "알베르트 아인슈타인"
+                "author": "알베르트 아인슈타인",
+                "image": "images/quote/rstImgCorrect1.png"
             },
             {
                 "quote": "지혜는 고요한 바다에서 오는 것이 아니라, 폭풍 속에서 옵니다.",
-                "author": "조지프 콘래드"
+                "author": "조지프 콘래드",
+                "image": "images/quote/rstImgCorrect2.jpg"
             },
             {
                 "quote": "생각하지 않는 삶은 살 가치가 없다.",
-                "author": "소크라테스"
+                "author": "소크라테스",
+                "image": "images/quote/rstImgCorrect3.jpg"
             },
             {
                 "quote": "우리의 능력은 무한하며, 우리가 그것을 믿는 한.",
-                "author": "헨리 포드"
+                "author": "헨리 포드",
+                "image": "images/quote/rstImgCorrect4.jpg"
             },
             {
                 "quote": "지식은 영원히 빛나는 보물입니다.",
-                "author": "토마스 에디슨"
+                "author": "토마스 에디슨",
+                "image": "images/quote/rstImgCorrect5.jpeg"
             },
             {
                 "quote": "지혜는 가장 소중한 자산입니다.",
-                "author": "루소"
+                "author": "루소",
+                "image": "images/quote/rstImgCorrect6.png"
             },
             {
                 "quote": "사람은 끊임없이 배워야만 진정한 의미의 삶을 살 수 있습니다.",
-                "author": "존 로크"
+                "author": "존 로크",
+                "image": "images/quote/rstImgCorrect7.jpg"
             },
             {
                 "quote": "호기심은 지식의 어머니입니다.",
-                "author": "리처드 파인만"
+                "author": "리처드 파인만",
+                "image": "images/quote/rstImgCorrect8.jpeg"
             },
             {
                 "quote": "지혜는 우리를 인도합니다.",
-                "author": "콘푸치우스"
+                "author": "콘푸치우스",
+                "image": "images/quote/rstImgCorrect9.jpeg"
             },
             {
                 "quote": "지식은 진리로 가는 첫 번째 단계입니다.",
-                "author": "플라톤"
+                "author": "플라톤",
+                "image": "images/quote/rstImgCorrect10.webp"
             },
             {
                 "quote": "지식은 모든 악을 물리칠 수 있는 가장 강력한 무기입니다.",
-                "author": "넬슨 만델라"
+                "author": "넬슨 만델라",
+                "image": "images/quote/rstImgCorrect.png"
             },
             {
                 "quote": "우리는 모두 별의 먼지입니다.",
-                "author": "칼 세이건"
+                "author": "칼 세이건",
+                "image": "images/quote/rstImgCorrect1.png"
             },
             {
                 "quote": "방황하는 모든 이들이 길을 잃는 것은 아니다.",
-                "author": "J.R.R. 톨킨"
+                "author": "J.R.R. 톨킨",
+                "image": "images/quote/rstImgCorrect2.jpg"
             },
             {
                 "quote": "달을 겨냥해라. 빗나가더라도 별을 맞출 수도 있다.",
-                "author": "W. 클레멘트 스톤"
+                "author": "W. 클레멘트 스톤",
+                "image": "images/quote/rstImgCorrect3.jpg"
             }
         ],
         "incorrect": [
             {
                 "quote": "사실, 난 생각하는 걸 좋아하지 않는다.",
-                "author": "카니예 웨스트"
+                "author": "카니예 웨스트",
+                "image": "images/quote/rstImgWrong.png"
             },
             {
                 "quote": "만약 전 세계 사람들이 학교를 그만두면 훨씬 더 똑똑한 사회가 될 것이다.",
-                "author": "제이든 스미스"
+                "author": "제이든 스미스",
+                "image": "images/quote/rstImgWrong1.gif"
             },
             {
                 "quote": "이게 치킨인가요, 아니면 닭인가요?",
-                "author": "제시카 심슨"
+                "author": "제시카 심슨",
+                "image": "images/quote/rstImgWrong2.jpg"
             },
             {
                 "quote": "담배는 해롭다. 만약 죽는다면, 인생에서 중요한 부분을 잃게 되는 거죠.",
-                "author": "브룩 쉴즈"
+                "author": "브룩 쉴즈",
+                "image": "images/quote/rstImgWrong3.jpg"
             },
             {
                 "quote": "난 유럽이 나라라고 생각했어.",
-                "author": "켈리 피클러"
+                "author": "켈리 피클러",
+                "image": "images/quote/rstImgWrong4.jpg"
             },
             {
                 "quote": "나는 아마도 '볼리비아'로 사라질 것 같아.",
-                "author": "마이크 타이슨"
+                "author": "마이크 타이슨",
+                "image": "images/quote/rstImgWrong5.jpg"
             },
             {
                 "quote": "여성 달라이 라마가 나온다면, 정말 매력적이어야 할 것이다.",
-                "author": "달라이 라마"
+                "author": "달라이 라마",
+                "image": "images/quote/rstImgWrong6.jpeg"
             },
             {
                 "quote": "종교는 사기가 아니다. 내 생각엔 말이지.",
-                "author": "빌 오라일리"
+                "author": "빌 오라일리",
+                "image": "images/quote/rstImgWrong7.jpeg"
             },
             {
                 "quote": "전기가 없었더라면, 우리는 모두 촛불로 TV를 보고 있었겠지.",
-                "author": "조지 고벨"
+                "author": "조지 고벨",
+                "image": "images/quote/rstImgWrong8.jpeg"
             },
             {
                 "quote": "어렸을 때부터 중력의 존재를 느꼈어.",
-                "author": "카메론 디아즈"
+                "author": "카메론 디아즈",
+                "image": "images/quote/rstImgWrong9.jpeg"
             },
             {
                 "quote": "모든 것에는 한계가 있다. 철이 교육받았다고 금이 되진 않는다.",
-                "author": "마크 트웨인"
+                "author": "마크 트웨인",
+                "image": "images/quote/rstImgWrong.png"
             },
             {
                 "quote": "나는 배를 침수하여 침몰시킬 수 있는 어떤 조건도 상상할 수 없다.",
-                "author": "E.J. 스미스 선장, RMS 타이타닉"
+                "author": "E.J. 스미스 선장, RMS 타이타닉",
+                "image": "images/quote/rstImgWrong1.gif"
             }
         ]
     }

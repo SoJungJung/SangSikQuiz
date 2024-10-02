@@ -1,0 +1,64 @@
+{
+    "levels": [
+        {
+            "img": "images/result/lvlImg1.jpg",
+            "name": "피터 드러커",
+            "quote": "미래를 예측하는 가장 좋은 방법은 그것을 창조하는 것이다.",
+            "description": "경영학의 아버지"
+        },
+        {
+            "img": "images/result/lvlImg2.jpg",
+            "name": "소크라테스",
+            "quote": "무지는 무서운 병이다. 지식은 우리가 가진 최고의 자산이다.",
+            "description": "고대 그리스 철학자"
+        },
+        {
+            "img": "images/result/lvlImg3.jpg",
+            "name": "조지프 러디어드 키플링",
+            "quote": "무지를 두려워 말라. 거짓 지식을 두려워하라.",
+            "description": "노벨 문학상 수상자"
+        },
+        {
+            "img": "images/result/lvlImg4.jpg",
+            "name": "칼 세이건",
+            "quote": "과학은 우리가 알고 있는 모든 것을 바꿀 것이다.",
+            "description": "천문학자, 우주학자"
+        },
+        {
+            "img": "images/result/lvlImg5.jpg",
+            "name": "탈레스",
+            "quote": "지식은 말하는 사람이 아니라, 듣는 사람의 것이다.",
+            "description": "고대 그리스 수학자, 철학자"
+        },
+        {
+            "img": "images/result/lvlImg6.jpg",
+            "name": "루이 브라유",
+            "quote": "지식은 불을 켜고 어둠을 몰아낸다.",
+            "description": "점자 발명가"
+        },
+        {
+            "img": "images/result/lvlImg7.jpg",
+            "name": "로버트 메톤",
+            "quote": "1929년 이후, 주식시장은 더 이상 대폭락이 일어나지 않을 것이다.",
+            "description": "미국 경제학자"
+        },
+        {
+            "img": "images/result/lvlImg8.jpg",
+            "name": "케니스 올센",
+            "quote": "개인이 자기 집에 컴퓨터를 가질 이유가 없다.",
+            "description": "DEC의 설립자"
+        },
+        {
+            "img": "images/result/lvlImg9.jpg",
+            "name": "스티브 발머",
+            "quote": "아이폰은 기업 시장에서 전혀 성공하지 못할 것이다.",
+            "description": "마이크로소프트의 전 CEO"
+        },
+        {
+            "img": "images/result/lvlImg10.jpg",
+            "name": "찰스 듀얼",
+            "quote": "발명될 만한 것은 이미 다 발명되었다.",
+            "description": "미국 특허청장"
+        }
+    ]
+}
