@@ -17,45 +17,59 @@ const Ranking = () => {
         localStorage.removeItem('correctAnswersCount');
         localStorage.removeItem('score');
         localStorage.removeItem('totalQuestions');
+        // 유저가 이전 닉네임으로 재시도할 수 있도록 nickname은 삭제하지 않음
 
         // 퀴즈 첫 페이지로 이동
         navigate('/');
     };
 
     useEffect(() => {
-        // 백엔드에서 랭킹 데이터 가져오기
-        fetch('/api/ranking')
+        // Fetch the rankings JSON data
+        fetch('http://localhost:5001/api/ranking')
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error('네트워크 응답에 문제가 있습니다');
+                    throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
             .then((jsonData) => {
-                // 로컬 스토리지에서 닉네임과 점수 가져오기
+                // Get the nickname and score from Local Storage
                 const nickname = localStorage.getItem('nickname');
                 const score = parseInt(localStorage.getItem('score'), 10);
 
+                // Get the highScore from Local Storage or initialize to 0 if not available
+                let highScore = parseInt(localStorage.getItem('highScore'), 10) || 0;
                 setNickname(nickname);
 
                 let updatedRankings = jsonData.rankings;
 
                 if (nickname && !isNaN(score)) {
-                    // 사용자 랭킹 찾기
-                    const userRank = updatedRankings.find(
-                        (rank) => rank.nickname === nickname && rank.high_score === score
-                    );
-                    if (userRank) {
-                        setUserPosition(userRank.position);
-                    } else {
-                        // 사용자 랭킹이 없을 경우 순위를 계산합니다.
-                        updatedRankings.forEach((rank, index) => {
-                            rank.position = index + 1;
-                            if (rank.nickname === nickname && rank.high_score === score) {
-                                setUserPosition(rank.position);
-                            }
-                        });
+                    // Compare current score with highScore
+                    if (score > highScore) {
+                        // Update highScore if the current score is higher
+                        highScore = score;
+                        localStorage.setItem('highScore', highScore);
                     }
+
+                    // Add or update the user's highScore in the rankings
+                    updatedRankings = [
+                        ...updatedRankings,
+                        { position: updatedRankings.length + 1, nickname, score: highScore },
+                    ];
+
+                    // Sort the rankings based on score in descending order
+                    updatedRankings.sort((a, b) => b.score - a.score);
+
+                    // Update the position of each rank
+                    updatedRankings.forEach((rank, index) => {
+                        rank.position = index + 1;
+                    });
+
+                    // Find the user's position in the rankings
+                    const userRank = updatedRankings.find(
+                        (rank) => rank.nickname === nickname && rank.score === highScore
+                    );
+                    setUserPosition(userRank.position);
                 }
 
                 setRankings(updatedRankings);
@@ -85,8 +99,8 @@ const Ranking = () => {
                     <div className={styles.rankTitle}>RANK</div>
                     <div className={styles.rankList}>
                         {rankings.map((rank) => (
-                            <div key={rank.position} className={styles.rankItem}>
-                                {rank.position}. {rank.nickname} - {rank.high_score}점
+                            <div key={`${rank.nickname}-${rank.score}`} className={styles.rankItem}>
+                                {rank.position}. {rank.nickname} - {rank.score}점
                             </div>
                         ))}
                     </div>

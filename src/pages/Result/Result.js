@@ -36,15 +36,18 @@ const Result = () => {
         // 점수 제출 로직 추가
         const submitScore = async () => {
             const device_id = localStorage.getItem('device_id') || generateDeviceId();
-            const ip_address = await fetchIpAddress();
             const nickname = localStorage.getItem('nickname') || '익명';
             const score = storedScore ? parseInt(storedScore, 10) : 0;
 
-            await fetch('/api/submit-score', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ device_id, ip_address, score, nickname }),
-            });
+            try {
+                await fetch('http://localhost:5001/api/submit-score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ device_id, score, nickname }),
+                });
+            } catch (error) {
+                console.error('점수 제출 중 오류 발생:', error);
+            }
         };
 
         submitScore();
@@ -55,18 +58,6 @@ const Result = () => {
         const uuid = uuidv4();
         localStorage.setItem('device_id', uuid);
         return uuid;
-    };
-
-    // IP 주소 가져오기 함수
-    const fetchIpAddress = async () => {
-        try {
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            return data.ip;
-        } catch (error) {
-            console.error('IP 주소를 가져오는 데 실패했습니다:', error);
-            return '0.0.0.0'; // 실패 시 기본 IP 주소 설정
-        }
     };
 
     const handleClickNext = () => {
