@@ -20,17 +20,16 @@ const Home = () => {
 
     // Function to handle playing random audio on component mount
     useEffect(() => {
-        const audios = [audio1, audio2, audio3]; // Array of audio files
-        const randomAudio = audios[Math.floor(Math.random() * audios.length)]; // Select one randomly
-
-        const audio = new Audio(randomAudio); // Create new audio object
-        audio.play(); // Play the selected audio
-
-        // Optional: Clean up when the component unmounts
-        return () => {
-            audio.pause(); // Pause audio if still playing
-            audio.currentTime = 0; // Reset the audio to the beginning
-        };
+        // const audios = [audio1, audio2, audio3]; // Array of audio files
+        // const randomAudio = audios[Math.floor(Math.random() * audios.length)]; // Select one randomly
+        // const audio = new Audio(randomAudio); // Create new audio object
+        // audio.play(); // Play the selected audio
+        // // Optional: Clean up when the component unmounts
+        // return () => {
+        //     audio.pause(); // Pause audio if still playing
+        //     audio.currentTime = 0; // Reset the audio to the beginning
+        // };
+        localStorage.clear();
     }, []);
 
     const handleClickNext = () => {

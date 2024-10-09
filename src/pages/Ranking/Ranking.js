@@ -17,6 +17,7 @@ const Ranking = () => {
         localStorage.removeItem('correctAnswersCount');
         localStorage.removeItem('score');
         localStorage.removeItem('totalQuestions');
+        localStorage.removeItem('selectedQuizzes');
         // 유저가 이전 닉네임으로 재시도할 수 있도록 nickname은 삭제하지 않음
 
         // 퀴즈 첫 페이지로 이동
