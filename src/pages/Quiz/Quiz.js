@@ -36,7 +36,7 @@ const Quiz = () => {
             try {
                 setLoading(true);
                 if (!selectedQuizzes || selectedQuizzes.length === 0) {
-                    console.log('selectedQuizzes가 없어서 무한 로딩 중');
+                    console.log('selectedQuizzes가 없어서 새로운 데이터를 가져옵니다.');
                     const response = await fetch('/example.json');
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -63,14 +63,14 @@ const Quiz = () => {
                         const count = Math.floor(Math.random() * (max - min + 1)) + min;
                         return questions.sort(() => Math.random() - 0.5).slice(0, count);
                     };
-                    console.log(selectRandomQuestions());
+
                     let selectedQuestions = [
                         ...selectRandomQuestions(levels['super-difficult'], 1, 5),
                         ...selectRandomQuestions(levels['difficult'], 1, 5),
                         ...selectRandomQuestions(levels['intermediate'], 1, 5),
                         ...selectRandomQuestions(levels['easy'], 1, 5),
                     ];
-                    console.log(selectedQuestions);
+
                     // 전체 문제 중에서 10개를 무작위로 선택
                     selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
 
