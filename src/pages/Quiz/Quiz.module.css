@@ -71,6 +71,7 @@
     width: 300px;
     text-align: left;
     font-size: 30px;
+    overflow: hidden;
 }
 
 .answerShow {
@@ -79,7 +80,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    top: -30px;
+    top: -60px;
 }
 
 .circleDiv {
@@ -151,9 +152,13 @@
     font-size: 24px;
     text-align: center;
     word-wrap: break-word;
+    overflow: hidden;
 }
 
 .numShow {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
     width: 120px;
     height: 50px;
     border-radius: 20px;
@@ -163,7 +168,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 90px 280px auto; /* 가운데 정렬 */
 }
 
 .bottomdiv {

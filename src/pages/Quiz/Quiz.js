@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Quiz.module.css';
 import lefttop from './lefttop.png';
@@ -9,9 +9,12 @@ import Layout from '../../Layout';
 
 const Quiz = () => {
     const navigate = useNavigate();
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
+
+    // 뒤로가기 횟수를 추적하기 위한 useRef
+    const backPressCountRef = useRef(0);
 
     const [selectedQuizzes, setSelectedQuizzes] = useState(() => {
         const storedQuizzes = localStorage.getItem('selectedQuizzes');
@@ -25,8 +28,38 @@ const Quiz = () => {
         () => parseInt(localStorage.getItem('correctAnswersCount'), 10) || 0
     );
     const [score, setScore] = useState(() => parseInt(localStorage.getItem('score'), 10) || 0);
-
     const randomQuiz = selectedQuizzes ? selectedQuizzes[currentQuestionIndex] : null;
+
+    // 뒤로가기 방지 기능 추가
+    useEffect(() => {
+        const preventGoBack = () => {
+            backPressCountRef.current += 1;
+
+            console.log('뒤로가기를 시도했습니다.');
+
+            if (backPressCountRef.current >= maxBackPress) {
+                alert('뒤로가기 하지마! 한번만 더 하면 너 진짜 바보야!');
+                console.log('조롱 메시지 출력됨');
+            } else {
+                alert('뒤로가기는 안됩니다!');
+                console.log(`현재 뒤로가기 시도 횟수: ${backPressCountRef.current}`);
+            }
+
+            // 현재 페이지를 다시 히스토리에 푸시하여 뒤로 가기 방지
+            window.history.pushState(null, '', window.location.href);
+        };
+
+        // 컴포넌트 마운트 시 히스토리 스택에 현재 상태를 추가
+        window.history.pushState(null, '', window.location.href);
+
+        // popstate 이벤트 리스너 추가
+        window.addEventListener('popstate', preventGoBack);
+
+        // 컴포넌트 언마운트 시 이벤트 리스너 제거
+        return () => {
+            window.removeEventListener('popstate', preventGoBack);
+        };
+    }, []);
 
     // 퀴즈 데이터를 가져오는 useEffect
     useEffect(() => {
@@ -136,7 +169,7 @@ const Quiz = () => {
         [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
     );
 
-    // **현재 문제의 난이도를 콘솔에 출력**
+    // 현재 문제의 난이도를 콘솔에 출력
     useEffect(() => {
         if (randomQuiz) {
             console.log(`Current question difficulty level: ${randomQuiz.level}`);
@@ -155,7 +188,7 @@ const Quiz = () => {
 
     const circleClasses = [styles.circle, styles.circle2, styles.circle3];
 
-    // JSX
+    // JSX 반환
     return (
         <Layout>
             <div className={styles.container}>

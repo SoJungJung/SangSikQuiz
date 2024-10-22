@@ -99,9 +99,9 @@ const Ranking = () => {
                 <div className={styles.rankBox}>
                     <div className={styles.rankTitle}>RANK</div>
                     <div className={styles.rankList}>
-                        {rankings.map((rank) => (
-                            <div key={`${rank.nickname}-${rank.score}`} className={styles.rankItem}>
-                                {rank.position}. {rank.nickname} - {rank.score}점
+                        {rankings.map((rank, index) => (
+                            <div key={`${rank.nickname}-${index}`} className={styles.rankItem}>
+                                {rank.position}. {rank.nickname} - {rank.score || rank.high_score}점
                             </div>
                         ))}
                     </div>
