@@ -9,41 +9,32 @@ import Layout from "../../Layout";
 
 const Quiz = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false); // 로딩 상태
+  const [loading, setLoading] = useState(true); // 초기 로딩 상태는 true
   const [error, setError] = useState(null);
 
-  //무한 로딩 해결을 위한 불린값 하나 추가
+  // 무한 로딩 해결을 위한 불린값 하나 추가
   const [notLoading, setNotLoading] = useState(false);
-  //뒤로가기 기능
+  // 뒤로가기 기능
   const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
-  // 뒤로가기 횟수를 추적하기 위한 useRef
   const backPressCountRef = useRef(0);
+
   // 뒤로가기 방지 기능 추가
   useEffect(() => {
     const preventGoBack = () => {
       backPressCountRef.current += 1;
 
-      console.log("뒤로가기를 시도했습니다.");
-
       if (backPressCountRef.current >= maxBackPress) {
         alert("뒤로가기 하지마! 한번만 더 하면 너 진짜 바보야!");
-        console.log("조롱 메시지 출력됨");
       } else {
         alert("뒤로가기는 안됩니다!");
-        console.log(`현재 뒤로가기 시도 횟수: ${backPressCountRef.current}`);
       }
 
-      // 현재 페이지를 다시 히스토리에 푸시하여 뒤로 가기 방지
       window.history.pushState(null, "", window.location.href);
     };
 
-    // 컴포넌트 마운트 시 히스토리 스택에 현재 상태를 추가
     window.history.pushState(null, "", window.location.href);
-
-    // popstate 이벤트 리스너 추가
     window.addEventListener("popstate", preventGoBack);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener("popstate", preventGoBack);
     };
@@ -51,7 +42,7 @@ const Quiz = () => {
 
   const [selectedQuizzes, setSelectedQuizzes] = useState(() => {
     const storedQuizzes = localStorage.getItem("selectedQuizzes");
-    return storedQuizzes ? JSON.parse(storedQuizzes) : null;
+    return storedQuizzes ? JSON.parse(storedQuizzes) : [];
   });
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
@@ -61,13 +52,13 @@ const Quiz = () => {
     () => parseInt(localStorage.getItem("correctAnswersCount"), 10) || 0
   );
   const [score, setScore] = useState(() => parseInt(localStorage.getItem("score"), 10) || 0);
-  const randomQuiz = selectedQuizzes ? selectedQuizzes[currentQuestionIndex] : null;
 
-  // 퀴즈 데이터를 가져오는 useEffect
+  // randomQuiz를 선택된 퀴즈에서 가져오기
+  const randomQuiz = selectedQuizzes.length > 0 ? selectedQuizzes[currentQuestionIndex] : null;
+
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        setLoading(true);
         if (!selectedQuizzes || selectedQuizzes.length === 0) {
           const response = await fetch("/example.json");
           if (!response.ok) {
@@ -83,7 +74,6 @@ const Quiz = () => {
             easy: [],
           };
 
-          // 각 난이도별로 문제를 그룹화
           Object.keys(jsonData).forEach((level) => {
             jsonData[level].forEach((item) => {
               levels[level].push({ ...item, level });
@@ -103,35 +93,32 @@ const Quiz = () => {
             ...selectRandomQuestions(levels["easy"], 1, 5),
           ];
 
-          // 전체 문제 중에서 10개를 무작위로 선택
           selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
 
-          // 선택된 퀴즈의 답변도 섞기
           selectedQuestions.forEach((quiz) => {
             quiz.answer = quiz.answer.sort(() => Math.random() - 0.5);
           });
 
-          // 상태 및 로컬 스토리지에 저장
           setSelectedQuizzes(selectedQuestions);
           localStorage.setItem("selectedQuizzes", JSON.stringify(selectedQuestions));
         }
-        setLoading(false);
+        setLoading(false); // 데이터를 가져온 후 로딩 상태를 false로 변경
       } catch (err) {
         setError(err.message);
-        setLoading(false);
+        setLoading(false); // 에러가 발생해도 로딩 상태를 false로 변경
       }
     };
 
     fetchQuizData();
-  }, []);
+  }, [selectedQuizzes]);
 
-  // 문제 선택 로직
   const handleDivClick = useCallback(
     (answer, isRight) => {
+      if (!randomQuiz) return;
+
       const correctAnswer = randomQuiz.answer.find((ans) => ans.TRUE)?.TRUE;
       const selectedAnswer = answer.TRUE || answer.FALSE;
 
-      // 상태 업데이트 및 로컬 스토리지에 저장
       const newQuestionIndex = currentQuestionIndex + 1;
       const newCorrectAnswersCount = isRight ? correctAnswersCount + 1 : correctAnswersCount;
       const newScore = isRight ? score + 10 : score;
@@ -140,12 +127,10 @@ const Quiz = () => {
       setCorrectAnswersCount(newCorrectAnswersCount);
       setScore(newScore);
 
-      // 로컬 스토리지에 저장
       localStorage.setItem("currentQuestionIndex", newQuestionIndex);
       localStorage.setItem("correctAnswersCount", newCorrectAnswersCount);
       localStorage.setItem("score", newScore);
 
-      // 마지막 문제인지 확인
       if (newQuestionIndex < 10) {
         navigate(
           `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
@@ -153,11 +138,9 @@ const Quiz = () => {
           )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
         );
       } else {
-        // 퀴즈 완료 시 점수와 총 문제 수를 로컬 스토리지에 저장
         localStorage.setItem("score", newScore);
-        localStorage.setItem("totalQuestions", 10); // 총 문제 수 저장
+        localStorage.setItem("totalQuestions", 10);
 
-        // 불필요한 데이터만 삭제
         localStorage.removeItem("selectedQuizzes");
         localStorage.removeItem("currentQuestionIndex");
         localStorage.removeItem("correctAnswersCount");
@@ -167,32 +150,27 @@ const Quiz = () => {
     [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
   );
 
-  // useEffect를 사용하여 notLoading이 true가 될 때 navigate 실행
   useEffect(() => {
     if (notLoading) {
       navigate(`/result`);
     }
   }, [notLoading, navigate]);
-  // // 현재 문제의 난이도를 콘솔에 출력
-  // useEffect(() => {
-  //   if (randomQuiz) {
-  //     console.log(`Current question difficulty level: ${randomQuiz.level}`);
-  //   }
-  // }, [randomQuiz]);
 
   // 로딩 상태 처리
-  if (loading || (!randomQuiz && !notLoading)) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
-  // 에러 상태 처리
   if (error) {
     return <div>Error: {error}</div>;
   }
 
+  if (!randomQuiz) {
+    return <div>Error: No quiz data available</div>; // 퀴즈 데이터가 없을 때 처리
+  }
+
   const circleClasses = [styles.circle, styles.circle2, styles.circle3];
 
-  // JSX 반환
   return (
     <Layout>
       <div className={styles.container}>
