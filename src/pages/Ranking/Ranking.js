@@ -26,8 +26,8 @@ const Ranking = () => {
   };
 
   useEffect(() => {
-    // Fetch the rankings JSON data
-    fetch(BACKEND_URL)
+    // 랭킹 데이터 fetch
+    fetch(`${BACKEND_URL}/api/ranking`) // 경로 수정
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -39,44 +39,37 @@ const Ranking = () => {
         const nickname = localStorage.getItem("nickname");
         const score = parseInt(localStorage.getItem("score"), 10);
 
-        // Get the highScore from Local Storage or initialize to 0 if not available
         let highScore = parseInt(localStorage.getItem("highScore"), 10) || 0;
         setNickname(nickname);
 
         let updatedRankings = jsonData.rankings;
 
         if (nickname && !isNaN(score)) {
-          // Compare current score with highScore
           if (score > highScore) {
-            // Update highScore if the current score is higher
             highScore = score;
             localStorage.setItem("highScore", highScore);
           }
 
-          // Add or update the user's highScore in the rankings
           updatedRankings = [...updatedRankings, { position: updatedRankings.length + 1, nickname, score: highScore }];
 
-          // Sort the rankings based on score in descending order
           updatedRankings.sort((a, b) => b.score - a.score);
 
-          // Update the position of each rank
           updatedRankings.forEach((rank, index) => {
             rank.position = index + 1;
           });
 
-          // Find the user's position in the rankings
           const userRank = updatedRankings.find((rank) => rank.nickname === nickname && rank.score === highScore);
-          setUserPosition(userRank.position);
+          setUserPosition(userRank ? userRank.position : null);
         }
 
         setRankings(updatedRankings);
-        setLoading(false);
+        setLoading(false); // 로딩 상태 해제
       })
       .catch((err) => {
         setError(err.message);
-        setLoading(false);
+        setLoading(false); // 로딩 상태 해제
       });
-  }, []);
+  }, [BACKEND_URL]);
 
   if (loading) {
     return <div>Loading...</div>;

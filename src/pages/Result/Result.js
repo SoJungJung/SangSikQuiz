@@ -34,14 +34,15 @@ const Result = () => {
         setLoading(false);
       });
 
-    // 점수 제출 로직 추가
+    // 점수 제출 로직
     const submitScore = async () => {
       const device_id = localStorage.getItem("device_id") || generateDeviceId();
       const nickname = localStorage.getItem("nickname") || "익명";
       const score = storedScore ? parseInt(storedScore, 10) : 0;
 
       try {
-        await fetch(BACKEND_URL, {
+        await fetch(`${BACKEND_URL}/api/submit-score`, {
+          // 경로 수정
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ device_id, score, nickname }),
@@ -52,7 +53,7 @@ const Result = () => {
     };
 
     submitScore();
-  }, []);
+  }, [BACKEND_URL]);
 
   // 고유한 디바이스 ID 생성 함수
   const generateDeviceId = () => {
