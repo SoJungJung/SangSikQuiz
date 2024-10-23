@@ -9,7 +9,7 @@ import Layout from "../../Layout";
 
 const Quiz = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // 로딩 상태
   const [error, setError] = useState(null);
   const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
 
@@ -163,7 +163,14 @@ const Quiz = () => {
         localStorage.removeItem("currentQuestionIndex");
         localStorage.removeItem("correctAnswersCount");
 
-        navigate(`/result`);
+        // 로딩 상태 활성화
+        setLoading(true);
+
+        // navigate 전에 약간의 지연을 줘서 로딩 상태 관리
+        setTimeout(() => {
+          setLoading(false); // 로딩 상태 해제
+          navigate(`/result`);
+        }, 500); // navigate를 지연시켜서 무한 로딩 방지
       }
     },
     [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
