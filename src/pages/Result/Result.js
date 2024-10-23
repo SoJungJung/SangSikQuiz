@@ -1,124 +1,124 @@
-import React, { useEffect, useState } from 'react';
-import styles from './Result.module.css';
-import lvlImgFrame from './lvlImgFrame.png';
-import Layout from '../../Layout';
-import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useState } from "react";
+import styles from "./Result.module.css";
+import lvlImgFrame from "./lvlImgFrame.png";
+import Layout from "../../Layout";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const Result = () => {
-    const navigate = useNavigate();
-    const [score, setScore] = useState(0);
-    const [totalQuestions, setTotalQuestions] = useState(10); // 기본값을 10으로 설정
-    const [loading, setLoading] = useState(true);
-    const [levels, setLevels] = useState([]);
+  const navigate = useNavigate();
+  const [score, setScore] = useState(0);
+  const [totalQuestions, setTotalQuestions] = useState(10); // 기본값을 10으로 설정
+  const [loading, setLoading] = useState(true);
+  const [levels, setLevels] = useState([]);
 
-    useEffect(() => {
-        // 로컬 스토리지에서 점수와 총 문제 수를 가져옵니다.
-        const storedScore = localStorage.getItem('score');
-        const storedTotalQuestions = localStorage.getItem('totalQuestions');
+  useEffect(() => {
+    // 로컬 스토리지에서 점수와 총 문제 수를 가져옵니다.
+    const storedScore = localStorage.getItem("score");
+    const storedTotalQuestions = localStorage.getItem("totalQuestions");
 
-        // 점수와 총 문제 수를 상태로 설정합니다.
-        setScore(storedScore ? parseInt(storedScore, 10) : 0);
-        setTotalQuestions(storedTotalQuestions ? parseInt(storedTotalQuestions, 10) : 10);
+    // 점수와 총 문제 수를 상태로 설정합니다.
+    setScore(storedScore ? parseInt(storedScore, 10) : 0);
+    setTotalQuestions(storedTotalQuestions ? parseInt(storedTotalQuestions, 10) : 10);
 
-        // levels.json 데이터를 fetch로 가져옵니다.
-        fetch(`${process.env.PUBLIC_URL}/levels.json`)
-            .then((response) => response.json())
-            .then((data) => {
-                setLevels(data.levels);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error('Error fetching levels.json:', error);
-                setLoading(false);
-            });
+    // levels.json 데이터를 fetch로 가져옵니다.
+    fetch(`${process.env.PUBLIC_URL}/levels.json`)
+      .then((response) => response.json())
+      .then((data) => {
+        setLevels(data.levels);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching levels.json:", error);
+        setLoading(false);
+      });
 
-        // 점수 제출 로직 추가
-        const submitScore = async () => {
-            const device_id = localStorage.getItem('device_id') || generateDeviceId();
-            const nickname = localStorage.getItem('nickname') || '익명';
-            const score = storedScore ? parseInt(storedScore, 10) : 0;
+    // 점수 제출 로직 추가
+    const submitScore = async () => {
+      const device_id = localStorage.getItem("device_id") || generateDeviceId();
+      const nickname = localStorage.getItem("nickname") || "익명";
+      const score = storedScore ? parseInt(storedScore, 10) : 0;
 
-            try {
-                await fetch('https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app/api/submit-score', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ device_id, score, nickname }),
-                });
-            } catch (error) {
-                console.error('점수 제출 중 오류 발생:', error);
-            }
-        };
-
-        submitScore();
-    }, []);
-
-    // 고유한 디바이스 ID 생성 함수
-    const generateDeviceId = () => {
-        const uuid = uuidv4();
-        localStorage.setItem('device_id', uuid);
-        return uuid;
+      try {
+        await fetch("https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app:3001/api/submit-score", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ device_id, score, nickname }),
+        });
+      } catch (error) {
+        console.error("점수 제출 중 오류 발생:", error);
+      }
     };
 
-    const handleClickNext = () => {
-        navigate('/ranking');
-    };
+    submitScore();
+  }, []);
 
-    // 점수에 따라 levelIndex를 결정하는 함수
-    const determineLevelIndex = (score) => {
-        const maxScore = totalQuestions * 10; // 각 문제당 10점
-        const percentage = (score / maxScore) * 100;
+  // 고유한 디바이스 ID 생성 함수
+  const generateDeviceId = () => {
+    const uuid = uuidv4();
+    localStorage.setItem("device_id", uuid);
+    return uuid;
+  };
 
-        if (percentage >= 90) return 0; // 피터 드러커
-        else if (percentage >= 80) return 1; // 소크라테스
-        else if (percentage >= 70) return 2; // 조지프 러디어드 키플링
-        else if (percentage >= 60) return 3; // 칼 세이건
-        else if (percentage >= 50) return 4; // 탈레스
-        else if (percentage >= 40) return 5; // 루이 브라유
-        else if (percentage >= 30) return 6; // 로버트 메톤
-        else if (percentage >= 20) return 7; // 케니스 올센
-        else if (percentage >= 10) return 8; // 스티브 발머
-        else return 9; // 찰스 듀얼
-    };
+  const handleClickNext = () => {
+    navigate("/ranking");
+  };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+  // 점수에 따라 levelIndex를 결정하는 함수
+  const determineLevelIndex = (score) => {
+    const maxScore = totalQuestions * 10; // 각 문제당 10점
+    const percentage = (score / maxScore) * 100;
 
-    // 점수에 따라 레벨 인덱스를 결정하고 해당 데이터를 가져옵니다.
-    const levelIndex = determineLevelIndex(score);
-    const levelData = levels[levelIndex];
+    if (percentage >= 90) return 0; // 피터 드러커
+    else if (percentage >= 80) return 1; // 소크라테스
+    else if (percentage >= 70) return 2; // 조지프 러디어드 키플링
+    else if (percentage >= 60) return 3; // 칼 세이건
+    else if (percentage >= 50) return 4; // 탈레스
+    else if (percentage >= 40) return 5; // 루이 브라유
+    else if (percentage >= 30) return 6; // 로버트 메톤
+    else if (percentage >= 20) return 7; // 케니스 올센
+    else if (percentage >= 10) return 8; // 스티브 발머
+    else return 9; // 찰스 듀얼
+  };
 
-    if (!levelData) {
-        return <div>Error: Level data not found.</div>;
-    }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    return (
-        <Layout>
-            <div className={styles.container}>
-                <div className={styles.topdiv}>
-                    <div className={styles.levelShowText}>당신의 점수는 {score}점입니다.</div>
-                </div>
-                <div className={styles.lvlImgShow}>
-                    <img className={styles.lvlImgFrame} src={lvlImgFrame} alt="" />
-                    <img className={styles.lvlImg} src={levelData.img} alt={levelData.name} />
-                </div>
-                <div className={styles.exp}>
-                    <div className={styles.expShowText}>{levelData.name} 수준</div>
-                </div>
-                <div className={styles.expQuoteShow}>
-                    <div>
-                        <div className={styles.expQuoteText}>"{levelData.quote}"</div>
-                        <div className={styles.rnkPrdBox}>
-                            <button className={styles.rnkPrd} onClick={handleClickNext}>
-                                너의 주제 확인하기
-                            </button>
-                        </div>
-                    </div>
-                </div>
+  // 점수에 따라 레벨 인덱스를 결정하고 해당 데이터를 가져옵니다.
+  const levelIndex = determineLevelIndex(score);
+  const levelData = levels[levelIndex];
+
+  if (!levelData) {
+    return <div>Error: Level data not found.</div>;
+  }
+
+  return (
+    <Layout>
+      <div className={styles.container}>
+        <div className={styles.topdiv}>
+          <div className={styles.levelShowText}>당신의 점수는 {score}점입니다.</div>
+        </div>
+        <div className={styles.lvlImgShow}>
+          <img className={styles.lvlImgFrame} src={lvlImgFrame} alt="" />
+          <img className={styles.lvlImg} src={levelData.img} alt={levelData.name} />
+        </div>
+        <div className={styles.exp}>
+          <div className={styles.expShowText}>{levelData.name} 수준</div>
+        </div>
+        <div className={styles.expQuoteShow}>
+          <div>
+            <div className={styles.expQuoteText}>"{levelData.quote}"</div>
+            <div className={styles.rnkPrdBox}>
+              <button className={styles.rnkPrd} onClick={handleClickNext}>
+                너의 주제 확인하기
+              </button>
             </div>
-        </Layout>
-    );
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default Result;
