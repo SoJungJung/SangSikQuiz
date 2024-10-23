@@ -23,7 +23,7 @@ const Result = () => {
     setTotalQuestions(storedTotalQuestions ? parseInt(storedTotalQuestions, 10) : 10);
 
     // levels.json 데이터를 fetch로 가져옵니다.
-    fetch(`${process.env.PUBLIC_URL}/levels.json`)
+    fetch("/levels.json")
       .then((response) => response.json())
       .then((data) => {
         setLevels(data.levels);
