@@ -11,25 +11,11 @@ const Quiz = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [error, setError] = useState(null);
-  const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
 
+  //뒤로가기 기능
+  const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
   // 뒤로가기 횟수를 추적하기 위한 useRef
   const backPressCountRef = useRef(0);
-
-  const [selectedQuizzes, setSelectedQuizzes] = useState(() => {
-    const storedQuizzes = localStorage.getItem("selectedQuizzes");
-    return storedQuizzes ? JSON.parse(storedQuizzes) : null;
-  });
-
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
-    () => parseInt(localStorage.getItem("currentQuestionIndex"), 10) || 0
-  );
-  const [correctAnswersCount, setCorrectAnswersCount] = useState(
-    () => parseInt(localStorage.getItem("correctAnswersCount"), 10) || 0
-  );
-  const [score, setScore] = useState(() => parseInt(localStorage.getItem("score"), 10) || 0);
-  const randomQuiz = selectedQuizzes ? selectedQuizzes[currentQuestionIndex] : null;
-
   // 뒤로가기 방지 기능 추가
   useEffect(() => {
     const preventGoBack = () => {
@@ -61,15 +47,26 @@ const Quiz = () => {
     };
   }, []);
 
+  const [selectedQuizzes, setSelectedQuizzes] = useState(() => {
+    const storedQuizzes = localStorage.getItem("selectedQuizzes");
+    return storedQuizzes ? JSON.parse(storedQuizzes) : null;
+  });
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
+    () => parseInt(localStorage.getItem("currentQuestionIndex"), 10) || 0
+  );
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(
+    () => parseInt(localStorage.getItem("correctAnswersCount"), 10) || 0
+  );
+  const [score, setScore] = useState(() => parseInt(localStorage.getItem("score"), 10) || 0);
+  const randomQuiz = selectedQuizzes ? selectedQuizzes[currentQuestionIndex] : null;
+
   // 퀴즈 데이터를 가져오는 useEffect
   useEffect(() => {
     const fetchQuizData = async () => {
-      console.log("fetch 퀴즈 데이터 실행 중");
-      console.log(selectedQuizzes);
       try {
         setLoading(true);
         if (!selectedQuizzes || selectedQuizzes.length === 0) {
-          console.log("selectedQuizzes가 없어서 새로운 데이터를 가져옵니다.");
           const response = await fetch("/example.json");
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -163,25 +160,18 @@ const Quiz = () => {
         localStorage.removeItem("currentQuestionIndex");
         localStorage.removeItem("correctAnswersCount");
 
-        // 로딩 상태 활성화
-        setLoading(true);
-
-        // navigate 전에 약간의 지연을 줘서 로딩 상태 관리
-        setTimeout(() => {
-          setLoading(false); // 로딩 상태 해제
-          navigate(`/result`);
-        }, 500); // navigate를 지연시켜서 무한 로딩 방지
+        navigate(`/result`);
       }
     },
     [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
   );
 
-  // 현재 문제의 난이도를 콘솔에 출력
-  useEffect(() => {
-    if (randomQuiz) {
-      console.log(`Current question difficulty level: ${randomQuiz.level}`);
-    }
-  }, [randomQuiz]);
+  // // 현재 문제의 난이도를 콘솔에 출력
+  // useEffect(() => {
+  //   if (randomQuiz) {
+  //     console.log(`Current question difficulty level: ${randomQuiz.level}`);
+  //   }
+  // }, [randomQuiz]);
 
   // 로딩 상태 처리
   if (loading || !randomQuiz) {
