@@ -39,7 +39,7 @@ const Home = () => {
       const randomAudio = audios[Math.floor(Math.random() * audios.length)]; // Select one randomly
       audio.src = randomAudio; // Set the selected audio source
       audio.play(); // Play the selected audio
-      setIsPlaying(true); // Update the state to playing
+      setIsPlaying(true); // Update the state to playing    
     } else {
       audio.pause(); // Pause the audio if already playing
       audio.currentTime = 0; // Reset the audio to the beginning

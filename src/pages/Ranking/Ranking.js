@@ -10,6 +10,7 @@ const Ranking = () => {
   const [error, setError] = useState(null);
   const [userPosition, setUserPosition] = useState(null);
   const [nickname, setNickname] = useState("");
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const handleRetry = () => {
     // 로컬 스토리지 초기화
@@ -26,7 +27,7 @@ const Ranking = () => {
 
   useEffect(() => {
     // Fetch the rankings JSON data
-    fetch("https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app/api/ranking")
+    fetch(BACKEND_URL)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

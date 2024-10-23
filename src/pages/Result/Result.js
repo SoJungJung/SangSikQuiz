@@ -11,6 +11,7 @@ const Result = () => {
   const [totalQuestions, setTotalQuestions] = useState(10); // 기본값을 10으로 설정
   const [loading, setLoading] = useState(true);
   const [levels, setLevels] = useState([]);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     // 로컬 스토리지에서 점수와 총 문제 수를 가져옵니다.
@@ -40,7 +41,7 @@ const Result = () => {
       const score = storedScore ? parseInt(storedScore, 10) : 0;
 
       try {
-        await fetch("https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app/api/submit-score", {
+        await fetch(BACKEND_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ device_id, score, nickname }),
