@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Ranking = () => {
   const navigate = useNavigate();
   const [rankings, setRankings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [userPosition, setUserPosition] = useState(null);
   const [nickname, setNickname] = useState("");
