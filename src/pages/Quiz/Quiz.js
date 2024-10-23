@@ -12,6 +12,8 @@ const Quiz = () => {
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [error, setError] = useState(null);
 
+  //무한 로딩 해결을 위한 불린값 하나 추가
+  const [notLoading, setNotLoading] = useState(false);
   //뒤로가기 기능
   const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
   // 뒤로가기 횟수를 추적하기 위한 useRef
@@ -159,13 +161,18 @@ const Quiz = () => {
         localStorage.removeItem("selectedQuizzes");
         localStorage.removeItem("currentQuestionIndex");
         localStorage.removeItem("correctAnswersCount");
-
-        navigate(`/result`);
+        setNotLoading(true);
       }
     },
     [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
   );
 
+  // useEffect를 사용하여 notLoading이 true가 될 때 navigate 실행
+  useEffect(() => {
+    if (notLoading) {
+      navigate(`/result`);
+    }
+  }, [notLoading, navigate]);
   // // 현재 문제의 난이도를 콘솔에 출력
   // useEffect(() => {
   //   if (randomQuiz) {
@@ -174,7 +181,7 @@ const Quiz = () => {
   // }, [randomQuiz]);
 
   // 로딩 상태 처리
-  if (loading || !randomQuiz) {
+  if (loading || (!randomQuiz && !notLoading)) {
     return <div>Loading...</div>;
   }
 
