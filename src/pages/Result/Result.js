@@ -40,7 +40,7 @@ const Result = () => {
             const score = storedScore ? parseInt(storedScore, 10) : 0;
 
             try {
-                await fetch('http://localhost:5001/api/submit-score', {
+                await fetch('https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app/api/submit-score', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ device_id, score, nickname }),

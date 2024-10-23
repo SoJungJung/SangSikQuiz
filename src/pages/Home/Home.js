@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import lefttop from './lefttop.png';
 import leftbottom from './leftbottom.png';
 import righttop from './righttop.png';
@@ -17,20 +17,22 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
     const navigate = useNavigate();
     const [nickname, setNickname] = useState('');
+    const [isPlaying, setIsPlaying] = useState(false); // State to track if audio is playing
+    const [audio] = useState(new Audio()); // Create audio object
 
-    // Function to handle playing random audio on component mount
-    useEffect(() => {
-        // const audios = [audio1, audio2, audio3]; // Array of audio files
-        // const randomAudio = audios[Math.floor(Math.random() * audios.length)]; // Select one randomly
-        // const audio = new Audio(randomAudio); // Create new audio object
-        // audio.play(); // Play the selected audio
-        // // Optional: Clean up when the component unmounts
-        // return () => {
-        //     audio.pause(); // Pause audio if still playing
-        //     audio.currentTime = 0; // Reset the audio to the beginning
-        // };
-        localStorage.clear();
-    }, []);
+    const handlePlayAudio = () => {
+        if (!isPlaying) {
+            const audios = [audio1, audio2, audio3]; // Array of audio files
+            const randomAudio = audios[Math.floor(Math.random() * audios.length)]; // Select one randomly
+            audio.src = randomAudio; // Set the selected audio source
+            audio.play(); // Play the selected audio
+            setIsPlaying(true); // Update the state to playing
+        } else {
+            audio.pause(); // Pause the audio if already playing
+            audio.currentTime = 0; // Reset the audio to the beginning
+            setIsPlaying(false); // Update the state to not playing
+        }
+    };
 
     const handleClickNext = () => {
         if (nickname.trim() !== '') {
@@ -79,6 +81,9 @@ const Home = () => {
                         </button>
                     </div>
                     <div className={styles.mid3}>
+                        <button className={styles.audioButton} onClick={handlePlayAudio}>
+                            {isPlaying ? '오디오 정지' : '오디오 재생'}
+                        </button>
                         <img className={styles.trump} src={trump} alt="trump" />
                     </div>
                 </div>

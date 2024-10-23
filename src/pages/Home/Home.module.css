@@ -141,11 +141,19 @@
 }
 .mid3 {
     width: 160px;
+    position: relative;
+}
+.audioButton {
+    position: absolute;
+    top: 155px;
+    transform: rotate(-29.5deg);
+    background-color: #f4dca2;
+    border-radius: 20%;
 }
 .trump {
     width: 100%;
     flex-shrink: 0;
-    margin-top: 168px;
+    margin-top: 160px;
 }
 .blw {
     width: 100%;
@@ -154,6 +162,7 @@
     bottom: 76px;
 }
 .duce {
+    margin-top: 8px;
     flex-shrink: 0;
     position: absolute;
     right: 0px;
