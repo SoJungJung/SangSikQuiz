@@ -26,7 +26,7 @@ const Ranking = () => {
 
   useEffect(() => {
     // Fetch the rankings JSON data
-    fetch("https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app:3001/api/ranking")
+    fetch("https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app/api/ranking")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
