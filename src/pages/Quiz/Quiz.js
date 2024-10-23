@@ -12,13 +12,10 @@ const Quiz = () => {
   const [loading, setLoading] = useState(true); // 초기 로딩 상태는 true
   const [error, setError] = useState(null);
 
-  // 무한 로딩 해결을 위한 불린값 하나 추가
   const [notLoading, setNotLoading] = useState(false);
-  // 뒤로가기 기능
   const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
   const backPressCountRef = useRef(0);
 
-  // 뒤로가기 방지 기능 추가
   useEffect(() => {
     const preventGoBack = () => {
       backPressCountRef.current += 1;
@@ -53,7 +50,6 @@ const Quiz = () => {
   );
   const [score, setScore] = useState(() => parseInt(localStorage.getItem("score"), 10) || 0);
 
-  // randomQuiz를 선택된 퀴즈에서 가져오기
   const randomQuiz = selectedQuizzes.length > 0 ? selectedQuizzes[currentQuestionIndex] : null;
 
   useEffect(() => {
@@ -66,7 +62,6 @@ const Quiz = () => {
           }
           const jsonData = await response.json();
 
-          // 난이도별 문제 분류
           const levels = {
             "super-difficult": [],
             difficult: [],
@@ -80,7 +75,6 @@ const Quiz = () => {
             });
           });
 
-          // 난이도별 문제 선택 로직 (최소 1개, 최대 5개)
           const selectRandomQuestions = (questions, min, max) => {
             const count = Math.floor(Math.random() * (max - min + 1)) + min;
             return questions.sort(() => Math.random() - 0.5).slice(0, count);
@@ -166,7 +160,7 @@ const Quiz = () => {
   }
 
   if (!randomQuiz) {
-    return <div>Error: No quiz data available</div>; // 퀴즈 데이터가 없을 때 처리
+    return <div>No quiz data available</div>; // 퀴즈 데이터가 없을 때 처리
   }
 
   const circleClasses = [styles.circle, styles.circle2, styles.circle3];
@@ -185,7 +179,7 @@ const Quiz = () => {
           </div>
         </div>
         <div className={styles.quizShow}>
-          <div className={styles.quizText}>{randomQuiz.quiz}</div>
+          <div className={styles.quizText}>{randomQuiz?.quiz || "퀴즈 데이터를 불러오는 중..."}</div>
         </div>
         <div className={styles.answerShow}>
           {randomQuiz.answer.map((ans, index) => (
