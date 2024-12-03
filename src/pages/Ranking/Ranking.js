@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import html2canvas from 'html2canvas';
 import styles from './Ranking.module.css';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
@@ -11,39 +12,45 @@ const Ranking = () => {
     const [userPosition, setUserPosition] = useState(null);
     const [nickname, setNickname] = useState('');
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    const rankRef = useRef(); // 스크린샷 대상 영역 참조
 
     const handleRetry = () => {
-        // 로컬 스토리지 초기화
         localStorage.removeItem('currentQuestionIndex');
         localStorage.removeItem('correctAnswersCount');
         localStorage.removeItem('score');
         localStorage.removeItem('totalQuestions');
         localStorage.removeItem('selectedQuizzes');
 
-        // 퀴즈 첫 페이지로 이동
         navigate('/');
     };
 
-    const handleShare = async () => {
-        const shareText = `내 랭킹은 ${userPosition}등! 너도 도전해봐!`;
-        const shareUrl = window.location.href;
-
-        if (navigator.share) {
+    const handleSaveAndShare = async () => {
+        if (rankRef.current) {
             try {
-                await navigator.share({
-                    title: '랭킹 공유',
-                    text: shareText,
-                    url: shareUrl,
-                });
-                alert('공유 성공!');
-            } catch (err) {
-                console.error('공유 중 오류 발생:', err);
+                // html2canvas로 스크린샷 생성
+                const canvas = await html2canvas(rankRef.current);
+                const image = canvas.toDataURL('image/png');
+
+                // 스크린샷 저장
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = 'ranking-result.png';
+                link.click();
+
+                // Instagram 공유 (Web Share API 사용)
+                if (navigator.share) {
+                    await navigator.share({
+                        title: '랭킹 결과 공유',
+                        text: '내 랭킹 결과를 확인해봐!',
+                        files: [new File([image], 'ranking-result.png', { type: 'image/png' })],
+                    });
+                } else {
+                    alert('공유가 지원되지 않는 브라우저입니다.');
+                }
+            } catch (error) {
+                console.error('스크린샷 저장 및 공유 중 오류 발생:', error);
+                alert('결과 저장에 실패했습니다.');
             }
-        } else {
-            // Web Share API 미지원 시 클립보드 복사
-            const fallbackText = `${shareText}\n${shareUrl}`;
-            navigator.clipboard.writeText(fallbackText);
-            alert('공유 URL이 클립보드에 복사되었습니다!');
         }
     };
 
@@ -106,7 +113,8 @@ const Ranking = () => {
                 <div className={styles.title}>
                     {nickname ? `너 자신을 알라 ${nickname}, 너는 ${userPosition}등` : '너 자신을 알라'}
                 </div>
-                <div className={styles.rankBox}>
+                {/* 캡처 대상 영역 */}
+                <div className={styles.rankBox} ref={rankRef}>
                     <div className={styles.rankTitle}>RANK</div>
                     <div className={styles.rankList}>
                         {rankings.map((rank, index) => (
@@ -119,8 +127,8 @@ const Ranking = () => {
                 <button className={styles.retryButton} onClick={handleRetry}>
                     RETRY?
                 </button>
-                <button className={styles.shareButton} onClick={handleShare}>
-                    인스타그램에 공유하기
+                <button className={styles.shareButton} onClick={handleSaveAndShare}>
+                    결과 저장하기
                 </button>
             </div>
         </Layout>
