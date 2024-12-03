@@ -38,15 +38,21 @@ const Result = () => {
     const submitScore = async () => {
       const device_id = localStorage.getItem("device_id") || generateDeviceId();
       const nickname = localStorage.getItem("nickname") || "익명";
-      const score = storedScore ? parseInt(storedScore, 10) : 0;
+      const score = parseInt(localStorage.getItem("score"), 10) || 0;
 
       try {
-        await fetch(`${BACKEND_URL}/api/submit-score`, {
-          // 경로 수정
+        const response = await fetch(`${BACKEND_URL}/api/submit-score`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ device_id, score, nickname }),
         });
+
+        if (!response.ok) {
+          throw new Error("점수 제출에 실패했습니다.");
+        }
+
+        const data = await response.json();
+        console.log("점수 제출 성공:", data);
       } catch (error) {
         console.error("점수 제출 중 오류 발생:", error);
       }
