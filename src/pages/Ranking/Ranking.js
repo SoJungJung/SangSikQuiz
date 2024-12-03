@@ -1,106 +1,130 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Ranking.module.css";
-import Layout from "../../Layout";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import styles from './Ranking.module.css';
+import Layout from '../../Layout';
+import { useNavigate } from 'react-router-dom';
 
 const Ranking = () => {
-  const navigate = useNavigate();
-  const [rankings, setRankings] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [userPosition, setUserPosition] = useState(null);
-  const [nickname, setNickname] = useState("");
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    const navigate = useNavigate();
+    const [rankings, setRankings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [userPosition, setUserPosition] = useState(null);
+    const [nickname, setNickname] = useState('');
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-  const handleRetry = () => {
-    // 로컬 스토리지 초기화
-    localStorage.removeItem("currentQuestionIndex");
-    localStorage.removeItem("correctAnswersCount");
-    localStorage.removeItem("score");
-    localStorage.removeItem("totalQuestions");
-    localStorage.removeItem("selectedQuizzes");
-    // 유저가 이전 닉네임으로 재시도할 수 있도록 nickname은 삭제하지 않음
+    const handleRetry = () => {
+        // 로컬 스토리지 초기화
+        localStorage.removeItem('currentQuestionIndex');
+        localStorage.removeItem('correctAnswersCount');
+        localStorage.removeItem('score');
+        localStorage.removeItem('totalQuestions');
+        localStorage.removeItem('selectedQuizzes');
 
-    // 퀴즈 첫 페이지로 이동
-    navigate("/");
-  };
+        // 퀴즈 첫 페이지로 이동
+        navigate('/');
+    };
 
-  useEffect(() => {
-    // 랭킹 데이터 fetch
-    fetch(`${BACKEND_URL}/api/ranking`) // 경로 수정
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+    const handleShare = async () => {
+        const shareText = `내 랭킹은 ${userPosition}등! 너도 도전해봐!`;
+        const shareUrl = window.location.href;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: '랭킹 공유',
+                    text: shareText,
+                    url: shareUrl,
+                });
+                alert('공유 성공!');
+            } catch (err) {
+                console.error('공유 중 오류 발생:', err);
+            }
+        } else {
+            // Web Share API 미지원 시 클립보드 복사
+            const fallbackText = `${shareText}\n${shareUrl}`;
+            navigator.clipboard.writeText(fallbackText);
+            alert('공유 URL이 클립보드에 복사되었습니다!');
         }
-        return response.json();
-      })
-      .then((jsonData) => {
-        // Get the nickname and score from Local Storage
-        const nickname = localStorage.getItem("nickname");
-        const score = parseInt(localStorage.getItem("score"), 10);
+    };
 
-        let highScore = parseInt(localStorage.getItem("highScore"), 10) || 0;
-        setNickname(nickname);
+    useEffect(() => {
+        const fetchRankings = async () => {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/ranking`);
+                if (!response.ok) throw new Error('Network response was not ok');
 
-        let updatedRankings = jsonData.rankings;
+                const jsonData = await response.json();
+                const nickname = localStorage.getItem('nickname');
+                const score = parseInt(localStorage.getItem('score'), 10);
 
-        if (nickname && !isNaN(score)) {
-          if (score > highScore) {
-            highScore = score;
-            localStorage.setItem("highScore", highScore);
-          }
+                let highScore = parseInt(localStorage.getItem('highScore'), 10) || 0;
+                setNickname(nickname);
 
-          updatedRankings = [...updatedRankings, { position: updatedRankings.length + 1, nickname, score: highScore }];
+                let updatedRankings = jsonData.rankings;
 
-          updatedRankings.sort((a, b) => b.score - a.score);
+                if (nickname && !isNaN(score)) {
+                    if (score > highScore) {
+                        highScore = score;
+                        localStorage.setItem('highScore', highScore);
+                    }
 
-          updatedRankings.forEach((rank, index) => {
-            rank.position = index + 1;
-          });
+                    updatedRankings = [...updatedRankings, { nickname, score: highScore }];
+                    updatedRankings.sort((a, b) => b.score - a.score);
 
-          const userRank = updatedRankings.find((rank) => rank.nickname === nickname && rank.score === highScore);
-          setUserPosition(userRank ? userRank.position : null);
-        }
+                    updatedRankings.forEach((rank, index) => {
+                        rank.position = index + 1;
+                    });
 
-        setRankings(updatedRankings);
-        setLoading(false); // 로딩 상태 해제
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false); // 로딩 상태 해제
-      });
-  }, [BACKEND_URL]);
+                    const userRank = updatedRankings.find(
+                        (rank) => rank.nickname === nickname && rank.score === highScore
+                    );
+                    setUserPosition(userRank ? userRank.position : null);
+                }
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+                setRankings(updatedRankings);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+        };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+        fetchRankings();
+    }, [BACKEND_URL]);
 
-  return (
-    <Layout>
-      <div className={styles.container}>
-        <div className={styles.title}>
-          {nickname ? `너 자신을 알라 ${nickname}, 너는 딸랑 ${userPosition}등` : "너 자신을 알라"}
-        </div>
-        <div className={styles.rankBox}>
-          <div className={styles.rankTitle}>RANK</div>
-          <div className={styles.rankList}>
-            {rankings.map((rank, index) => (
-              <div key={`${rank.nickname}-${index}`} className={styles.rankItem}>
-                {rank.position}. {rank.nickname} - {rank.score || rank.high_score}점
-              </div>
-            ))}
-          </div>
-        </div>
-        <button className={styles.retryButton} onClick={handleRetry}>
-          RETRY?
-        </button>
-      </div>
-    </Layout>
-  );
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    return (
+        <Layout>
+            <div className={styles.container}>
+                <div className={styles.title}>
+                    {nickname ? `너 자신을 알라 ${nickname}, 너는 ${userPosition}등` : '너 자신을 알라'}
+                </div>
+                <div className={styles.rankBox}>
+                    <div className={styles.rankTitle}>RANK</div>
+                    <div className={styles.rankList}>
+                        {rankings.map((rank, index) => (
+                            <div key={`${rank.nickname}-${index}`} className={styles.rankItem}>
+                                {rank.position}. {rank.nickname} - {rank.score}점
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <button className={styles.retryButton} onClick={handleRetry}>
+                    RETRY?
+                </button>
+                <button className={styles.shareButton} onClick={handleShare}>
+                    인스타그램에 공유하기
+                </button>
+            </div>
+        </Layout>
+    );
 };
 
 export default Ranking;
