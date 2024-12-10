@@ -118,7 +118,7 @@ const Home = () => {
                 </div>
 
                 {/* 힌트 텍스트 */}
-                <div className={styles.hint}>30초 기다리면 뭔가 나올지도...?</div>
+                <div className={styles.hint}>10초 기다리면 뭔가 나올지도...?</div>
 
                 {/* 이스터에그: 30초 후 나타나는 기가-돌핀 */}
                 {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
