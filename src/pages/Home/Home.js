@@ -37,7 +37,7 @@ const Home = () => {
         // 컴포넌트 마운트 후 30초 뒤 이스터에그 표시
         const timer = setTimeout(() => {
             setShowEasterEgg(true);
-        }, 30000);
+        }, 10000);
         return () => clearTimeout(timer);
     }, []);
 
