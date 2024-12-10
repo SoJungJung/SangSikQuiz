@@ -1,108 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&display=swap');
+
 .container {
     position: relative;
     width: 100%;
     height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e1e2f 0%, #232344 100%);
+    color: #fff;
+    font-family: 'Bungee', cursive;
 }
 
+/* 로딩, 에러, 없음 표시 */
+.loading,
+.error,
+.noQuiz {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 50px;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+/* 상단부 */
 .topdiv {
     position: relative;
     height: 195px;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: visible;
 }
 
 .lefttop {
     position: absolute;
     top: 0;
     left: 0;
+    width: 150px;
+    animation: floatLeft 3s infinite ease-in-out alternate;
 }
 
 .righttop {
     position: absolute;
     top: 0;
     right: 0;
+    width: 150px;
+    animation: floatRight 3s infinite ease-in-out alternate;
 }
 
+@keyframes floatLeft {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(10px);
+    }
+}
+
+@keyframes floatRight {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+
+/* 점수 표시 */
 .pointShow {
     position: relative;
     width: 206px;
     height: 67px;
-    right: 100px;
-    bottom: 20px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        filter: drop-shadow(0 0 5px #fff);
+    }
+    100% {
+        filter: drop-shadow(0 0 20px #ff0);
+    }
 }
 
 .point {
-    color: #000;
-    font-family: Inter, sans-serif;
-    font-style: normal;
-    font-size: 20px;
+    width: 50px;
 }
 
 .pointText {
-    position: absolute;
-    font-size: 35px;
-    top: 7px;
-    left: 10px;
-    color: white;
+    font-size: 25px;
+    color: #fff;
+    margin-top: 5px;
+    text-shadow: 2px 2px #000;
 }
 
+/* 퀴즈 영역 */
 .quizShow {
     position: relative;
-    width: 344px;
-    height: auto;
-    min-height: 196px;
-    overflow: visible;
-    background-color: #7a8b8b;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 100px;
-    padding: 10px;
+    width: 80%;
+    min-height: 150px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    margin: 50px auto 0 auto;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 0 20px #0005;
+    animation: quizPop 0.5s ease-out;
+}
+
+@keyframes quizPop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .quizText {
-    /* position: absolute; */
-    width: 300px;
-    text-align: left;
-    font-size: 30px;
-    overflow: hidden;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+    color: #fff;
 }
 
+/* 답변 영역 */
 .answerShow {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    margin-top: 30px;
     position: relative;
-    top: -60px;
 }
 
-.circleDiv {
-    position: relative;
-    display: flex; /* Flexbox 사용 */
-    align-items: center; /* 가운데 정렬 */
-}
-
+/* 보기를 구성하는 요소들 */
 .circle,
 .circle2,
 .circle3 {
-    width: 4rem; /* 기본 크기 */
-    height: 4rem; /* 기본 크기 */
+    width: 4rem;
+    height: 4rem;
     border-radius: 100%;
     position: relative;
-    left: 15px;
-    z-index: 2;
+    margin-right: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem; /* 텍스트 크기 */
-    transition: width 0.3s ease, height 0.3s ease, font-size 0.3s ease; /* 크기 변화 애니메이션 */
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px #000;
 }
 
 .circle {
@@ -117,44 +177,78 @@
     background-color: #ff6f61;
 }
 
+.circleText {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+}
+
+/* 각 보기 컨테이너 */
 .answerDiv {
     display: flex;
     align-items: center;
-    cursor: pointer;
-    opacity: 75%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
     margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .answerDiv:hover {
-    opacity: 100%;
+    transform: scale(1.02);
+    opacity: 1;
 }
 
 .midAnswerDiv {
-    margin: 15px 0 15px 0;
+    margin: 20px 0;
 }
 
+/* 정답박스 */
 .rectangle {
-    width: 270px;
     background-color: #fff9c4;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    right: 15px;
-    z-index: 1;
+    border-radius: 10px;
     padding: 10px;
     box-sizing: border-box;
-    transition: all 0.3s ease;
+    position: relative;
 }
 
 .rectangleText {
-    width: 235px;
-    font-style: normal;
-    font-size: 24px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
     text-align: center;
     word-wrap: break-word;
-    overflow: hidden;
+    color: #000;
 }
 
+/* 오답일 때 총 맞은 듯 사라지는 애니메이션 */
+.fired {
+    animation: bulletHit 0.7s forwards;
+}
+
+@keyframes bulletHit {
+    0% {
+        transform: translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+    30% {
+        transform: translateX(-10px) rotate(-5deg);
+    }
+    60% {
+        transform: translateX(20px) rotate(10deg) scale(0.8);
+    }
+    100% {
+        transform: translateX(200px) rotate(45deg) scale(0);
+        opacity: 0;
+    }
+}
+
+/* 하단 문제 번호 표시 */
 .numShow {
     position: absolute;
     bottom: 30px;
@@ -164,12 +258,15 @@
     border-radius: 20px;
     background-color: #5bc0eb;
     color: white;
-    font-size: 27px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'Press Start 2P', cursive;
+    box-shadow: 0 0 10px #0005;
 }
 
+/* 하단 이미지 */
 .bottomdiv {
     position: absolute;
     bottom: 10px;
@@ -177,7 +274,15 @@
 }
 
 .leftbottom {
-    position: relative;
-    bottom: 0;
-    left: 0;
+    width: 150px;
+    animation: floatLeftBottom 3s infinite ease-in-out alternate;
+}
+
+@keyframes floatLeftBottom {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
 }
