@@ -16,9 +16,8 @@ const Answer = () => {
     const [error, setError] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
 
-    // 뒤로 가기 방지 관련 변수
     const backPressCountRef = useRef(0);
-    const maxBackPress = 3; // 뒤로 가기 시도 횟수 제한
+    const maxBackPress = 3;
 
     useEffect(() => {
         fetch('/quote.json')
@@ -42,42 +41,31 @@ const Answer = () => {
             });
     }, [isRight]);
 
-    // 뒤로 가기 방지 기능 추가
     useEffect(() => {
         const preventGoBack = () => {
             backPressCountRef.current += 1;
-
-            console.log('뒤로가기를 시도했습니다.');
-
             if (backPressCountRef.current >= maxBackPress) {
-                alert('뒤로가기 하지마! 한번만 더 하면 너 진짜 바보야!');
-                console.log('조롱 메시지 출력됨');
+                alert('뒤로가기 계엄령 선포!');
             } else {
-                alert('뒤로가기는 안됩니다!');
-                console.log(`현재 뒤로가기 시도 횟수: ${backPressCountRef.current}`);
+                alert('뒤로가기 비상계엄!');
             }
-
             window.history.pushState(null, '', window.location.href);
         };
 
-        // 컴포넌트 마운트 시 히스토리 스택에 현재 상태를 추가
         window.history.pushState(null, '', window.location.href);
-
-        // popstate 이벤트 리스너 추가
         window.addEventListener('popstate', preventGoBack);
 
-        // 컴포넌트 언마운트 시 이벤트 리스너 제거
         return () => {
             window.removeEventListener('popstate', preventGoBack);
         };
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className={styles.loading}>Loading...</div>;
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div className={styles.error}>Error: {error}</div>;
     }
 
     const handleContinue = () => {
@@ -93,9 +81,11 @@ const Answer = () => {
                         <div className={styles.crtAswShowText}>정답: {correctAnswer}</div>
                     </div>
                 </div>
+
                 <div className={styles.rstImgShow}>
                     <img className={styles.rstImg} src={selectedImage} alt="ResultThing" />
                 </div>
+
                 {!isRight && (
                     <div className={styles.wrgAswShow}>
                         <div className={styles.wrgAswDiv}>
@@ -104,6 +94,7 @@ const Answer = () => {
                         </div>
                     </div>
                 )}
+
                 <div className={styles.quoteShow}>
                     <div className={styles.quoteText}>{quote && `"${quote.quote}" - ${quote.author}`}</div>
                 </div>

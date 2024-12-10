@@ -1,20 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Indie+Flower&display=swap');
+
 .greenBackground {
-    background-color: green;
+    background: linear-gradient(135deg, #00ff90, #00c470);
 }
 
 .redBackground {
-    background-color: red;
+    background: linear-gradient(135deg, #ff4444, #ff0000);
 }
 
 .container {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
+    font-family: 'Bungee', cursive;
+    color: #fff;
+}
+
+/* 도발적인 로딩/에러 스타일 */
+.loading,
+.error {
+    font-size: 24px;
+    font-family: 'Indie Flower', cursive;
+    color: #fff;
+    margin-top: 50px;
+    animation: pulse 1.2s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
 }
 
 .topdiv {
@@ -29,31 +53,43 @@
     justify-content: flex-start;
     align-items: center;
     position: relative;
+    transform: rotate(-2deg);
+    animation: wiggle 2s infinite ease-in-out;
+}
+
+@keyframes wiggle {
+    0% {
+        transform: rotate(-2deg);
+    }
+    50% {
+        transform: rotate(2deg);
+    }
+    100% {
+        transform: rotate(-2deg);
+    }
 }
 
 .crtAsw {
     margin-right: 10px;
     width: 390px;
     height: 130px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
+    background: #fff;
     border-radius: 50px;
-    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .crtAswShowText {
     width: 390px;
     height: 130px;
-    font-size: 24px;
-    color: #000000;
+    font-size: 28px;
+    color: #000;
     font-weight: bold;
     position: absolute;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
+    text-shadow: 2px 2px #fffd;
+    letter-spacing: 1px;
 }
 
 .rstImgShow {
@@ -63,19 +99,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 40px;
+    margin-top: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 20px #0007;
+    animation: floatImgShow 2s infinite alternate ease-in-out;
+}
+
+@keyframes floatImgShow {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
 }
 
 .rstImg {
-    position: relative;
     width: 70%;
     border-radius: 20px;
-    z-index: 1;
     max-width: 100%;
     max-height: 100%;
-    height: auto;
-    display: block;
+    z-index: 1;
 }
 
 .wrgAswShow {
@@ -83,37 +129,38 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 .wrgAswDiv {
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: rotate(2deg);
 }
 
 .wrgAsw {
     width: 390px;
     height: 130px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
+    background: #fff;
     border-radius: 50px;
-    padding: 10px;
-    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
 
 .wrgAswShowText {
     width: 360px;
     height: 130px;
     font-size: 24px;
-    color: #000000;
+    color: #000;
     font-weight: bold;
     position: absolute;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
+    text-shadow: 1px 1px #fff9;
+    letter-spacing: 1px;
+    font-family: 'Indie Flower', cursive;
 }
 
 .quoteShow {
@@ -122,32 +169,41 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffe0b2;
+    background: #ffe0b2;
     border-radius: 50px;
-    padding: 10px;
+    padding: 20px;
     text-align: center;
+    margin-top: 30px;
+    box-shadow: 0 0 15px #0005;
+    transform: rotate(-1deg);
 }
 
 .quoteText {
-    font-size: 20px;
-    color: #000000;
+    font-size: 22px;
+    color: #000;
     font-style: italic;
     font-weight: bold;
-    position: relative;
+    font-family: 'Indie Flower', cursive;
+    text-shadow: 1px 1px #fffa;
+    line-height: 1.4;
 }
 
-/* Style for the continue button */
 .cntButton {
-    background-color: #ffd700; /* Yellow */
-    color: #333333; /* Dark text for contrast */
-    font-size: 18px;
-    padding: 10px 20px;
+    background: linear-gradient(45deg, #ffd700, #ff9f00);
+    color: #333;
+    font-size: 20px;
+    padding: 14px 28px;
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 30px;
+    font-family: 'Bungee', cursive;
+    text-shadow: 1px 1px #fff9;
+    box-shadow: 0 0 10px #0003;
 }
 
 .cntButton:hover {
-    background-color: #ffc107; /* Darker yellow on hover */
+    transform: scale(1.05) rotate(-1deg);
+    box-shadow: 0 0 15px #0005;
 }
