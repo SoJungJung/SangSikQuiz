@@ -2,11 +2,13 @@
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #1e1e2f 0%, #232344 100%);
+    /* 부드러운 블루-퍼플 그라디언트 */
+    background: linear-gradient(135deg, #3a3d5f 0%, #5c5c8a 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 .title {
@@ -19,29 +21,41 @@
     text-align: center;
     width: 80%;
     margin-top: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+
+.title:hover {
+    transform: scale(1.02);
 }
 
 .rankBox {
     width: 80%;
     height: 450px;
-    background-color: #e0e0e0;
+    background-color: #ffffffcc;
     border-radius: 20px;
     padding: 20px;
     margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    transition: box-shadow 0.3s;
+}
+
+.rankBox:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
 }
 
 .rankTitle {
     font-size: 20px;
-    color: #000;
+    color: #333;
     font-weight: bold;
     margin-bottom: 15px;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid #333;
     padding-bottom: 5px;
+    letter-spacing: 1px;
 }
 
 .rankList {
@@ -50,17 +64,37 @@
     overflow-y: auto;
     padding-right: 10px;
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #ccc;
+}
+
+.rankList::-webkit-scrollbar {
+    width: 6px;
+}
+.rankList::-webkit-scrollbar-track {
+    background: #ccc;
+    border-radius: 3px;
+}
+.rankList::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
 }
 
 .rankItem {
-    background-color: #ffffff;
+    background: #fff;
     border-radius: 20px;
     padding: 10px;
     margin-bottom: 10px;
     font-size: 18px;
-    color: #000000;
+    color: #000;
     text-align: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.rankItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .shareButtons {
@@ -68,11 +102,12 @@
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
+    width: 80%;
 }
 
 .retryButton {
     background-color: #ffffff;
-    color: #000000;
+    color: #333;
     font-size: 18px;
     font-weight: bold;
     border: none;
@@ -80,22 +115,20 @@
     padding: 12px 24px;
     margin: 10px 0;
     cursor: pointer;
-    transition: background-color 0.3s;
-    width: 80%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.3s;
+    width: 100%;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
 .retryButton:hover {
     background-color: #f1f1f1;
+    transform: scale(1.03);
 }
 
 .instagramButton {
-    background: #f09433;
-    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    background: -webkit-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    background-size: 200% 200%;
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -104,9 +137,9 @@
     padding: 12px 24px;
     margin: 10px 0;
     cursor: pointer;
-    transition: transform 0.3s;
-    width: 80%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, background-position 0.5s;
+    width: 100%;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -115,6 +148,7 @@
 
 .instagramButton:hover {
     transform: scale(1.05);
+    background-position: right center;
 }
 
 .instagramIcon {
@@ -131,10 +165,13 @@
     color: #fff;
     font-size: 20px;
     margin-top: 50px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .error {
-    color: red;
+    color: #ff4444;
     font-size: 20px;
     margin-top: 50px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
