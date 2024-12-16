@@ -9,11 +9,11 @@ import Layout from '../../Layout';
 
 const Quiz = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // 초기 로딩 상태는 true
     const [error, setError] = useState(null);
 
     const [notLoading, setNotLoading] = useState(false);
-    const maxBackPress = 3;
+    const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
     const backPressCountRef = useRef(0);
 
     useEffect(() => {
@@ -96,10 +96,10 @@ const Quiz = () => {
                     setSelectedQuizzes(selectedQuestions);
                     localStorage.setItem('selectedQuizzes', JSON.stringify(selectedQuestions));
                 }
-                setLoading(false);
+                setLoading(false); // 데이터를 가져온 후 로딩 상태를 false로 변경
             } catch (err) {
                 setError(err.message);
-                setLoading(false);
+                setLoading(false); // 에러가 발생해도 로딩 상태를 false로 변경
             }
         };
 
@@ -125,49 +125,42 @@ const Quiz = () => {
             localStorage.setItem('correctAnswersCount', newCorrectAnswersCount);
             localStorage.setItem('score', newScore);
 
-            // 오답이면 보기들을 날아가게 하는 클래스를 body에 추가 -> css에서 애니메이션 처리
-            if (!isRight) {
-                document.body.classList.add('wrongAnswers');
+            if (newQuestionIndex < 10) {
+                navigate(
+                    `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
+                        correctAnswer
+                    )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
+                );
+            } else {
+                localStorage.setItem('score', newScore);
+                localStorage.setItem('totalQuestions', 10);
+
+                localStorage.removeItem('selectedQuizzes');
+                localStorage.removeItem('currentQuestionIndex');
+                localStorage.removeItem('correctAnswersCount');
+                setNotLoading(true);
             }
-
-            setTimeout(() => {
-                if (newQuestionIndex < 10) {
-                    navigate(
-                        `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
-                            correctAnswer
-                        )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
-                    );
-                } else {
-                    localStorage.setItem('score', newScore);
-                    localStorage.setItem('totalQuestions', 10);
-
-                    localStorage.removeItem('selectedQuizzes');
-                    localStorage.removeItem('currentQuestionIndex');
-                    localStorage.removeItem('correctAnswersCount');
-                    setNotLoading(true);
-                }
-                document.body.classList.remove('wrongAnswers');
-            }, 500); // 애니메이션 감상을 위해 약간의 지연
         },
         [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
     );
 
     useEffect(() => {
         if (notLoading) {
-            navigate('/result');
+            navigate(`/result`);
         }
     }, [notLoading, navigate]);
 
+    // 로딩 상태 처리
     if (loading) {
-        return <div className={styles.loading}>Loading...</div>;
+        return <div>Loading...</div>;
     }
 
     if (error) {
-        return <div className={styles.error}>Error: {error}</div>;
+        return <div>Error: {error}</div>;
     }
 
     if (!randomQuiz) {
-        return <div className={styles.noData}>No quiz data available</div>;
+        return <div>No quiz data available</div>; // 퀴즈 데이터가 없을 때 처리
     }
 
     const circleClasses = [styles.circle, styles.circle2, styles.circle3];
@@ -194,7 +187,6 @@ const Quiz = () => {
                             key={index}
                             className={`${styles.answerDiv} ${index === 1 ? styles.midAnswerDiv : ''}`}
                             onClick={() => handleDivClick(ans, ans.TRUE !== undefined)}
-                            data-isright={ans.TRUE !== undefined}
                         >
                             <div className={circleClasses[index % circleClasses.length]}>
                                 <div className={styles.circleText}>{index + 1}</div>
