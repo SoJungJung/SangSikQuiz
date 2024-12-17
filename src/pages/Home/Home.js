@@ -91,7 +91,7 @@ const Home = () => {
                                     <div className={styles.rankingHintText}>
                                         "← 누르면 <span className={styles.highlight}>절대</span> 랭킹으로 안 넘어감"
                                         <br />
-                                        (근데 이미 클릭했으니 곧 넘어가!)
+                                        (근데 왜 클릭했노 게이야!)
                                     </div>
                                 </div>
                             )}
