@@ -10,7 +10,7 @@ import cartoon2 from './cartoon2.png';
 import audio1 from './audio1.mp3';
 import audio2 from './audio2.mp3';
 import audio3 from './audio3.mp3';
-import gigaDolphin from './gigaDolphin.png'; // 기가-돌핀 이미지
+import gigaDolphin from './gigaDolphin.png';
 import styles from './Home.module.css';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
@@ -22,6 +22,7 @@ const Home = () => {
     const [audio] = useState(new Audio());
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const [stormAnimation, setStormAnimation] = useState(false);
+    const [showRankingHint, setShowRankingHint] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -55,13 +56,11 @@ const Home = () => {
     };
 
     const handleOttoClick = () => {
-        // 비스마르크 클릭 시 폭풍 애니메이션 시작
         setStormAnimation(true);
-        // 애니메이션 동안 조작 불가하게 할 수도 있음.
-        // 일정 시간 후 /ranking으로 이동
+        setShowRankingHint(true); // 랭킹으로 넘어가는 안내를 보여줌
         setTimeout(() => {
             navigate('/ranking');
-        }, 3000); // 3초 후 이동 (애니메이션 시간에 맞게 조정)
+        }, 3000); // 3초 후 이동
     };
 
     return (
@@ -78,14 +77,25 @@ const Home = () => {
                 </div>
                 <div className={styles.middiv}>
                     <div className={styles.mid1}>
-                        <img
-                            className={`${styles.otto} ${stormAnimation ? styles.storming : ''}`}
-                            src={otto}
-                            alt="otto"
-                            title="오토 폰 비스마르크"
-                            onClick={handleOttoClick}
-                            style={{ cursor: 'pointer' }}
-                        />
+                        <div className={styles.ottoWrapper}>
+                            <img
+                                className={`${styles.otto} ${stormAnimation ? styles.storming : ''}`}
+                                src={otto}
+                                alt="otto"
+                                title="오토 폰 비스마르크"
+                                onClick={handleOttoClick}
+                                style={{ cursor: 'pointer' }}
+                            />
+                            {showRankingHint && (
+                                <div className={styles.rankingHintBubble}>
+                                    <div className={styles.rankingHintText}>
+                                        "← 누르면 <span className={styles.highlight}>절대</span> 랭킹으로 안 넘어감"
+                                        <br />
+                                        (근데 이미 클릭했으니 곧 넘어가!)
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className={styles.mid2}>
                         <div className={styles.cartoonTextBox}>
@@ -102,7 +112,7 @@ const Home = () => {
                             placeholder="닉네임을 입력해라"
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}
-                            disabled={stormAnimation} // 애니메이션 중 입력 비활성화
+                            disabled={stormAnimation}
                         />
                         <button className={styles.start} onClick={handleClickNext} disabled={stormAnimation}>
                             시작하기
