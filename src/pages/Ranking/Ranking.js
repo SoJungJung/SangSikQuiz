@@ -14,6 +14,7 @@ const Ranking = () => {
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
     const handleRetry = () => {
+        localStorage.clear();
         localStorage.removeItem('currentQuestionIndex');
         localStorage.removeItem('correctAnswersCount');
         localStorage.removeItem('score');
@@ -53,7 +54,7 @@ const Ranking = () => {
             }
         } catch (error) {
             console.error('스크린샷 저장 및 공유 중 오류:', error);
-            alert('스크린샷 저장...근데 실패를 곁들인...');
+            alert('결과 저장에 실패했습니다. 스크린샷이 저장되었는지 확인 후 수동으로 업로드해주세요.');
         }
     };
 
@@ -66,29 +67,26 @@ const Ranking = () => {
                 const jsonData = await response.json();
                 const userNickname = localStorage.getItem('nickname');
                 const score = parseInt(localStorage.getItem('score'), 10);
-
                 let highScore = parseInt(localStorage.getItem('highScore'), 10) || 0;
+
                 setNickname(userNickname);
 
-                let updatedRankings = jsonData.rankings;
+                //서버로부터 받아온 랭킹 데이터 활용
+                let updatedRankings = jsonData.rankings || [];
 
-                if (userNickname && !isNaN(score)) {
-                    if (score > highScore) {
-                        highScore = score;
-                        localStorage.setItem('highScore', highScore);
-                    }
-
-                    updatedRankings = [...updatedRankings, { nickname: userNickname, score: highScore }];
-                    updatedRankings.sort((a, b) => b.score - a.score);
-
-                    updatedRankings.forEach((rank, index) => {
-                        rank.position = index + 1;
-                    });
-
+                // 사용자 순위 찾기
+                if (userNickname) {
+                    const userHighScore = Math.max(score, highScore);
                     const userRank = updatedRankings.find(
-                        (rank) => rank.nickname === userNickname && rank.score === highScore
+                        (rank) => rank.nickname === userNickname && rank.high_score === userHighScore
                     );
-                    setUserPosition(userRank ? userRank.position : null);
+
+                    if (userRank) {
+                        setUserPosition(userRank.position);
+                    } else {
+                        // 유저가 top 100안에 없을 경우 별도 처리 가능
+                        setUserPosition(null);
+                    }
                 }
 
                 setRankings(updatedRankings);
@@ -121,7 +119,7 @@ const Ranking = () => {
                     <div className={styles.rankList}>
                         {rankings.map((rank, index) => (
                             <div key={`${rank.nickname}-${index}`} className={styles.rankItem}>
-                                {rank.position}. {rank.nickname} - {rank.score}점
+                                {rank.position}. {rank.nickname} - {rank.highScore}점
                             </div>
                         ))}
                     </div>
