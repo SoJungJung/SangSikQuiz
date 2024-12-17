@@ -10,7 +10,7 @@ import cartoon2 from './cartoon2.png';
 import audio1 from './audio1.mp3';
 import audio2 from './audio2.mp3';
 import audio3 from './audio3.mp3';
-import gigaDolphin from './gigaDolphin.png'; // 기가-돌핀 이미지
+import gigaDolphin from './gigaDolphin.png';
 import styles from './Home.module.css';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
@@ -20,25 +20,24 @@ const Home = () => {
     const [nickname, setNickname] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
     const [audio] = useState(new Audio());
-    const [backendMessage, setBackendMessage] = useState('Loading...');
     const [showEasterEgg, setShowEasterEgg] = useState(false);
+    const [stormAnimation, setStormAnimation] = useState(false); // 폭풍 애니메이션 상태
+    const [showRankingHint, setShowRankingHint] = useState(false);
+    const [showWhyBubble, setShowWhyBubble] = useState(false);
 
     useEffect(() => {
-        fetch('https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app/api/ping')
-            .then((response) => response.json())
-            .then((data) => setBackendMessage(data.message))
-            .catch((error) => {
-                console.error('Error connecting to the backend:', error);
-                setBackendMessage('Error connecting to the backend');
-            });
-    }, []);
-
-    useEffect(() => {
-        // 10초 뒤 이스터에그 표시
-        const timer = setTimeout(() => {
+        const easterEggTimer = setTimeout(() => {
             setShowEasterEgg(true);
         }, 10000);
-        return () => clearTimeout(timer);
+
+        const hintTimer = setTimeout(() => {
+            setShowRankingHint(true);
+        }, 5000);
+
+        return () => {
+            clearTimeout(easterEggTimer);
+            clearTimeout(hintTimer);
+        };
     }, []);
 
     const handlePlayAudio = () => {
@@ -65,9 +64,21 @@ const Home = () => {
         }
     };
 
+    const handleOttoClick = () => {
+        // 폭풍 애니메이션 시작
+        setStormAnimation(true);
+        // "왜 눌렀노 게이야~" 말풍선 표시
+        setShowWhyBubble(true);
+        // 3초 뒤 랭킹 페이지로 이동
+        setTimeout(() => {
+            navigate('/ranking');
+        }, 3000);
+    };
+
     return (
         <Layout>
-            <div className={styles.container}>
+            {/* stormAnimation이 true일 때 container에 stormingContainer 클래스 추가 */}
+            <div className={`${styles.container} ${stormAnimation ? styles.stormingContainer : ''}`}>
                 <div className={styles.topdiv}>
                     <img className={styles.lefttop} src={lefttop} alt="lefttop" />
                     <img className={styles.righttop} src={righttop} alt="righttop" />
@@ -79,7 +90,25 @@ const Home = () => {
                 </div>
                 <div className={styles.middiv}>
                     <div className={styles.mid1}>
-                        <img className={styles.otto} src={otto} alt="otto" title="오토 폰 비스마르크" />
+                        <div className={styles.ottoWrapper}>
+                            {/* stormAnimation이 true일 때 otto 이미지에 storming 클래스 추가 */}
+                            <img
+                                className={`${styles.otto} ${stormAnimation ? styles.storming : ''}`}
+                                src={otto}
+                                alt="otto"
+                                title="오토 폰 비스마르크"
+                                onClick={handleOttoClick}
+                                style={{ cursor: 'pointer' }}
+                            />
+                            {showRankingHint && !stormAnimation && (
+                                <div className={styles.rankingHintBubble}>
+                                    <div className={styles.rankingHintText}>
+                                        "← 누르면 <span className={styles.highlight}>절대</span> 랭킹으로 안 넘어감"
+                                    </div>
+                                </div>
+                            )}
+                            {showWhyBubble && <div className={styles.whyBubble}>"왜 눌렀노~"</div>}
+                        </div>
                     </div>
                     <div className={styles.mid2}>
                         <div className={styles.cartoonTextBox}>
@@ -96,16 +125,23 @@ const Home = () => {
                             placeholder="닉네임을 입력해라"
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}
+                            disabled={stormAnimation}
                         />
-                        <button className={styles.start} onClick={handleClickNext}>
+                        <button className={styles.start} onClick={handleClickNext} disabled={stormAnimation}>
                             시작하기
                         </button>
                     </div>
                     <div className={styles.mid3}>
-                        <button className={styles.audioButton} onClick={handlePlayAudio}>
+                        <button className={styles.audioButton} onClick={handlePlayAudio} disabled={stormAnimation}>
                             {isPlaying ? '오디오 정지' : '오디오 재생'}
                         </button>
-                        <img className={styles.trump} src={trump} alt="trump" title="도널드 트럼프" />
+                        {/* trump, duce에도 stormAnimation 시 storming 클래스 적용 */}
+                        <img
+                            className={`${styles.trump} ${stormAnimation ? styles.storming : ''}`}
+                            src={trump}
+                            alt="trump"
+                            title="도널드 트럼프"
+                        />
                     </div>
                 </div>
                 <div className={styles.blw}>
@@ -114,17 +150,16 @@ const Home = () => {
                         <div className={styles.cartoonText3}>유익한!</div>
                     </div>
                     <img className={styles.leftbottom} src={leftbottom} alt="leftbottom" />
-                    <img className={styles.duce} src={duce} alt="duce" title="베니토 무솔리니" />
+                    <img
+                        className={`${styles.duce} ${stormAnimation ? styles.storming : ''}`}
+                        src={duce}
+                        alt="duce"
+                        title="베니토 무솔리니"
+                    />
                 </div>
 
-                {/* 힌트 텍스트 */}
                 <div className={styles.hint}>10초 기다리면 뭔가 나올지도...?</div>
-
-                {/* 이스터에그: 10초 후 나타나는 기가-돌핀 */}
                 {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
-
-                {/* 디버깅용 백엔드 메시지 표시 */}
-                {/* <div className={styles.backendMessage}>Backend: {backendMessage}</div> */}
             </div>
         </Layout>
     );

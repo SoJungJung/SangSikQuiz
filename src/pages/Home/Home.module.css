@@ -7,6 +7,18 @@
     font-family: 'Nanum Gothic', sans-serif;
 }
 
+/* 폭풍 애니메이션 시 컨테이너에 적용할 클래스 (필요시 배경 변화 가능) */
+.stormingContainer {
+    animation: stormRotate 3s ease-in-out forwards;
+    transform-origin: center center;
+    animation: backgroundFadeOut 2s forwards;
+    @keyframes backgroundFadeOut {
+        100% {
+            background: #000;
+        }
+    }
+}
+
 /* 상단 영역 */
 .topdiv {
     position: relative;
@@ -327,5 +339,113 @@
     }
     100% {
         transform: translateX(20px) rotate(5deg);
+    }
+}
+
+/* 폭풍 애니메이션 */
+.storming {
+    position: absolute !important;
+    animation: stormRotate 3s ease-in-out forwards;
+    z-index: 9999;
+}
+
+@keyframes stormRotate {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(50%, -50%) rotate(360deg) scale(1.2);
+    }
+    100% {
+        transform: translate(calc(50vw - 50%), calc(50vh - 50%)) rotate(720deg) scale(0.5);
+    }
+}
+
+/* otto, trump, duce transform-origin */
+.otto,
+.trump,
+.duce {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.otto.storming,
+.trump.storming,
+.duce.storming {
+    transform-origin: center center;
+}
+
+/* 말풍선들 */
+.ottoWrapper {
+    position: relative;
+}
+
+.rankingHintBubble {
+    position: absolute;
+    top: 10px;
+    left: 120px;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    width: 220px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    animation: shakeHint 1s infinite alternate;
+    z-index: 999;
+}
+
+.rankingHintText {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #000;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.highlight {
+    color: red;
+    font-weight: bold;
+}
+
+.whyBubble {
+    position: absolute;
+    top: 10px;
+    left: 30%;
+    margin-left: 10px;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    animation: fadeInOut 3s forwards;
+    z-index: 1000;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes shakeHint {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-3px);
+    }
+    100% {
+        transform: translateX(3px);
     }
 }
