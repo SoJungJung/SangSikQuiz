@@ -23,15 +23,13 @@ const Home = () => {
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const [stormAnimation, setStormAnimation] = useState(false);
     const [showRankingHint, setShowRankingHint] = useState(false);
-    const [showWhyBubble, setShowWhyBubble] = useState(false); // "왜 눌렀노" 말풍선 표시 상태
+    const [showWhyBubble, setShowWhyBubble] = useState(false);
 
     useEffect(() => {
-        // 10초 뒤 이스터에그 표시
         const easterEggTimer = setTimeout(() => {
             setShowEasterEgg(true);
         }, 10000);
 
-        // 5초 뒤 랭킹 힌트 말풍선 표시
         const hintTimer = setTimeout(() => {
             setShowRankingHint(true);
         }, 5000);
@@ -67,11 +65,11 @@ const Home = () => {
     };
 
     const handleOttoClick = () => {
-        // 비스마르크 클릭 시 폭풍 애니메이션 시작
+        // 폭풍 애니메이션 시작
         setStormAnimation(true);
         // "왜 눌렀노 게이야~" 말풍선 표시
         setShowWhyBubble(true);
-        // 클릭 후 3초 뒤 /ranking으로 이동
+        // 3초 뒤 랭킹 페이지로 이동
         setTimeout(() => {
             navigate('/ranking');
         }, 3000);
@@ -79,7 +77,7 @@ const Home = () => {
 
     return (
         <Layout>
-            <div className={styles.container}>
+            <div className={`${styles.container} ${stormAnimation ? styles.stormingContainer : ''}`}>
                 <div className={styles.topdiv}>
                     <img className={styles.lefttop} src={lefttop} alt="lefttop" />
                     <img className={styles.righttop} src={righttop} alt="righttop" />
@@ -104,10 +102,12 @@ const Home = () => {
                                 <div className={styles.rankingHintBubble}>
                                     <div className={styles.rankingHintText}>
                                         "← 누르면 <span className={styles.highlight}>절대</span> 랭킹으로 안 넘어감"
+                                        <br />
+                                        (농담이야, 진짜 누르면 폭풍 회전 후 넘어갈걸?)
                                     </div>
                                 </div>
                             )}
-                            {showWhyBubble && <div className={styles.whyBubble}>"왜 눌렀노~"</div>}
+                            {showWhyBubble && <div className={styles.whyBubble}>"왜 눌렀노 게이야~"</div>}
                         </div>
                     </div>
                     <div className={styles.mid2}>

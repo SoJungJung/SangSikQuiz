@@ -330,10 +330,11 @@
     }
 }
 
+/* 폭풍 애니메이션 */
 .storming {
     position: absolute !important;
     animation: stormRotate 3s ease-in-out forwards;
-    z-index: 9999; /* 최상위 */
+    z-index: 9999;
 }
 
 @keyframes stormRotate {
@@ -345,35 +346,23 @@
     }
     100% {
         transform: translate(calc(50vw - 50%), calc(50vh - 50%)) rotate(720deg) scale(0.5);
-        /* 화면 중앙에 모으는 예: 절대 중앙 계산 필요시 다른 방식 적용 가능 */
     }
 }
 
-/* .otto, .trump, .duce의 기본 위치가 relative라면 position: absolute;로 변경 필요할 수 있음.
-   또는 .storming을 통해 position:absolute;를 강제한 후, 애니메이션으로 이동.
-   예를 들어 transform-origin을 중앙으로 하기 위해 transform-origin 설정을 할 수도 있음. */
-
+/* otto, trump, duce 이미지들의 transform-origin */
 .otto,
 .trump,
 .duce {
     transition: transform 0.3s ease, filter 0.3s ease;
-    /* stormAnimation 시 위치, 회전을 효과적으로 중앙에 모으려면
-       relative에서 absolute로 변경 필요. 이 경우 parent relative 필요 */
 }
 
-/* 홈 컨테이너를 position: relative;로 두고, 인물 이미지들을
-   애니메이션 시 절대 위치로 잡아 중앙으로 이동하는 방식을 사용. */
-.container {
-    position: relative; /* 부모 relative */
-}
-
-/* 필요시 transform-origin 조정 */
 .otto.storming,
 .trump.storming,
 .duce.storming {
     transform-origin: center center;
 }
 
+/* 말풍선들 */
 .ottoWrapper {
     position: relative;
 }
@@ -422,7 +411,6 @@
     z-index: 1000;
 }
 
-/* "왜 눌렀노 게이야~" 말풍선 등장 후 천천히 사라지게 할 수도 있음 */
 @keyframes fadeInOut {
     0% {
         opacity: 0;
