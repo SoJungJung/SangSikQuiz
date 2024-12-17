@@ -2,9 +2,24 @@
     position: relative;
     width: 100%;
     height: 100vh;
-    background: linear-gradient(to bottom right, #e0e0e0, #b0b0b0);
+    /* 네온 그라데이션 배경 + 애니메이션 */
+    background: linear-gradient(-45deg, #ff00c8, #ff8a00, #00ffd5, #0066ff);
+    background-size: 400% 400%;
+    animation: bgAnimation 10s ease-in-out infinite;
     overflow: hidden;
     font-family: 'Nanum Gothic', sans-serif;
+}
+
+@keyframes bgAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* 상단 영역 */
@@ -13,40 +28,61 @@
     height: 195px;
 }
 
-.lefttop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: filter 0.3s ease, box-shadow 0.3s ease;
-}
-.lefttop:hover {
-    filter: brightness(1.1) saturate(1.3);
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-}
-
+.lefttop,
 .righttop {
     position: absolute;
     top: 0;
-    right: 0;
     transition: filter 0.3s ease, box-shadow 0.3s ease;
-}
-.righttop:hover {
-    filter: brightness(1.1) saturate(1.3);
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+    width: 200px;
 }
 
+.lefttop {
+    left: 0;
+}
+.righttop {
+    right: 0;
+}
+
+.lefttop:hover,
+.righttop:hover {
+    filter: hue-rotate(45deg) brightness(1.2);
+    box-shadow: 0 0 15px #fff;
+}
+
+/* 제목: 글리치 효과 + 네온 텍스트 */
 .title {
-    color: #000;
-    text-align: center;
-    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.25);
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #000;
-    font-family: 'Miltonian', cursive;
-    font-size: 50px;
-    font-weight: 700;
     position: absolute;
     top: 73px;
     width: 100%;
+    font-size: 60px;
+    font-weight: 700;
+    font-family: 'Miltonian', cursive;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px #fff, 0 0 10px #ff00c8, 0 0 20px #ff8a00, 0 0 40px #00ffd5, 0 0 80px #0066ff;
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+    0% {
+        transform: skew(0deg);
+    }
+    20% {
+        transform: skew(5deg);
+    }
+    40% {
+        transform: skew(-5deg);
+    }
+    60% {
+        transform: skew(3deg);
+    }
+    80% {
+        transform: skew(-3deg);
+    }
+    100% {
+        transform: skew(0deg);
+    }
 }
 
 /* 중앙부 */
@@ -55,31 +91,85 @@
     margin-top: 20px;
 }
 
-.mid1 {
+.mid1,
+.mid3 {
     width: 188px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.otto {
+/* 인물 이미지: 호버 시 흔들(hshake) + 네온글로우 */
+.otto,
+.trump,
+.duce {
     width: 100%;
-    border: 3px solid #333;
+    border: 3px solid #fff;
     transition: transform 0.3s ease, filter 0.3s ease;
-    filter: hue-rotate(20deg);
-}
-.otto:hover {
-    transform: scale(1.1);
-    filter: hue-rotate(40deg) saturate(1.5);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    filter: saturate(1.2);
 }
 
-/* 중간 텍스트 및 말풍선 */
+.otto:hover,
+.trump:hover,
+.duce:hover {
+    transform: scale(1.15) translateX(2px);
+    filter: saturate(2) hue-rotate(30deg) brightness(1.2);
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0) scale(1.15);
+    }
+    25% {
+        transform: translateX(-5px) scale(1.15);
+    }
+    50% {
+        transform: translateX(5px) scale(1.15);
+    }
+    75% {
+        transform: translateX(-5px) scale(1.15);
+    }
+}
+
+/* 말풍선 이미지와 텍스트 */
 .mid2 {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 20px;
+}
+
+.cartoon,
+.cartoon2,
+.cartoon3 {
+    width: 190px;
+    position: absolute;
+    z-index: 1;
+    filter: hue-rotate(20deg) brightness(1.1);
+}
+
+.cartoonText,
+.cartoonText2,
+.cartoonText3 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 3px #000, 0 0 5px #ff0;
+    animation: pulseText 1.5s infinite alternate;
+    font-family: 'Miltonian', cursive;
+}
+
+@keyframes pulseText {
+    0% {
+        transform: scale(1);
+        color: #fff;
+    }
+    100% {
+        transform: scale(1.1);
+        color: #ff0;
+    }
 }
 
 .cartoonTextBox {
@@ -91,38 +181,6 @@
     align-items: center;
 }
 
-.cartoon2,
-.cartoon,
-.cartoon3 {
-    width: 190px;
-    position: absolute;
-    z-index: 1;
-}
-
-.cartoonText,
-.cartoonText2,
-.cartoonText3 {
-    font-family: Inter, sans-serif;
-    text-align: center;
-    font-size: 36px;
-    position: relative;
-    z-index: 2;
-    font-weight: bold;
-    color: #333;
-    text-shadow: 0px 0px 3px #fff;
-    /* 힘찬 느낌을 위한 약간의 스케일 에니메이션 */
-    animation: pulseText 2s infinite alternate;
-}
-
-@keyframes pulseText {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.05);
-    }
-}
-
 .midMargin {
     height: 15px;
 }
@@ -132,21 +190,19 @@
     width: 196px;
     height: 51px;
     background: #fff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: #555;
-    font-family: Inter, sans-serif;
+    box-shadow: 0px 0px 10px 2px #ff00c8;
+    color: #000;
     font-size: 20px;
-    font-weight: 400;
     margin: 15px 0;
     padding-left: 15px;
-    border: 2px solid #333;
+    border: 2px solid #ff00c8;
     border-radius: 10px;
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .nicknameInput:focus {
     outline: none;
-    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-    border-color: #ffc107;
+    box-shadow: 0 0 15px #ff8a00;
+    border-color: #ff8a00;
 }
 
 /* 시작 버튼 */
@@ -161,26 +217,18 @@
     font-family: 'Miltonian', cursive;
     font-size: 30px;
     font-weight: 400;
-    border: none;
+    border: 3px solid #fff;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    border: 3px solid #333;
+    text-transform: uppercase;
 }
 .start:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
-    background: #ffd633;
+    transform: scale(1.1);
+    background: #ff8a00;
+    box-shadow: 0 0 15px #fff, 0 0 30px #ff00c8;
 }
 
-/* 오른쪽 인물 (트럼프) */
-.mid3 {
-    width: 160px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
+/* 오디오 버튼 */
 .audioButton {
     position: absolute;
     top: 155px;
@@ -190,25 +238,12 @@
     cursor: pointer;
     padding: 5px;
     font-size: 14px;
-    transform: rotate(-10deg);
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 .audioButton:hover {
-    transform: scale(1.1) rotate(-10deg);
-    background: #f2c66d;
-}
-
-.trump {
-    width: 100%;
-    margin-top: 160px;
-    border: 3px solid #333;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    filter: saturate(1.2);
-}
-.trump:hover {
     transform: scale(1.1);
-    filter: saturate(2) hue-rotate(30deg);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    background: #ffd700;
+    box-shadow: 0 0 10px #fff, 0 0 20px #00ffd5;
 }
 
 /* 하단 영역 */
@@ -224,46 +259,32 @@
     left: 0;
     bottom: 0;
     transition: filter 0.3s ease, box-shadow 0.3s ease;
+    width: 200px;
 }
 .leftbottom:hover {
-    filter: brightness(1.1) saturate(1.3);
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    filter: hue-rotate(100deg) brightness(1.3);
+    box-shadow: 0 0 20px #0066ff;
 }
 
+/* 듀체 (무솔리니) 이미지 이미 위에 정의 */
 .duce {
     position: absolute;
     right: 0px;
     bottom: 0px;
-    border: 3px solid #333;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    filter: contrast(1.1);
-}
-.duce:hover {
-    transform: scale(1.1);
-    filter: contrast(1.3) hue-rotate(-20deg);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    width: 200px;
 }
 
-.bottomCartoonDiv {
-    position: relative;
-    height: 93px;
-    width: 190px;
-    left: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* 이스터에그 기가 돌핀 */
+/* 기가 돌핀 */
 .gigaDolphin {
     position: absolute;
     bottom: 100px;
     right: 100px;
-    width: 100px;
-    transition: transform 0.3s ease;
+    width: 120px;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 .gigaDolphin:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
+    filter: hue-rotate(90deg) brightness(1.2);
 }
 
 /* 힌트 텍스트 */
@@ -272,6 +293,7 @@
     bottom: 10px;
     right: 10px;
     font-size: 12px;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.8);
     font-family: Arial, sans-serif;
+    text-shadow: 0 0 5px #fff;
 }
