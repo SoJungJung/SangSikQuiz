@@ -2,11 +2,12 @@
     position: relative;
     width: 100%;
     height: 100vh;
-    background: linear-gradient(to bottom right, #f0f0f0, #ccc);
+    background: linear-gradient(to bottom right, #e0e0e0, #b0b0b0);
     overflow: hidden;
     font-family: 'Nanum Gothic', sans-serif;
 }
 
+/* 상단 영역 */
 .topdiv {
     position: relative;
     height: 195px;
@@ -16,13 +17,22 @@
     position: absolute;
     top: 0;
     left: 0;
-    animation: floatX 4s ease-in-out infinite alternate;
+    transition: filter 0.3s ease, box-shadow 0.3s ease;
 }
+.lefttop:hover {
+    filter: brightness(1.1) saturate(1.3);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
 .righttop {
     position: absolute;
     top: 0;
     right: 0;
-    animation: floatX 4s ease-in-out infinite alternate-reverse;
+    transition: filter 0.3s ease, box-shadow 0.3s ease;
+}
+.righttop:hover {
+    filter: brightness(1.1) saturate(1.3);
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
 }
 
 .title {
@@ -54,13 +64,17 @@
 
 .otto {
     width: 100%;
-    transition: transform 0.3s ease;
+    border: 3px solid #333;
+    transition: transform 0.3s ease, filter 0.3s ease;
     filter: hue-rotate(20deg);
 }
 .otto:hover {
-    transform: scale(1.05) rotate(-5deg);
+    transform: scale(1.1);
+    filter: hue-rotate(40deg) saturate(1.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
+/* 중간 텍스트 및 말풍선 */
 .mid2 {
     display: flex;
     flex-direction: column;
@@ -77,12 +91,9 @@
     align-items: center;
 }
 
-.cartoon2 {
-    width: 190px;
-    position: absolute;
-    z-index: 1;
-}
-.cartoon {
+.cartoon2,
+.cartoon,
+.cartoon3 {
     width: 190px;
     position: absolute;
     z-index: 1;
@@ -99,12 +110,24 @@
     font-weight: bold;
     color: #333;
     text-shadow: 0px 0px 3px #fff;
+    /* 힘찬 느낌을 위한 약간의 스케일 에니메이션 */
+    animation: pulseText 2s infinite alternate;
+}
+
+@keyframes pulseText {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
 }
 
 .midMargin {
     height: 15px;
 }
 
+/* 닉네임 입력 */
 .nicknameInput {
     width: 196px;
     height: 51px;
@@ -116,15 +139,17 @@
     font-weight: 400;
     margin: 15px 0;
     padding-left: 15px;
-    border: none;
+    border: 2px solid #333;
     border-radius: 10px;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .nicknameInput:focus {
     outline: none;
     box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+    border-color: #ffc107;
 }
 
+/* 시작 버튼 */
 .start {
     display: inline-flex;
     padding: 14px 28px;
@@ -138,13 +163,16 @@
     font-weight: 400;
     border: none;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    border: 3px solid #333;
 }
 .start:hover {
     transform: scale(1.05);
     box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
+    background: #ffd633;
 }
 
+/* 오른쪽 인물 (트럼프) */
 .mid3 {
     width: 160px;
     position: relative;
@@ -162,25 +190,28 @@
     cursor: pointer;
     padding: 5px;
     font-size: 14px;
-    transform: rotate(-29.5deg);
-    transition: transform 0.3s ease;
+    transform: rotate(-10deg);
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 .audioButton:hover {
-    transform: rotate(-29.5deg) scale(1.1);
-    box-shadow: 0 0 10px #f4dca2;
+    transform: scale(1.1) rotate(-10deg);
+    background: #f2c66d;
 }
 
 .trump {
     width: 100%;
     margin-top: 160px;
-    transition: filter 0.3s ease;
+    border: 3px solid #333;
+    transition: transform 0.3s ease, filter 0.3s ease;
     filter: saturate(1.2);
 }
 .trump:hover {
-    filter: saturate(2) hue-rotate(45deg);
+    transform: scale(1.1);
+    filter: saturate(2) hue-rotate(30deg);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-/* 아래 영역 */
+/* 하단 영역 */
 .blw {
     width: 100%;
     height: 297px;
@@ -192,18 +223,25 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    animation: floatY 3s ease-in-out infinite alternate;
+    transition: filter 0.3s ease, box-shadow 0.3s ease;
+}
+.leftbottom:hover {
+    filter: brightness(1.1) saturate(1.3);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
 }
 
 .duce {
     position: absolute;
     right: 0px;
     bottom: 0px;
-    transition: transform 0.3s ease;
+    border: 3px solid #333;
+    transition: transform 0.3s ease, filter 0.3s ease;
     filter: contrast(1.1);
 }
 .duce:hover {
-    transform: scale(1.05) rotate(3deg);
+    transform: scale(1.1);
+    filter: contrast(1.3) hue-rotate(-20deg);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .bottomCartoonDiv {
@@ -216,10 +254,16 @@
     align-items: center;
 }
 
-.cartoon3 {
-    width: 190px;
+/* 이스터에그 기가 돌핀 */
+.gigaDolphin {
     position: absolute;
-    z-index: 1;
+    bottom: 100px;
+    right: 100px;
+    width: 100px;
+    transition: transform 0.3s ease;
+}
+.gigaDolphin:hover {
+    transform: scale(1.1);
 }
 
 /* 힌트 텍스트 */
@@ -230,53 +274,4 @@
     font-size: 12px;
     color: rgba(0, 0, 0, 0.5);
     font-family: Arial, sans-serif;
-}
-
-/* 기가-돌핀 애니메이션 */
-.gigaDolphin {
-    position: absolute;
-    bottom: 100px;
-    right: 100px;
-    width: 100px;
-    animation: dolphinMove 2s infinite alternate;
-}
-
-/* 백엔드 메시지 (디버깅용) */
-.backendMessage {
-    position: absolute;
-    bottom: 35px;
-    right: 10px;
-    font-size: 12px;
-    color: #333;
-    font-family: Arial, sans-serif;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px 8px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px #aaa;
-}
-
-/* 애니메이션 keyframes */
-@keyframes floatX {
-    0% {
-        transform: translateX(0px);
-    }
-    100% {
-        transform: translateX(20px);
-    }
-}
-@keyframes floatY {
-    0% {
-        transform: translateY(0px);
-    }
-    100% {
-        transform: translateY(15px);
-    }
-}
-@keyframes dolphinMove {
-    0% {
-        transform: translateX(0) rotate(0deg);
-    }
-    100% {
-        transform: translateX(20px) rotate(5deg);
-    }
 }

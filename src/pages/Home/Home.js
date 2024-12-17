@@ -124,7 +124,7 @@ const Home = () => {
                 {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
 
                 {/* 디버깅용 백엔드 메시지 표시 */}
-                <div className={styles.backendMessage}>Backend: {backendMessage}</div>
+                {/* <div className={styles.backendMessage}>Backend: {backendMessage}</div> */}
             </div>
         </Layout>
     );

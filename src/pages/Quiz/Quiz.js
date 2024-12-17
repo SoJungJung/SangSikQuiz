@@ -21,7 +21,7 @@ const Quiz = () => {
             backPressCountRef.current += 1;
 
             if (backPressCountRef.current >= maxBackPress) {
-                alert('뒤로가기 하지마! 한번만 더 하면 너 진짜 바보야!');
+                alert('뒤로가기 계엄령! 한번만 더 하면 너 진짜 엄혜영이야!');
             } else {
                 alert('뒤로가기는 안됩니다!');
             }
