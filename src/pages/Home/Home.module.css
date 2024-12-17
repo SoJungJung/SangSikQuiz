@@ -2,7 +2,7 @@
     position: relative;
     width: 100%;
     height: 100vh;
-    background: linear-gradient(to bottom right, #f4dca2, #ccc);
+    background: linear-gradient(to bottom right, #f0f0f0, #f4dca2);
     overflow: hidden;
     font-family: 'Nanum Gothic', sans-serif;
 }
