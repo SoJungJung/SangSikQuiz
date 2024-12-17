@@ -24,7 +24,7 @@ const Ranking = () => {
 
   const handleShare = async () => {
     try {
-      // 페이지 스크린샷 (축소)
+      // 전체 페이지 스크린샷 (축소)
       const canvas = await html2canvas(document.body, { scale: 0.5 });
       const imageData = canvas.toDataURL("image/png");
 
@@ -46,14 +46,14 @@ const Ranking = () => {
           files: [file],
         });
       } else {
-        // Web Share API 미지원 시 안내 메시지
         alert(
-          "이 브라우저는 Web Share API를 지원하지 않습니다.\n이미지는 저장되었으니 인스타그램 스토리에 직접 업로드해주세요!"
+          "이 브라우저는 Web Share API를 지원하지 않습니다.\n이미지를 저장했습니다. " +
+            "인스타그램 앱을 열어 스토리에 수동으로 업로드해주세요!"
         );
       }
     } catch (error) {
       console.error("스크린샷 저장 및 공유 중 오류:", error);
-      alert("결과 저장 중 오류가 발생했습니다. 스크린샷이 저장되었는지 확인 후 수동으로 업로드해주세요.");
+      alert("결과 저장에 실패했습니다. 스크린샷이 저장되었는지 확인 후 수동으로 업로드해주세요.");
     }
   };
 
@@ -70,14 +70,8 @@ const Ranking = () => {
 
         setNickname(userNickname);
 
-        // 서버로부터 받아온 랭킹 데이터 활용
+        //서버로부터 받아온 랭킹 데이터 활용
         let updatedRankings = jsonData.rankings || [];
-
-        // ranking 데이터는 이미 high_score 기준으로 정렬된 상태라고 가정(서버 쿼리에서 ORDER BY high_score DESC)
-        // 위치(position) 부여
-        updatedRankings.forEach((rank, index) => {
-          rank.position = index + 1;
-        });
 
         // 사용자 순위 찾기
         if (userNickname) {
@@ -117,14 +111,14 @@ const Ranking = () => {
     <Layout>
       <div className={styles.container}>
         <div className={styles.title}>
-          {nickname && userPosition ? `너 자신을 알라 ${nickname}, 너는 ${userPosition}등` : "너 자신을 알라"}
+          {nickname ? `너 자신을 알라 ${nickname}, 너는 ${userPosition}등` : "너 자신을 알라"}
         </div>
         <div className={styles.rankBox}>
           <div className={styles.rankTitle}>RANK</div>
           <div className={styles.rankList}>
             {rankings.map((rank, index) => (
               <div key={`${rank.nickname}-${index}`} className={styles.rankItem}>
-                {rank.position}. {rank.nickname} - {rank.high_score}점
+                {rank.position}. {rank.nickname} - {rank.score}점
               </div>
             ))}
           </div>
