@@ -22,13 +22,23 @@ const Home = () => {
     const [audio] = useState(new Audio());
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const [stormAnimation, setStormAnimation] = useState(false);
-    const [showRankingHint, setShowRankingHint] = useState(false);
+    const [showRankingHint, setShowRankingHint] = useState(false); // 말풍선 표시 여부
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        // 10초 뒤 이스터에그 표시
+        const easterEggTimer = setTimeout(() => {
             setShowEasterEgg(true);
         }, 10000);
-        return () => clearTimeout(timer);
+
+        // 5초 뒤 말풍선 표시
+        const hintTimer = setTimeout(() => {
+            setShowRankingHint(true);
+        }, 5000);
+
+        return () => {
+            clearTimeout(easterEggTimer);
+            clearTimeout(hintTimer);
+        };
     }, []);
 
     const handlePlayAudio = () => {
@@ -56,11 +66,12 @@ const Home = () => {
     };
 
     const handleOttoClick = () => {
+        // 비스마르크 클릭 시 폭풍 애니메이션 시작
         setStormAnimation(true);
-        setShowRankingHint(true); // 랭킹으로 넘어가는 안내를 보여줌
+        // 클릭 후 3초 뒤 /ranking으로 이동
         setTimeout(() => {
             navigate('/ranking');
-        }, 3000); // 3초 후 이동
+        }, 3000);
     };
 
     return (
@@ -86,12 +97,12 @@ const Home = () => {
                                 onClick={handleOttoClick}
                                 style={{ cursor: 'pointer' }}
                             />
-                            {showRankingHint && (
+                            {showRankingHint && !stormAnimation && (
                                 <div className={styles.rankingHintBubble}>
                                     <div className={styles.rankingHintText}>
                                         "← 누르면 <span className={styles.highlight}>절대</span> 랭킹으로 안 넘어감"
                                         <br />
-                                        (근데 왜 클릭했노 게이야!)
+                                        (근데 왜 누르려고 하노~ 게이야!)
                                     </div>
                                 </div>
                             )}
