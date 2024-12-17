@@ -380,8 +380,8 @@
 
 .rankingHintBubble {
     position: absolute;
-    top: -50px;
-    left: -50px;
+    top: 10px;
+    left: 120px;
     background: #fff;
     border: 2px solid #000;
     border-radius: 10px;
@@ -403,6 +403,39 @@
 .highlight {
     color: red;
     font-weight: bold;
+}
+
+.whyBubble {
+    position: absolute;
+    top: 10px;
+    left: 30%;
+    margin-left: 10px;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    animation: fadeInOut 3s forwards;
+    z-index: 1000;
+}
+
+/* "왜 눌렀노 게이야~" 말풍선 등장 후 천천히 사라지게 할 수도 있음 */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes shakeHint {

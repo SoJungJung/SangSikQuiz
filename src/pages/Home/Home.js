@@ -22,7 +22,8 @@ const Home = () => {
     const [audio] = useState(new Audio());
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const [stormAnimation, setStormAnimation] = useState(false);
-    const [showRankingHint, setShowRankingHint] = useState(false); // 말풍선 표시 여부
+    const [showRankingHint, setShowRankingHint] = useState(false);
+    const [showWhyBubble, setShowWhyBubble] = useState(false); // "왜 눌렀노" 말풍선 표시 상태
 
     useEffect(() => {
         // 10초 뒤 이스터에그 표시
@@ -30,7 +31,7 @@ const Home = () => {
             setShowEasterEgg(true);
         }, 10000);
 
-        // 5초 뒤 말풍선 표시
+        // 5초 뒤 랭킹 힌트 말풍선 표시
         const hintTimer = setTimeout(() => {
             setShowRankingHint(true);
         }, 5000);
@@ -68,6 +69,8 @@ const Home = () => {
     const handleOttoClick = () => {
         // 비스마르크 클릭 시 폭풍 애니메이션 시작
         setStormAnimation(true);
+        // "왜 눌렀노 게이야~" 말풍선 표시
+        setShowWhyBubble(true);
         // 클릭 후 3초 뒤 /ranking으로 이동
         setTimeout(() => {
             navigate('/ranking');
@@ -101,11 +104,10 @@ const Home = () => {
                                 <div className={styles.rankingHintBubble}>
                                     <div className={styles.rankingHintText}>
                                         "← 누르면 <span className={styles.highlight}>절대</span> 랭킹으로 안 넘어감"
-                                        <br />
-                                        (근데 왜 누르려고 하노~ 게이야!)
                                     </div>
                                 </div>
                             )}
+                            {showWhyBubble && <div className={styles.whyBubble}>"왜 눌렀노~"</div>}
                         </div>
                     </div>
                     <div className={styles.mid2}>
