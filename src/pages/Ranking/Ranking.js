@@ -14,6 +14,7 @@ const Ranking = () => {
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const handleRetry = () => {
+    localStorage.clear();
     localStorage.removeItem("currentQuestionIndex");
     localStorage.removeItem("correctAnswersCount");
     localStorage.removeItem("score");
@@ -118,7 +119,7 @@ const Ranking = () => {
           <div className={styles.rankList}>
             {rankings.map((rank, index) => (
               <div key={`${rank.nickname}-${index}`} className={styles.rankItem}>
-                {rank.position}. {rank.nickname} - {rank.score}점
+                {rank.position}. {rank.nickname} - {rank.highScore}점
               </div>
             ))}
           </div>
