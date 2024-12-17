@@ -20,21 +20,10 @@ const Home = () => {
     const [nickname, setNickname] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
     const [audio] = useState(new Audio());
-    const [backendMessage, setBackendMessage] = useState('Loading...');
     const [showEasterEgg, setShowEasterEgg] = useState(false);
+    const [stormAnimation, setStormAnimation] = useState(false);
 
     useEffect(() => {
-        fetch('https://port-0-sangsik-backend-m2l7w1ydc2132f7e.sel4.cloudtype.app/api/ping')
-            .then((response) => response.json())
-            .then((data) => setBackendMessage(data.message))
-            .catch((error) => {
-                console.error('Error connecting to the backend:', error);
-                setBackendMessage('Error connecting to the backend');
-            });
-    }, []);
-
-    useEffect(() => {
-        // 10초 뒤 이스터에그 표시
         const timer = setTimeout(() => {
             setShowEasterEgg(true);
         }, 10000);
@@ -65,6 +54,16 @@ const Home = () => {
         }
     };
 
+    const handleOttoClick = () => {
+        // 비스마르크 클릭 시 폭풍 애니메이션 시작
+        setStormAnimation(true);
+        // 애니메이션 동안 조작 불가하게 할 수도 있음.
+        // 일정 시간 후 /ranking으로 이동
+        setTimeout(() => {
+            navigate('/ranking');
+        }, 3000); // 3초 후 이동 (애니메이션 시간에 맞게 조정)
+    };
+
     return (
         <Layout>
             <div className={styles.container}>
@@ -79,7 +78,14 @@ const Home = () => {
                 </div>
                 <div className={styles.middiv}>
                     <div className={styles.mid1}>
-                        <img className={styles.otto} src={otto} alt="otto" title="오토 폰 비스마르크" />
+                        <img
+                            className={`${styles.otto} ${stormAnimation ? styles.storming : ''}`}
+                            src={otto}
+                            alt="otto"
+                            title="오토 폰 비스마르크"
+                            onClick={handleOttoClick}
+                            style={{ cursor: 'pointer' }}
+                        />
                     </div>
                     <div className={styles.mid2}>
                         <div className={styles.cartoonTextBox}>
@@ -96,16 +102,22 @@ const Home = () => {
                             placeholder="닉네임을 입력해라"
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}
+                            disabled={stormAnimation} // 애니메이션 중 입력 비활성화
                         />
-                        <button className={styles.start} onClick={handleClickNext}>
+                        <button className={styles.start} onClick={handleClickNext} disabled={stormAnimation}>
                             시작하기
                         </button>
                     </div>
                     <div className={styles.mid3}>
-                        <button className={styles.audioButton} onClick={handlePlayAudio}>
+                        <button className={styles.audioButton} onClick={handlePlayAudio} disabled={stormAnimation}>
                             {isPlaying ? '오디오 정지' : '오디오 재생'}
                         </button>
-                        <img className={styles.trump} src={trump} alt="trump" title="도널드 트럼프" />
+                        <img
+                            className={`${styles.trump} ${stormAnimation ? styles.storming : ''}`}
+                            src={trump}
+                            alt="trump"
+                            title="도널드 트럼프"
+                        />
                     </div>
                 </div>
                 <div className={styles.blw}>
@@ -114,17 +126,16 @@ const Home = () => {
                         <div className={styles.cartoonText3}>유익한!</div>
                     </div>
                     <img className={styles.leftbottom} src={leftbottom} alt="leftbottom" />
-                    <img className={styles.duce} src={duce} alt="duce" title="베니토 무솔리니" />
+                    <img
+                        className={`${styles.duce} ${stormAnimation ? styles.storming : ''}`}
+                        src={duce}
+                        alt="duce"
+                        title="베니토 무솔리니"
+                    />
                 </div>
 
-                {/* 힌트 텍스트 */}
                 <div className={styles.hint}>10초 기다리면 뭔가 나올지도...?</div>
-
-                {/* 이스터에그: 10초 후 나타나는 기가-돌핀 */}
                 {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
-
-                {/* 디버깅용 백엔드 메시지 표시 */}
-                {/* <div className={styles.backendMessage}>Backend: {backendMessage}</div> */}
             </div>
         </Layout>
     );
