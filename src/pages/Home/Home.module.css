@@ -7,6 +7,18 @@
     font-family: 'Nanum Gothic', sans-serif;
 }
 
+/* 폭풍 애니메이션 시 컨테이너에 적용할 클래스 (필요시 배경 변화 가능) */
+.stormingContainer {
+    animation: stormRotate 3s ease-in-out forwards;
+    transform-origin: center center;
+    animation: backgroundFadeOut 2s forwards;
+    @keyframes backgroundFadeOut {
+        100% {
+            background: #000;
+        }
+    }
+}
+
 /* 상단 영역 */
 .topdiv {
     position: relative;
@@ -349,7 +361,7 @@
     }
 }
 
-/* otto, trump, duce 이미지들의 transform-origin */
+/* otto, trump, duce transform-origin */
 .otto,
 .trump,
 .duce {

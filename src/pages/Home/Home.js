@@ -21,7 +21,7 @@ const Home = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [audio] = useState(new Audio());
     const [showEasterEgg, setShowEasterEgg] = useState(false);
-    const [stormAnimation, setStormAnimation] = useState(false);
+    const [stormAnimation, setStormAnimation] = useState(false); // 폭풍 애니메이션 상태
     const [showRankingHint, setShowRankingHint] = useState(false);
     const [showWhyBubble, setShowWhyBubble] = useState(false);
 
@@ -77,6 +77,7 @@ const Home = () => {
 
     return (
         <Layout>
+            {/* stormAnimation이 true일 때 container에 stormingContainer 클래스 추가 */}
             <div className={`${styles.container} ${stormAnimation ? styles.stormingContainer : ''}`}>
                 <div className={styles.topdiv}>
                     <img className={styles.lefttop} src={lefttop} alt="lefttop" />
@@ -90,6 +91,7 @@ const Home = () => {
                 <div className={styles.middiv}>
                     <div className={styles.mid1}>
                         <div className={styles.ottoWrapper}>
+                            {/* stormAnimation이 true일 때 otto 이미지에 storming 클래스 추가 */}
                             <img
                                 className={`${styles.otto} ${stormAnimation ? styles.storming : ''}`}
                                 src={otto}
@@ -102,12 +104,10 @@ const Home = () => {
                                 <div className={styles.rankingHintBubble}>
                                     <div className={styles.rankingHintText}>
                                         "← 누르면 <span className={styles.highlight}>절대</span> 랭킹으로 안 넘어감"
-                                        <br />
-                                        (농담이야, 진짜 누르면 폭풍 회전 후 넘어갈걸?)
                                     </div>
                                 </div>
                             )}
-                            {showWhyBubble && <div className={styles.whyBubble}>"왜 눌렀노 게이야~"</div>}
+                            {showWhyBubble && <div className={styles.whyBubble}>"왜 눌렀노~"</div>}
                         </div>
                     </div>
                     <div className={styles.mid2}>
@@ -135,6 +135,7 @@ const Home = () => {
                         <button className={styles.audioButton} onClick={handlePlayAudio} disabled={stormAnimation}>
                             {isPlaying ? '오디오 정지' : '오디오 재생'}
                         </button>
+                        {/* trump, duce에도 stormAnimation 시 storming 클래스 적용 */}
                         <img
                             className={`${styles.trump} ${stormAnimation ? styles.storming : ''}`}
                             src={trump}
