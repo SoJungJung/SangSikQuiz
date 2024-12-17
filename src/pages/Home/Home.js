@@ -10,7 +10,7 @@ import cartoon2 from './cartoon2.png';
 import audio1 from './audio1.mp3';
 import audio2 from './audio2.mp3';
 import audio3 from './audio3.mp3';
-import gigaDolphin from './gigaDolphin.png'; // 기가-돌핀 이미지 추가
+import gigaDolphin from './gigaDolphin.png'; // 기가-돌핀 이미지
 import styles from './Home.module.css';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ const Home = () => {
     const [nickname, setNickname] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
     const [audio] = useState(new Audio());
-    const [backendMessage, setBackendMessage] = useState('first value');
+    const [backendMessage, setBackendMessage] = useState('Loading...');
     const [showEasterEgg, setShowEasterEgg] = useState(false);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        // 컴포넌트 마운트 후 30초 뒤 이스터에그 표시
+        // 10초 뒤 이스터에그 표시
         const timer = setTimeout(() => {
             setShowEasterEgg(true);
         }, 10000);
@@ -79,7 +79,7 @@ const Home = () => {
                 </div>
                 <div className={styles.middiv}>
                     <div className={styles.mid1}>
-                        <img className={styles.otto} src={otto} alt="otto" />
+                        <img className={styles.otto} src={otto} alt="otto" title="오토 폰 비스마르크" />
                     </div>
                     <div className={styles.mid2}>
                         <div className={styles.cartoonTextBox}>
@@ -105,7 +105,7 @@ const Home = () => {
                         <button className={styles.audioButton} onClick={handlePlayAudio}>
                             {isPlaying ? '오디오 정지' : '오디오 재생'}
                         </button>
-                        <img className={styles.trump} src={trump} alt="trump" />
+                        <img className={styles.trump} src={trump} alt="trump" title="도널드 트럼프" />
                     </div>
                 </div>
                 <div className={styles.blw}>
@@ -114,14 +114,17 @@ const Home = () => {
                         <div className={styles.cartoonText3}>유익한!</div>
                     </div>
                     <img className={styles.leftbottom} src={leftbottom} alt="leftbottom" />
-                    <img className={styles.duce} src={duce} alt="duce" />
+                    <img className={styles.duce} src={duce} alt="duce" title="베니토 무솔리니" />
                 </div>
 
                 {/* 힌트 텍스트 */}
                 <div className={styles.hint}>10초 기다리면 뭔가 나올지도...?</div>
 
-                {/* 이스터에그: 30초 후 나타나는 기가-돌핀 */}
+                {/* 이스터에그: 10초 후 나타나는 기가-돌핀 */}
                 {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
+
+                {/* 디버깅용 백엔드 메시지 표시 */}
+                <div className={styles.backendMessage}>Backend: {backendMessage}</div>
             </div>
         </Layout>
     );

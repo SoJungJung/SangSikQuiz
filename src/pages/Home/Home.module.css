@@ -1,70 +1,10 @@
-.title {
-    color: #000;
-    text-align: center;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    -webkit-text-stroke-width: 1;
-    -webkit-text-stroke-color: #000;
-    font-family: Inter;
-    font-size: 50px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+.container {
+    position: relative;
     width: 100%;
-    height: 118px;
-    flex-shrink: 0;
-    position: absolute;
-    top: 73px;
-}
-
-.nicknameInput {
-    width: 196px;
-    height: 51px;
-    flex-shrink: 0;
-    background: #fff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: #dadada;
-    font-family: Inter;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    /* margin: 상 우 하 좌; */
-    /* margin: 상하 좌우; */
-    margin: 15px 0;
-    position: relative;
-    left: 12px;
-    padding-left: 15px;
-}
-
-.start {
-    display: inline-flex;
-    padding: 14px 28px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border-radius: 50px;
-    background: #ffc107;
-    color: #000;
-    text-align: center;
-    font-family: Miltonian;
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    position: relative;
-    left: 20px;
-}
-
-.lefttop {
-    /* width: 230px; */
-    /* height: 221px; */
-    flex-shrink: 0;
-    position: absolute;
-}
-.righttop {
-    flex-shrink: 0;
-    position: absolute;
-    right: 0;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #f0f0f0, #ccc);
+    overflow: hidden;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 .topdiv {
@@ -72,108 +12,198 @@
     height: 195px;
 }
 
+.lefttop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: floatX 4s ease-in-out infinite alternate;
+}
+.righttop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    animation: floatX 4s ease-in-out infinite alternate-reverse;
+}
+
+.title {
+    color: #000;
+    text-align: center;
+    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000;
+    font-family: 'Miltonian', cursive;
+    font-size: 50px;
+    font-weight: 700;
+    position: absolute;
+    top: 73px;
+    width: 100%;
+}
+
+/* 중앙부 */
 .middiv {
     display: flex;
+    margin-top: 20px;
 }
+
 .mid1 {
     width: 188px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .otto {
     width: 100%;
-    /* height: 330px; */
-    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    filter: hue-rotate(20deg);
+}
+.otto:hover {
+    transform: scale(1.05) rotate(-5deg);
 }
 
-.cartoon2 {
-    width: 190px;
-    /* height: 93px; */
-    position: absolute;
-    flex-shrink: 0;
-    z-index: 2;
+.mid2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
 }
 
-.cartoon {
-    width: 190px;
-    /* height: 93px; */
-    flex-shrink: 0;
-    position: absolute;
-    z-index: 2;
-}
-.cartoon3 {
-    width: 190px;
-    /* height: 93px; */
-    flex-shrink: 0;
-    position: absolute;
-    z-index: 2;
-}
 .cartoonTextBox {
     position: relative;
     height: 93px;
     width: 190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.cartoon2 {
+    width: 190px;
+    position: absolute;
+    z-index: 1;
+}
+.cartoon {
+    width: 190px;
+    position: absolute;
+    z-index: 1;
+}
+
+.cartoonText,
+.cartoonText2,
+.cartoonText3 {
+    font-family: Inter, sans-serif;
+    text-align: center;
+    font-size: 36px;
+    position: relative;
+    z-index: 2;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 0px 0px 3px #fff;
+}
+
 .midMargin {
     height: 15px;
 }
-.cartoonText {
-    font-family: Inter;
-    text-align: center;
-    z-index: 1;
-    font-size: 36px;
-    margin-left: 17px;
-    padding-top: 18px;
+
+.nicknameInput {
+    width: 196px;
+    height: 51px;
+    background: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #555;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 15px 0;
+    padding-left: 15px;
+    border: none;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+}
+.nicknameInput:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
 }
 
-.cartoonText2 {
-    font-family: Inter;
-    text-align: center;
-    z-index: 1;
-    font-size: 36px;
-    margin-right: 10px;
-    margin-right: 20px;
-    padding-top: 18px;
+.start {
+    display: inline-flex;
+    padding: 14px 28px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    background: #ffc107;
+    color: #000;
+    font-family: 'Miltonian', cursive;
+    font-size: 30px;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.cartoonText3 {
-    font-family: Inter;
-    text-align: center;
-    z-index: 1;
-    font-size: 36px;
-    margin-right: 17px;
+.start:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
 }
+
 .mid3 {
     width: 160px;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .audioButton {
     position: absolute;
     top: 155px;
-    transform: rotate(-29.5deg);
     background-color: #f4dca2;
     border-radius: 20%;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 14px;
+    transform: rotate(-29.5deg);
+    transition: transform 0.3s ease;
 }
+.audioButton:hover {
+    transform: rotate(-29.5deg) scale(1.1);
+    box-shadow: 0 0 10px #f4dca2;
+}
+
 .trump {
     width: 100%;
-    flex-shrink: 0;
     margin-top: 160px;
+    transition: filter 0.3s ease;
+    filter: saturate(1.2);
 }
+.trump:hover {
+    filter: saturate(2) hue-rotate(45deg);
+}
+
+/* 아래 영역 */
 .blw {
     width: 100%;
     height: 297px;
     position: relative;
     bottom: 76px;
 }
-.duce {
-    margin-top: 8px;
-    flex-shrink: 0;
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-}
 
 .leftbottom {
-    flex-shrink: 0;
     position: absolute;
     left: 0;
     bottom: 0;
+    animation: floatY 3s ease-in-out infinite alternate;
+}
+
+.duce {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    transition: transform 0.3s ease;
+    filter: contrast(1.1);
+}
+.duce:hover {
+    transform: scale(1.05) rotate(3deg);
 }
 
 .bottomCartoonDiv {
@@ -186,6 +216,13 @@
     align-items: center;
 }
 
+.cartoon3 {
+    width: 190px;
+    position: absolute;
+    z-index: 1;
+}
+
+/* 힌트 텍스트 */
 .hint {
     position: absolute;
     bottom: 10px;
@@ -204,7 +241,37 @@
     animation: dolphinMove 2s infinite alternate;
 }
 
-/* 기가-돌핀을 좌우로 흔드는 애니메이션 예시 */
+/* 백엔드 메시지 (디버깅용) */
+.backendMessage {
+    position: absolute;
+    bottom: 35px;
+    right: 10px;
+    font-size: 12px;
+    color: #333;
+    font-family: Arial, sans-serif;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 8px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #aaa;
+}
+
+/* 애니메이션 keyframes */
+@keyframes floatX {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(20px);
+    }
+}
+@keyframes floatY {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(15px);
+    }
+}
 @keyframes dolphinMove {
     0% {
         transform: translateX(0) rotate(0deg);
