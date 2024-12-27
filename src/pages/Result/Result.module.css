@@ -70,16 +70,28 @@
     width: 100%;
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+
+    overflow: hidden;
 }
 
 .lvlImg {
+    /* 절대 위치 해제 -> 부모 프레임 내에서만 배치 */
     position: absolute;
+
     width: 80%;
+    /* 높이는 비율에 맞춰 자동 조절 */
+    height: 100%;
+    /* 테두리 둥글림이 프레임과 일치하게 */
     border-radius: 20px;
     z-index: 1;
     box-shadow: 0 0 15px #fff;
     animation: popIn 0.8s ease;
+
+    /* 필요하다면 오버플로우 발생 시 잘림 */
+    object-fit: contain;
+    /* 또는 object-fit: contain; (원본비율 유지하며 프레임에 맞춤) */
 }
+
 @keyframes popIn {
     0% {
         transform: scale(0.5);
