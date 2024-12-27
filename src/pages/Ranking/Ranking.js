@@ -126,7 +126,7 @@ const Ranking = () => {
             {rankings.map((rank, index) => (
               <div key={`${rank.nickname}-${index}`} className={styles.rankItem}>
                 {/* *** rank.high_score 로 변경 */}
-                {rank.position}. {rank.nickname} - {rank.high_score}점
+                {userRank.position}. {rank.nickname} - {rank.high_score}점
               </div>
             ))}
           </div>
