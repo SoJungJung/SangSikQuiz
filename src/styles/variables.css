@@ -1,19 +1,13 @@
 :root {
-    /* 메인 컬러(쿨한 네온 느낌) */
-    --color-primary: #00ffd2; /* 기존 노랑 -> 민트/네온 */
+    /* 색상 예시 */
+    --color-primary: #ffc107;
+    --color-secondary: #5bc0eb;
+    --color-bg-light: #f7f7f7;
+    --color-bg-dark: #2e2e4f;
+    --color-text-dark: #333;
+    --color-text-light: #fff;
 
-    /* 보조 컬러: 보랏빛·블루 계열 */
-    --color-secondary: #6c4eff; /* 오묘한 퍼플/블루 */
-
-    /* 배경 1: 거의 블랙에 가까운 어두운 톤 */
-    --color-bg-dark: #101014; /* 살짝 보랏빛/스틸 느낌을 위해 약간 남색 섞일 수도 */
-
-    /* 배경 2: 더 밝은 그레이 (금속, 사이버 느낌) */
-    --color-bg-light: #2a2a38; /* 회색+남색 조합 */
-
-    --color-text-dark: #ccc; /* 어두운 배경 위에서 이 컬러 사용 */
-    --color-text-light: #fff; /* 여전히 흰색 */
-
+    /* 폰트 예시 */
     /* 폰트: 좀 더 사이버틱한 분위기(Exo 2, Orbitron 등) */
     --font-body: 'Exo 2', sans-serif;
     --font-title: 'Orbitron', sans-serif;
