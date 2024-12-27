@@ -4,20 +4,19 @@ import styles from './WtfOverlay.module.css';
 const WtfOverlay = () => {
     return (
         <div className={styles.overlay}>
-            {/* 큰 WTF 텍스트 */}
-            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
-            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
-            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
-            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
-            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
-            <div className={styles.wtfText}>W T F ???</div>
-            <div className={styles.wtfText}>W T F ???</div>
-            <div className={styles.wtfText}>W T F ???</div>
-            <div className={styles.wtfText}>W T F ???</div>
-            <div className={styles.subText}>이게 무슨 일인가요?!</div>
-            <div className={styles.rainbowBg}>누군가의 주식처럼 후두둑 날아가는!!!</div>
-            {/* 알록달록 RGB 배경 */}
-            <div className={styles.rainbowBg}>고대는 연대 떨어지면 가는 데 아닌가요?</div>
+            <div className={styles.rainbowBg}></div>
+
+            {/* 크게 보이는 주 텍스트들 */}
+            <div className={`${styles.wtfText1} ${styles.flyOutDelay}`}>랭킹으로 넘어갑니다!!!!</div>
+            <div className={`${styles.wtfText2} ${styles.flyOutDelay}`}>W T F ???</div>
+            <div className={`${styles.wtfText3} ${styles.flyOutDelay}`}>W T F ???</div>
+            <div className={`${styles.wtfText4} ${styles.flyOutDelay}`}>W T F ???</div>
+            <div className={`${styles.wtfText5} ${styles.flyOutDelay}`}>W T F ???</div>
+
+            <div className={`${styles.subText1} ${styles.flyOutDelayLong}`}>이게 무슨 일인가요?!</div>
+            <div className={`${styles.subText2} ${styles.flyOutDelayLong}`}>
+                고대는 서울대 떨어지면 가는 데 아닌가요?
+            </div>
         </div>
     );
 };

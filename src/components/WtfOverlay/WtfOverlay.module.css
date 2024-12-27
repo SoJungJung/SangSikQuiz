@@ -6,56 +6,24 @@
     width: 100vw;
     height: 100vh;
     z-index: 9999;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
     overflow: hidden;
-}
-
-/* 큰 텍스트 */
-.wtfText {
-    font-family: 'Orbitron', sans-serif; /* 네온/디지털 느낌 */
-    font-size: 5rem;
-    color: #ff0080;
-    text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080, 0 0 30px #ff0080;
-    animation: wtfShake 2s infinite;
 }
 
 /* 알록달록 RGB 배경 */
 .rainbowBg {
     position: absolute;
-    top: -50%;
-    left: -50%;
+    top: 0;
+    left: 0;
     width: 200%;
     height: 200%;
     background: linear-gradient(45deg, red, yellow, green, cyan, blue, magenta, red);
     background-size: 400% 400%;
     mix-blend-mode: screen;
-    opacity: 0.3;
-    animation: rainbowFlash 1s infinite;
+    animation: rainbowFlash 0.7s infinite;
+    opacity: 0.5;
 }
 
-/* 텍스트 흔들리는 애니메이션 */
-@keyframes wtfShake {
-    0% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-    25% {
-        transform: translate(-5px, 5px) rotate(3deg);
-    }
-    50% {
-        transform: translate(5px, -5px) rotate(-3deg);
-    }
-    75% {
-        transform: translate(-5px, -5px) rotate(2deg);
-    }
-    100% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-}
-
-/* 배경 깜빡이는 애니메이션 */
 @keyframes rainbowFlash {
     0% {
         background-position: 0% 50%;
@@ -68,22 +36,158 @@
     }
 }
 
-.subText {
+/* 공통 텍스트 베이스 */
+.wtfBase {
+    font-family: 'Orbitron', sans-serif;
+    color: #ff0080;
+    text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080;
+    animation: wtfShake 1.5s infinite;
+    position: absolute;
+    transform-origin: center center;
+}
+
+/* 각각 다른 위치, 크기, 속도 부여 */
+.wtfText1 {
+    composes: wtfBase;
+    font-size: 4rem;
+    top: 10%;
+    left: 10%;
+    animation-duration: 2s;
+}
+.wtfText2 {
+    composes: wtfBase;
+    font-size: 5rem;
+    top: 30%;
+    left: 60%;
+    animation-duration: 1.2s;
+    transform: rotate(-10deg);
+}
+.wtfText3 {
+    composes: wtfBase;
+    font-size: 4.5rem;
+    top: 60%;
+    left: 20%;
+    animation-duration: 1.8s;
+    transform: rotate(15deg);
+}
+.wtfText4 {
+    composes: wtfBase;
+    font-size: 5rem;
+    top: 40%;
+    left: 25%;
+    animation-duration: 1.3s;
+}
+.wtfText5 {
+    composes: wtfBase;
+    font-size: 3.8rem;
+    top: 70%;
+    left: 70%;
+    animation-duration: 1.6s;
+    transform: rotate(-5deg);
+}
+
+/* 서브 텍스트 */
+.subText1 {
     font-family: 'Orbitron', sans-serif;
     font-size: 2rem;
     color: #00ffd2;
     text-shadow: 0 0 8px #00ffd2, 0 0 16px #00ffd2;
     position: absolute;
-    bottom: 20%;
-    animation: fadeInOut 3s infinite;
+    bottom: 25%;
+    left: 10%;
+    animation: fadeUpDown 2s infinite ease-in-out;
+}
+.subText2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    color: #00ffd2;
+    text-shadow: 0 0 8px #00ffd2, 0 0 16px #00ffd2;
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    width: 40%;
+    animation: fadeInOut 3s infinite ease-in-out;
 }
 
+/* 흔들림 강한 애니메이션 */
+@keyframes wtfShake {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    20% {
+        transform: translate(-10px, 7px) rotate(3deg);
+    }
+    40% {
+        transform: translate(8px, -6px) rotate(-5deg);
+    }
+    60% {
+        transform: translate(-8px, 9px) rotate(4deg);
+    }
+    80% {
+        transform: translate(8px, -3px) rotate(-2deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+/* 사뿐 올라갔다 내려오는 */
+@keyframes fadeUpDown {
+    0% {
+        transform: translateY(0);
+        opacity: 0.2;
+    }
+    50% {
+        transform: translateY(-20px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0.2;
+    }
+}
+
+/* 깜빡이면서 서서히 나오고 사라짐 */
 @keyframes fadeInOut {
     0%,
     100% {
         opacity: 0;
     }
-    50% {
+    40% {
         opacity: 1;
+    }
+}
+
+/* --- 여기서부터 텍스트 날아가는 애니메이션 추가! --- */
+
+/* flyOutDelay: 2초 뒤 flyOut 시작 */
+.flyOutDelay {
+    animation: 2s ease 0s normal none running wtfShake; /* 기존 흔들림 유지 */
+    animation-delay: 0s;
+    /* flyOut은 별도의 애니메이션으로, 2초 뒤 시작 (animation-delay: 2s) */
+    animation: wtfShake 1.5s infinite, flyOut 1.2s forwards;
+    animation-delay: 0s, 2s;
+}
+
+/* 조금 더 늦게 날아가는 버전 */
+.flyOutDelayLong {
+    animation: wtfShake 1.5s infinite, flyOut 1.2s forwards;
+    /* 2.5초 뒤에 날아가기 시작 */
+    animation-delay: 0s, 2.5s;
+}
+
+/* 실제 날아가는 애니메이션 정의 */
+@keyframes flyOut {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(100px, -100px) rotate(45deg) scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(600px, -800px) rotate(180deg) scale(0.6);
+        opacity: 0;
     }
 }
