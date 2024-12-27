@@ -102,6 +102,8 @@ const Home = () => {
                         상식퀴즈
                     </div>
                 </div>
+                <br />
+                <br />
                 <div className={styles.middiv}>
                     <div className={styles.mid1}>
                         <div className={styles.ottoWrapper}>
