@@ -104,7 +104,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    top: -40px; /* 기존 -60px -> 조금 조정 */
+    top: -60px; /* 기존 -60px -> 조금 조정 */
 }
 
 /* 정답 선택 (circle) */
