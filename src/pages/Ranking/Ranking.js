@@ -11,6 +11,10 @@ const Ranking = () => {
     const [error, setError] = useState(null);
     const [userPosition, setUserPosition] = useState(null);
     const [nickname, setNickname] = useState('');
+
+    /* 도발 모달(컨펌) 표시 여부 */
+    const [showProvocation, setShowProvocation] = useState(false);
+
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
     const handleRetry = () => {
@@ -23,7 +27,8 @@ const Ranking = () => {
         navigate('/');
     };
 
-    const handleShare = async () => {
+    /* 실제 공유 로직 (스크린샷 + 저장 + Web Share) */
+    const doShare = async () => {
         try {
             // 전체 페이지 스크린샷 (축소)
             const canvas = await html2canvas(document.body, { scale: 0.5 });
@@ -58,6 +63,12 @@ const Ranking = () => {
         }
     };
 
+    /* 공유 버튼 클릭 시: 먼저 도발 모달 표시 */
+    const handleShare = () => {
+        setShowProvocation(true);
+    };
+
+    /* useEffect로 랭킹 데이터 가져오기 */
     useEffect(() => {
         const fetchRankings = async () => {
             try {
@@ -100,10 +111,10 @@ const Ranking = () => {
         fetchRankings();
     }, [BACKEND_URL]);
 
+    /* 로딩/에러 처리 */
     if (loading) {
         return <div className={styles.loading}>Loading...</div>;
     }
-
     if (error) {
         return <div className={styles.error}>Error: {error}</div>;
     }
@@ -111,6 +122,36 @@ const Ranking = () => {
     return (
         <Layout>
             <div className={styles.container}>
+                {/* 도발/컨펌 모달 */}
+                {showProvocation && (
+                    <div className={styles.provocationOverlay}>
+                        <div className={styles.provocationBox}>
+                            <h3>결과 공유 안 하면...</h3>
+                            <p>
+                                이대로 포기해버리는 건가요?
+                                <br />
+                                <b>“아니 뭐... {nickname || '익명'} 정도면 자기 점수 공개하기 쪽팔리다는 건가?”</b>
+                                <br />
+                                <small>이대로 숨기기 없기!</small>
+                            </p>
+                            <div className={styles.provocationActions}>
+                                <button className={styles.provoCancel} onClick={() => setShowProvocation(false)}>
+                                    에이 귀찮아 관두자
+                                </button>
+                                <button
+                                    className={styles.provoConfirm}
+                                    onClick={() => {
+                                        setShowProvocation(false);
+                                        doShare(); // 실제 공유 실행
+                                    }}
+                                >
+                                    그래도 난 자랑한다!
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className={styles.title}>
                     {nickname ? `너 자신을 알라 ${nickname}, 너는 ${userPosition}등` : '너 자신을 알라'}
                 </div>
