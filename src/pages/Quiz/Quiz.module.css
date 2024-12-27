@@ -1,34 +1,42 @@
+/* Quiz.module.css */
 .container {
     position: relative;
     width: 100%;
-    height: 100vh;
-    background: linear-gradient(to bottom, #222, #333);
+    min-height: 100vh; /* height: 100vh -> min-height로 수정 */
+    background: var(--color-bg-dark); /* #222 -> 전역 변수 적용 */
     overflow: hidden;
-    font-family: 'Nanum Gothic', sans-serif;
+    font-family: var(--font-body);
 }
 
+/* 상단 영역 */
 .topdiv {
     position: relative;
-    height: 195px;
+    min-height: 150px; /* 기존 height: 195px -> 유연하게 */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.lefttop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: floatX 4s ease-in-out infinite alternate;
-}
-
+/* 이미지들: 애니메이션 대신 hover로만 */
+.lefttop,
 .righttop {
     position: absolute;
     top: 0;
+    transition: transform 0.3s, filter 0.3s;
+}
+.lefttop {
+    left: 0;
+}
+.righttop {
     right: 0;
-    animation: floatX 4s ease-in-out infinite alternate-reverse;
+}
+.lefttop:hover,
+.righttop:hover {
+    transform: translateY(-5px) scale(1.05);
+    filter: brightness(1.1);
 }
 
+/* 점수(포인트) 박스 */
 .pointShow {
     position: relative;
     width: 206px;
@@ -39,10 +47,10 @@
 }
 
 .point {
-    color: #000;
-    font-family: Inter, sans-serif;
-    font-style: normal;
+    /* 폰트 */
+    font-family: var(--font-body);
     font-size: 20px;
+    color: var(--color-text-dark);
 }
 
 .pointText {
@@ -50,53 +58,56 @@
     font-size: 35px;
     top: 7px;
     left: 10px;
-    color: white;
+    color: var(--color-text-light);
     text-shadow: 0 0 8px #fff;
+    /* wiggle 대신 hover 시 rotate 또는 단순 pulse로 바꾸는 것도 가능 */
     animation: wiggle 3s infinite;
 }
 
+/* 퀴즈 박스 */
 .quizShow {
     position: relative;
-    width: 344px;
-    background-color: #7a8b8b;
+    width: 90%; /* 344px -> 반응형, 최대폭 사용 */
+    max-width: 344px;
+    background-color: var(--color-bg-light); /* #7a8b8b -> 전역 변수 */
+    color: var(--color-text-dark);
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
     left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 100px;
-    padding: 10px;
+    transform: translateX(-50%);
+    margin-top: 60px; /* 100px -> 조절 */
+    padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+
+    /* glow 애니메이션 -> 필요 여부에 따라 유지/삭제 */
     animation: glow 2s ease-in-out infinite alternate;
 }
 
 .quizText {
-    width: 300px;
+    width: 90%;
+    max-width: 300px;
     text-align: left;
-    font-size: 30px;
+    font-size: 24px; /* 30px -> 조금 축소 (모바일 호환) */
     overflow: hidden;
-    color: #fff;
+    color: #333; /* 배경이 밝으므로 어두운 텍스트 */
     font-weight: bold;
 }
 
+/* 답안 컨테이너 */
 .answerShow {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    top: -60px;
+    top: -40px; /* 기존 -60px -> 조금 조정 */
 }
 
-.circleDiv {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
+/* 정답 선택 (circle) */
 .circle,
 .circle2,
 .circle3 {
@@ -110,22 +121,22 @@
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
-    transition: width 0.3s ease, height 0.3s ease, font-size 0.3s ease;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
+/* 색상 통일 or 구분 */
 .circle {
-    background-color: #4caf50;
+    background-color: #4caf50; /* or var(--color-primary) */
 }
-
 .circle2 {
-    background-color: #ffc107;
+    background-color: var(--color-primary); /* #ffc107 -> 전역 변수 */
 }
-
 .circle3 {
-    background-color: #ff6f61;
+    background-color: #ff6f61; /* 그대로 유지 or var(--color-secondary) */
 }
 
+/* 답안 박스 */
 .answerDiv {
     display: flex;
     align-items: center;
@@ -140,12 +151,13 @@
 }
 
 .midAnswerDiv {
-    margin: 15px 0 15px 0;
+    margin: 15px 0;
 }
 
+/* rectangle(답안 텍스트 영역) */
 .rectangle {
     width: 270px;
-    background-color: #fff9c4;
+    background-color: #fff9c4; /* 필요시 전역 변수 등으로 교체 가능 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -158,14 +170,14 @@
 
 .rectangleText {
     width: 235px;
-    font-style: normal;
-    font-size: 24px;
+    font-size: 20px; /* 모바일 대응 위해 약간 축소 */
     text-align: center;
     word-wrap: break-word;
     overflow: hidden;
     color: #333;
 }
 
+/* 현재 퀴즈 번호 */
 .numShow {
     position: absolute;
     bottom: 30px;
@@ -173,16 +185,17 @@
     width: 120px;
     height: 50px;
     border-radius: 20px;
-    background-color: #5bc0eb;
-    color: white;
-    font-size: 27px;
+    background-color: var(--color-secondary); /* #5bc0eb -> 전역 변수로 */
+    color: var(--color-text-light);
+    font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 10px #5bc0eb;
+    box-shadow: 0 0 10px var(--color-secondary);
     animation: pulse 2s infinite;
 }
 
+/* 하단 */
 .bottomdiv {
     position: absolute;
     bottom: 10px;
@@ -193,28 +206,14 @@
     position: relative;
     bottom: 0;
     left: 0;
-    animation: floatY 3s ease-in-out infinite alternate;
+    /* animation: floatY 3s ease-in-out infinite alternate; -> 필요시 유지 */
+    transition: transform 0.3s;
+}
+.leftbottom:hover {
+    transform: translateY(-5px) scale(1.05);
 }
 
 /* 애니메이션 keyframes */
-@keyframes floatX {
-    0% {
-        transform: translateX(0px);
-    }
-    100% {
-        transform: translateX(20px);
-    }
-}
-
-@keyframes floatY {
-    0% {
-        transform: translateY(0px);
-    }
-    100% {
-        transform: translateY(15px);
-    }
-}
-
 @keyframes wiggle {
     0% {
         transform: rotate(0deg);
@@ -232,7 +231,22 @@
         transform: rotate(0deg);
     }
 }
-
+@keyframes floatX {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(20px);
+    }
+}
+@keyframes floatY {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(15px);
+    }
+}
 @keyframes glow {
     0% {
         box-shadow: 0 0 15px #fff;
@@ -241,7 +255,6 @@
         box-shadow: 0 0 30px #fff;
     }
 }
-
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -254,22 +267,7 @@
     }
 }
 
-/* 잘못된 답 선택 시 전체 보기들 날아가는 애니메이션 */
-body.wrongAnswers .answerDiv {
-    animation: vanish 0.5s forwards;
-}
-
-@keyframes vanish {
-    0% {
-        opacity: 1;
-        transform: translateX(0) rotate(0deg);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-300px) rotate(-360deg);
-    }
-}
-
+/* 로딩, 에러 스타일 */
 .loading,
 .error,
 .noData {

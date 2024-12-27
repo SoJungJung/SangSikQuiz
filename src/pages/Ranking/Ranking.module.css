@@ -1,21 +1,25 @@
+/* Ranking.module.css */
+
+/* 컨테이너 */
 .container {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    /* 부드러운 블루-퍼플 그라디언트 */
-    background: linear-gradient(135deg, #3a3d5f 0%, #5c5c8a 100%);
+    /* 기존 그라디언트 -> 전역 변수 사용 예시 */
+    background: var(--color-bg-dark);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px 0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-body);
 }
 
+/* 랭킹 제목 */
 .title {
     font-size: 22px;
-    color: #000;
+    color: var(--color-text-dark);
     font-weight: bold;
-    background-color: #ffc107;
+    background-color: var(--color-primary); /* #ffc107 -> 전역 변수 */
     padding: 12px 24px;
     border-radius: 50px;
     text-align: center;
@@ -24,15 +28,16 @@
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s;
 }
-
 .title:hover {
     transform: scale(1.02);
 }
 
+/* 랭킹 박스 */
 .rankBox {
     width: 80%;
-    height: 450px;
-    background-color: #ffffffcc;
+    /* height: 450px; -> 가변 높이 사용 권장 */
+    min-height: 400px;
+    background-color: #ffffffcc; /* 반투명 흰색, 필요 시 var(--color-text-light) + rgba() 등 */
     border-radius: 20px;
     padding: 20px;
     margin-top: 30px;
@@ -43,11 +48,11 @@
     backdrop-filter: blur(4px);
     transition: box-shadow 0.3s;
 }
-
 .rankBox:hover {
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
 }
 
+/* 상단 "RANK" 타이틀 */
 .rankTitle {
     font-size: 20px;
     color: #333;
@@ -58,16 +63,16 @@
     letter-spacing: 1px;
 }
 
+/* 스크롤 영역 */
 .rankList {
     width: 100%;
-    max-height: 400px;
+    max-height: 350px; /* 400px에서 살짝 조정 */
     overflow-y: auto;
     padding-right: 10px;
     box-sizing: border-box;
     scrollbar-width: thin;
     scrollbar-color: #888 #ccc;
 }
-
 .rankList::-webkit-scrollbar {
     width: 6px;
 }
@@ -80,6 +85,7 @@
     border-radius: 3px;
 }
 
+/* 개별 랭킹 항목 */
 .rankItem {
     background: #fff;
     border-radius: 20px;
@@ -91,12 +97,12 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .rankItem:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
+/* 버튼들 영역 */
 .shareButtons {
     display: flex;
     flex-direction: column;
@@ -105,8 +111,9 @@
     width: 80%;
 }
 
+/* 재도전(RETTRY) 버튼 */
 .retryButton {
-    background-color: #ffffff;
+    background-color: var(--color-text-light); /* #fff 대체 */
     color: #333;
     font-size: 18px;
     font-weight: bold;
@@ -120,12 +127,12 @@
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
-
 .retryButton:hover {
     background-color: #f1f1f1;
     transform: scale(1.03);
 }
 
+/* 인스타그램 버튼 */
 .instagramButton {
     background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
     background-size: 200% 200%;
@@ -145,22 +152,22 @@
     justify-content: center;
     text-align: center;
 }
-
 .instagramButton:hover {
     transform: scale(1.05);
     background-position: right center;
 }
 
+/* 인스타 아이콘 (유지) */
 .instagramIcon {
     display: inline-block;
     width: 24px;
     height: 24px;
-    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 448 512" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.4-114.9 114.9s51.4 114.9 114.9 114.9 114.9-51.4 114.9-114.9-51.3-114.9-114.9-114.9zm0 189.6c-41.2 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27 0-14.9 12.1-27 27-27 14.9.1 27 12.2 27 27zm76.1 27.2c-.1-56.4-45.9-102.1-102.3-102.1H103.7C47.3 61.4 1.6 107.2 1.6 163.6v204.9c0 56.4 45.9 102.1 102.3 102.1h240.6c56.4 0 102.1-45.9 102.1-102.1V163.6zm-48.9 204.9c0 29.3-23.8 53.1-53.1 53.1H103.7c-29.3 0-53.1-23.8-53.1-53.1V163.6c0-29.3 23.8-53.1 53.1-53.1h240.6c29.3 0 53.1 23.8 53.1 53.1v204.9z"/></svg>')
-        no-repeat center center;
+    background: url('data:image/svg+xml;utf8,<svg ... />') no-repeat center center;
     background-size: contain;
     margin-right: 8px;
 }
 
+/* 로딩/에러 */
 .loading {
     color: #fff;
     font-size: 20px;

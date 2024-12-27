@@ -1,0 +1,15 @@
+/* src/styles/variables.css */
+
+:root {
+    /* 색상 예시 */
+    --color-primary: #ffc107;
+    --color-secondary: #5bc0eb;
+    --color-bg-light: #f7f7f7;
+    --color-bg-dark: #2e2e4f;
+    --color-text-dark: #333;
+    --color-text-light: #fff;
+
+    /* 폰트 예시 */
+    --font-body: 'Nanum Gothic', sans-serif;
+    --font-title: 'Bungee', cursive;
+}

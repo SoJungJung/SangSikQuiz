@@ -1,67 +1,66 @@
+/* Home.module.css */
 .container {
     position: relative;
     width: 100%;
-    height: 100vh;
-    background: linear-gradient(to bottom right, #f0f0f0, #f4dca2);
+    min-height: 100vh;
+    /* 기존 background: linear-gradient(...); -> 전역 변수 사용 */
+    background: var(--color-bg-light);
     overflow: hidden;
-    font-family: 'Nanum Gothic', sans-serif;
+    font-family: var(--font-body);
 }
 
-/* 폭풍 애니메이션 시 컨테이너에 적용할 클래스 (필요시 배경 변화 가능) */
 .stormingContainer {
     animation: stormRotate 3s ease-in-out forwards;
     transform-origin: center center;
     animation: backgroundFadeOut 2s forwards;
-    @keyframes backgroundFadeOut {
-        100% {
-            background: #000;
-        }
+}
+
+@keyframes backgroundFadeOut {
+    100% {
+        /* 배경을 너무 극단적으로 #000으로 바꾸기보다 살짝 어둡게 */
+        background: #333;
     }
 }
 
 /* 상단 영역 */
 .topdiv {
     position: relative;
-    height: 195px;
+    min-height: 150px; /* 195px -> 좀 줄이거나 min-height로 */
 }
 
-.lefttop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: floatX 4s ease-in-out infinite alternate;
-    transition: filter 0.3s ease, box-shadow 0.3s ease;
-}
-.lefttop:hover {
-    filter: hue-rotate(10deg) brightness(1.05);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
+/* lefttop, righttop 이미지: floatX 대신 hover 효과로만 */
+.lefttop,
 .righttop {
     position: absolute;
     top: 0;
-    right: 0;
-    animation: floatX 4s ease-in-out infinite alternate-reverse;
-    transition: filter 0.3s ease, box-shadow 0.3s ease;
+    transition: filter 0.3s ease, box-shadow 0.3s ease, transform 0.3s;
 }
+.lefttop {
+    left: 0;
+}
+.righttop {
+    right: 0;
+}
+
+.lefttop:hover,
 .righttop:hover {
-    filter: hue-rotate(-10deg) brightness(1.05);
+    filter: brightness(1.05);
+    transform: translateY(-5px) scale(1.05);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 타이틀: 약한 글리치 효과 */
+/* 타이틀 */
 .title {
-    color: #000;
+    color: var(--color-text-dark);
     text-align: center;
     text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.25);
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #000;
-    font-family: 'Miltonian', cursive;
+    font-family: var(--font-title); /* 타이틀 폰트 */
     font-size: 50px;
     font-weight: 700;
     position: absolute;
-    top: 73px;
+    top: 60px;
     width: 100%;
+    /* slight glitch 애니메이션 유지할 수도, 또는 제거 가능 */
     animation: slightGlitch 3s infinite;
 }
 
@@ -96,13 +95,13 @@
 }
 
 .mid1 {
-    width: 188px;
+    width: 180px; /* 188px -> 조금 수정 */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* 비스마르크 이미지 */
+/* 비스마르크 (otto) */
 .otto {
     width: 100%;
     transition: transform 0.3s ease, filter 0.3s ease;
@@ -113,7 +112,7 @@
     filter: hue-rotate(30deg) saturate(1.2);
 }
 
-/* 말풍선, 텍스트 */
+/* 중앙부 2 */
 .mid2 {
     display: flex;
     flex-direction: column;
@@ -130,7 +129,6 @@
     align-items: center;
 }
 
-/* 말풍선 이미지 */
 .cartoon2,
 .cartoon,
 .cartoon3 {
@@ -144,13 +142,13 @@
 .cartoonText,
 .cartoonText2,
 .cartoonText3 {
-    font-family: Inter, sans-serif;
+    font-family: var(--font-body);
     text-align: center;
     font-size: 36px;
     position: relative;
     z-index: 2;
     font-weight: bold;
-    color: #333;
+    color: var(--color-text-dark);
     text-shadow: 0px 0px 3px #fff;
     animation: pulseText 2s infinite alternate;
 }
@@ -158,11 +156,9 @@
 @keyframes pulseText {
     0% {
         transform: scale(1);
-        color: #333;
     }
     100% {
         transform: scale(1.05);
-        color: #444;
     }
 }
 
@@ -172,14 +168,13 @@
 
 /* 닉네임 입력 */
 .nicknameInput {
-    width: 196px;
-    height: 51px;
-    background: #fff;
+    width: 190px;
+    height: 48px;
+    background: var(--color-text-light);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     color: #555;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-body);
     font-size: 20px;
-    font-weight: 400;
     margin: 15px 0;
     padding-left: 15px;
     border: none;
@@ -198,9 +193,9 @@
     justify-content: center;
     align-items: center;
     border-radius: 50px;
-    background: #ffc107;
-    color: #000;
-    font-family: 'Miltonian', cursive;
+    background: var(--color-primary); /* #ffc107 -> 통일 */
+    color: var(--color-text-dark);
+    font-family: var(--font-title);
     font-size: 30px;
     font-weight: 400;
     border: none;
@@ -224,7 +219,7 @@
 .audioButton {
     position: absolute;
     top: 155px;
-    background-color: #f4dca2;
+    background-color: #f4dca2; /* 혹은 var(--color-primary) 연한 색 */
     border-radius: 20%;
     border: none;
     cursor: pointer;
@@ -253,23 +248,24 @@
 /* 아래 영역 */
 .blw {
     width: 100%;
-    height: 297px;
+    min-height: 250px; /* 기존 297px -> min-height로 조정 */
     position: relative;
-    bottom: 76px;
+    bottom: 60px; /* 76px -> 조금 조정 */
 }
 
 .leftbottom {
     position: absolute;
     left: 0;
     bottom: 0;
-    animation: floatY 3s ease-in-out infinite alternate;
-    transition: filter 0.3s ease;
+    /* animation: floatY 3s ease-in-out infinite alternate; -> 필요시 유지 */
+    transition: filter 0.3s ease, transform 0.3s;
 }
 .leftbottom:hover {
     filter: brightness(1.05) saturate(1.1);
+    transform: translateY(-5px) scale(1.05);
 }
 
-/* 무솔리니(두체) 이미지 */
+/* 무솔리니(두체) */
 .duce {
     position: absolute;
     right: 0px;
@@ -292,17 +288,17 @@
     align-items: center;
 }
 
-/* 힌트 텍스트 */
+/* 힌트 */
 .hint {
     position: absolute;
     bottom: 10px;
     right: 10px;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.5);
-    font-family: Arial, sans-serif;
+    font-family: var(--font-body);
 }
 
-/* 기가-돌핀 애니메이션 */
+/* 기가 돌핀 (유지) */
 .gigaDolphin {
     position: absolute;
     bottom: 100px;
@@ -316,23 +312,6 @@
     filter: brightness(1.1);
 }
 
-/* 애니메이션 keyframes */
-@keyframes floatX {
-    0% {
-        transform: translateX(0px);
-    }
-    100% {
-        transform: translateX(20px);
-    }
-}
-@keyframes floatY {
-    0% {
-        transform: translateY(0px);
-    }
-    100% {
-        transform: translateY(15px);
-    }
-}
 @keyframes dolphinMove {
     0% {
         transform: translateX(0) rotate(0deg);
@@ -361,20 +340,19 @@
     }
 }
 
-/* otto, trump, duce transform-origin */
+/* transform-origin 공통 */
 .otto,
 .trump,
 .duce {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
-
 .otto.storming,
 .trump.storming,
 .duce.storming {
     transform-origin: center center;
 }
 
-/* 말풍선들 */
+/* 말풍선 */
 .ottoWrapper {
     position: relative;
 }
@@ -383,7 +361,7 @@
     position: absolute;
     top: 10px;
     left: 120px;
-    background: #fff;
+    background: var(--color-text-light);
     border: 2px solid #000;
     border-radius: 10px;
     padding: 10px;
@@ -394,7 +372,7 @@
 }
 
 .rankingHintText {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
     color: #000;
     text-align: center;
@@ -411,11 +389,11 @@
     top: 10px;
     left: 30%;
     margin-left: 10px;
-    background: #fff;
+    background: var(--color-text-light);
     border: 2px solid #000;
     border-radius: 10px;
     padding: 5px 10px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
     color: #000;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
