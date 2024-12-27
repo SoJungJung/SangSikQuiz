@@ -1,13 +1,12 @@
 /* Home.module.css */
 .container {
-    background: var(--color-bg-dark);
-    font-family: var(--font-body);
-    color: var(--color-text-light);
     position: relative;
     width: 100%;
     min-height: 100vh;
     /* 기존 background: linear-gradient(...); -> 전역 변수 사용 */
+    background: var(--color-bg-light);
     overflow: hidden;
+    font-family: var(--font-body);
 }
 
 .stormingContainer {
@@ -29,29 +28,40 @@
     min-height: 150px; /* 195px -> 좀 줄이거나 min-height로 */
 }
 
+/* lefttop, righttop 이미지: floatX 대신 hover 효과로만 */
 .lefttop,
 .righttop {
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s;
+    position: absolute;
+    top: 0;
+    transition: filter 0.3s ease, box-shadow 0.3s ease, transform 0.3s;
 }
+.lefttop {
+    left: 0;
+}
+.righttop {
+    right: 0;
+}
+
 .lefttop:hover,
 .righttop:hover {
-    /* 살짝 3D 회전 + 네온 그림자 */
-    transform: perspective(600px) rotateY(8deg) scale(1.1);
-    box-shadow: 0 0 20px var(--color-primary);
+    filter: brightness(1.05);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 /* 타이틀 */
-
 .title {
-    font-family: var(--font-title);
-    font-size: 3rem;
-    color: var(--color-primary);
-    text-shadow: 0 0 8px var(--color-primary);
-    transition: text-shadow 0.3s, transform 0.3s;
-}
-.title:hover {
-    transform: scale(1.05);
-    text-shadow: 0 0 16px var(--color-primary);
+    color: var(--color-text-dark);
+    text-align: center;
+    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.25);
+    font-family: var(--font-title); /* 타이틀 폰트 */
+    font-size: 50px;
+    font-weight: 700;
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    /* slight glitch 애니메이션 유지할 수도, 또는 제거 가능 */
+    animation: slightGlitch 3s infinite;
 }
 
 @keyframes slightGlitch {
