@@ -6,6 +6,13 @@ const WtfOverlay = () => {
         <div className={styles.overlay}>
             {/* 큰 WTF 텍스트 */}
             <div className={styles.wtfText}>엄혜영 BABO~~~</div>
+            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
+            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
+            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
+            <div className={styles.wtfText}>엄혜영 BABO~~~</div>
+            <div className={styles.wtfText}>W T F ???</div>
+            <div className={styles.wtfText}>W T F ???</div>
+            <div className={styles.wtfText}>W T F ???</div>
             <div className={styles.wtfText}>W T F ???</div>
             <div className={styles.subText}>이게 무슨 일인가요?!</div>
             <div className={styles.rainbowBg}>누군가의 주식처럼 후두둑 날아가는!!!</div>
