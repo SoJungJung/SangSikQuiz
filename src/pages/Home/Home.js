@@ -14,6 +14,7 @@ import gigaDolphin from './gigaDolphin.png';
 import styles from './Home.module.css';
 import Layout from '../../Layout';
 import { useNavigate } from 'react-router-dom';
+import WtfOverlay from '../../components/WtfOverlay/WtfOverlay'; // WTF 오버레이 추가
 
 const Home = () => {
     const navigate = useNavigate();
@@ -24,6 +25,7 @@ const Home = () => {
     const [stormAnimation, setStormAnimation] = useState(false); // 폭풍 애니메이션 상태
     const [showRankingHint, setShowRankingHint] = useState(false);
     const [showWhyBubble, setShowWhyBubble] = useState(false);
+    const [showWtfEffect, setShowWtfEffect] = useState(false); // WTF 오버레이 상태
 
     useEffect(() => {
         const easterEggTimer = setTimeout(() => {
@@ -67,8 +69,8 @@ const Home = () => {
     const handleOttoClick = () => {
         // 폭풍 애니메이션 시작
         setStormAnimation(true);
-        // "왜 눌렀노 게이야~" 말풍선 표시
-        setShowWhyBubble(true);
+        // WTF 효과 시작
+        setShowWtfEffect(true);
         // 3초 뒤 랭킹 페이지로 이동
         setTimeout(() => {
             navigate('/ranking');
@@ -77,7 +79,6 @@ const Home = () => {
 
     return (
         <Layout>
-            {/* stormAnimation이 true일 때 container에 stormingContainer 클래스 추가 */}
             <div className={`${styles.container} ${stormAnimation ? styles.stormingContainer : ''}`}>
                 <div className={styles.topdiv}>
                     <img className={styles.lefttop} src={lefttop} alt="lefttop" />
@@ -91,7 +92,6 @@ const Home = () => {
                 <div className={styles.middiv}>
                     <div className={styles.mid1}>
                         <div className={styles.ottoWrapper}>
-                            {/* stormAnimation이 true일 때 otto 이미지에 storming 클래스 추가 */}
                             <img
                                 className={`${styles.otto} ${stormAnimation ? styles.storming : ''}`}
                                 src={otto}
@@ -135,7 +135,6 @@ const Home = () => {
                         <button className={styles.audioButton} onClick={handlePlayAudio} disabled={stormAnimation}>
                             {isPlaying ? '오디오 정지' : '오디오 재생'}
                         </button>
-                        {/* trump, duce에도 stormAnimation 시 storming 클래스 적용 */}
                         <img
                             className={`${styles.trump} ${stormAnimation ? styles.storming : ''}`}
                             src={trump}
@@ -160,6 +159,8 @@ const Home = () => {
 
                 <div className={styles.hint}>10초 기다리면 뭔가 나올지도...?</div>
                 {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
+                {/* WTF Overlay */}
+                {showWtfEffect && <WtfOverlay />}
             </div>
         </Layout>
     );

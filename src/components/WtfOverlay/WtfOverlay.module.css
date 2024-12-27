@@ -1,0 +1,89 @@
+/* 전체 화면 덮는 오버레이 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 큰 텍스트 */
+.wtfText {
+    font-family: 'Orbitron', sans-serif; /* 네온/디지털 느낌 */
+    font-size: 5rem;
+    color: #ff0080;
+    text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080, 0 0 30px #ff0080;
+    animation: wtfShake 2s infinite;
+}
+
+/* 알록달록 RGB 배경 */
+.rainbowBg {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, red, yellow, green, cyan, blue, magenta, red);
+    background-size: 400% 400%;
+    mix-blend-mode: screen;
+    opacity: 0.3;
+    animation: rainbowFlash 1s infinite;
+}
+
+/* 텍스트 흔들리는 애니메이션 */
+@keyframes wtfShake {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(-5px, 5px) rotate(3deg);
+    }
+    50% {
+        transform: translate(5px, -5px) rotate(-3deg);
+    }
+    75% {
+        transform: translate(-5px, -5px) rotate(2deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+/* 배경 깜빡이는 애니메이션 */
+@keyframes rainbowFlash {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.subText {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: #00ffd2;
+    text-shadow: 0 0 8px #00ffd2, 0 0 16px #00ffd2;
+    position: absolute;
+    bottom: 20%;
+    animation: fadeInOut 3s infinite;
+}
+
+@keyframes fadeInOut {
+    0%,
+    100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
