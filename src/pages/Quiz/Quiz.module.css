@@ -64,49 +64,32 @@
     animation: wiggle 3s infinite;
 }
 
-/* 퀴즈 박스 */
 .quizShow {
     position: relative;
-    width: 90%; /* 344px -> 반응형, 최대폭 사용 */
-    max-width: 344px;
-    background-color: var(--color-bg-light); /* #7a8b8b -> 전역 변수 */
-    color: var(--color-text-dark);
+    width: 344px;
+    background-color: #7a8b8b;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
     left: 50%;
-    transform: translateX(-50%);
-    margin-top: 60px; /* 100px -> 조절 */
-    padding: 15px;
+    transform: translate(-50%, -50%);
+    margin-top: 100px;
+    padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-
-    /* glow 애니메이션 -> 필요 여부에 따라 유지/삭제 */
     animation: glow 2s ease-in-out infinite alternate;
 }
 
 .quizText {
-    width: 90%;
-    max-width: 300px;
+    width: 300px;
     text-align: left;
-    font-size: 24px; /* 30px -> 조금 축소 (모바일 호환) */
+    font-size: 30px;
     overflow: hidden;
-    color: #333; /* 배경이 밝으므로 어두운 텍스트 */
+    color: #fff;
     font-weight: bold;
 }
-
-/* 답안 컨테이너 */
-.answerShow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: -60px; /* 기존 -60px -> 조금 조정 */
-}
-
 /* 정답 선택 (circle) */
 .circle,
 .circle2,
