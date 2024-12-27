@@ -17,17 +17,24 @@ const Ranking = () => {
 
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
+    // 재도전 버튼
     const handleRetry = () => {
-        localStorage.clear();
+        // 필요한 키만 지우거나, 정말 새로 시작하려면 clear() 가능.
+        // localStorage.clear();
+
+        // 대신 필요한 키만 지우는 경우:
         localStorage.removeItem('currentQuestionIndex');
         localStorage.removeItem('correctAnswersCount');
         localStorage.removeItem('score');
         localStorage.removeItem('totalQuestions');
         localStorage.removeItem('selectedQuizzes');
+        // nickname을 계속 유지하고 싶다면, 지우지 않음.
+        // localStorage.removeItem("nickname");
+
         navigate('/');
     };
 
-    /* 실제 공유 로직 (스크린샷 + 저장 + Web Share) */
+    // 실제 공유 로직 (스크린샷 + 저장 + Web Share)
     const doShare = async () => {
         try {
             // 전체 페이지 스크린샷 (축소)
@@ -63,17 +70,19 @@ const Ranking = () => {
         }
     };
 
-    /* 공유 버튼 클릭 시: 먼저 도발 모달 표시 */
+    // 공유 버튼 클릭 시: 먼저 도발 모달 표시
     const handleShare = () => {
         setShowProvocation(true);
     };
 
-    /* useEffect로 랭킹 데이터 가져오기 */
+    // 랭킹 데이터 fetch
     useEffect(() => {
         const fetchRankings = async () => {
             try {
                 const response = await fetch(`${BACKEND_URL}/api/ranking`);
-                if (!response.ok) throw new Error('Network response was not ok');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
 
                 const jsonData = await response.json();
                 const userNickname = localStorage.getItem('nickname');
@@ -82,7 +91,7 @@ const Ranking = () => {
 
                 setNickname(userNickname);
 
-                //서버로부터 받아온 랭킹 데이터 활용
+                // 랭킹 데이터
                 let updatedRankings = jsonData.rankings || [];
 
                 // 사용자 순위 찾기
@@ -95,8 +104,7 @@ const Ranking = () => {
                     if (userRank) {
                         setUserPosition(userRank.position);
                     } else {
-                        // 유저가 top 100안에 없을 경우 별도 처리 가능
-                        setUserPosition(null);
+                        setUserPosition(null); // top100 밖이거나 없는 경우
                     }
                 }
 
@@ -111,7 +119,6 @@ const Ranking = () => {
         fetchRankings();
     }, [BACKEND_URL]);
 
-    /* 로딩/에러 처리 */
     if (loading) {
         return <div className={styles.loading}>Loading...</div>;
     }
@@ -160,7 +167,7 @@ const Ranking = () => {
                     <div className={styles.rankList}>
                         {rankings.map((rank, index) => (
                             <div key={`${rank.nickname}-${index}`} className={styles.rankItem}>
-                                {rank.position}. {rank.nickname} - {rank.highScore}점
+                                {rank.position}. {rank.nickname} - {rank.high_score}점
                             </div>
                         ))}
                     </div>
