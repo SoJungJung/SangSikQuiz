@@ -165,7 +165,7 @@ const Ranking = () => {
           </div>
         )}
         <span className={styles.backButton} onClick={handleGoHome} style={{ fontSize: "1.5rem" }}>
-          '&gt;'
+          &gt;
         </span>
         <br />
         <br />

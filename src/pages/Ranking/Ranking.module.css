@@ -18,7 +18,7 @@
   top: 10px;
   left: 10px;
   font-size: 24px;
-  color: var(--color-text-light);
+  color: gray;
   cursor: pointer;
 }
 /* 랭킹 제목 */
