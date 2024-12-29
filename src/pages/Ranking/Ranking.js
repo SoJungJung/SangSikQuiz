@@ -164,10 +164,11 @@ const Ranking = () => {
             </div>
           </div>
         )}
-
         <span className={styles.backButton} onClick={handleGoHome} style={{ fontSize: "1.5rem" }}>
-          '{">"}'
+          '&gt;'
         </span>
+        <br />
+        <br />
         <div className={styles.title}>
           {nickname ? `너 자신을 알라 ${nickname}, 너는 ${userPosition}등` : "너 자신을 알라"}
         </div>
@@ -181,7 +182,6 @@ const Ranking = () => {
             ))}
           </div>
         </div>
-
         <div className={styles.shareButtons}>
           <button className={styles.retryButton} onClick={handleRetry}>
             RETRY?
