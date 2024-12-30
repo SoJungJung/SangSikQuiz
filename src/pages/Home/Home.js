@@ -32,6 +32,9 @@ const Home = () => {
     const [showWhyBubble, setShowWhyBubble] = useState(false);
     const [showWtfEffect, setShowWtfEffect] = useState(false); // WTF 오버레이 상태
 
+    // **새로 추가**: 기가돌핀 클릭 시 개발자 메모를 보여줄 상태
+    const [showDevMemo, setShowDevMemo] = useState(false);
+
     //시작하기를 누를 때 이전 퀴즈 데이터(localStorage) 제거 후 새 게임
     const handleClickNext = () => {
         if (nickname.trim() !== '') {
@@ -84,15 +87,23 @@ const Home = () => {
         }
     };
 
+    //오토 클릭: 폭풍 + WtfOverlay + 3초 뒤 랭킹 페이지
     const handleOttoClick = () => {
-        // 폭풍 애니메이션 시작
         setStormAnimation(true);
-        // WTF 효과 시작
         setShowWtfEffect(true);
-        // 3초 뒤 랭킹 페이지로 이동
         setTimeout(() => {
             navigate('/ranking');
         }, 3000);
+    };
+
+    // **기능 추가**: 기가돌핀 클릭 → 개발자 메모 표시
+    const handleGigaDolphinClick = () => {
+        setShowDevMemo(true);
+    };
+
+    // 개발자 메모 닫기
+    const closeDevMemo = () => {
+        setShowDevMemo(false);
     };
 
     return (
@@ -178,9 +189,34 @@ const Home = () => {
                 </div>
 
                 <div className={styles.hint}>10초 기다리면 뭔가 나올지도...?</div>
-                {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
+                {/* 기가돌핀 이스터에그 */}
+                {showEasterEgg && (
+                    <img
+                        className={styles.gigaDolphin}
+                        src={gigaDolphin}
+                        alt="Giga Dolphin"
+                        onClick={handleGigaDolphinClick} // 클릭 시 개발자 메모 표시
+                        style={{ cursor: 'pointer' }}
+                    />
+                )}
+
                 {/* WTF Overlay */}
                 {showWtfEffect && <WtfOverlay />}
+
+                {/* 개발자 메모 모달 */}
+                {showDevMemo && (
+                    <div className={styles.devMemoOverlay}>
+                        <div className={styles.devMemoBox}>
+                            <h2>숨겨진 메모</h2>
+                            <p>저희의 퀴즈를 플레이해주셔서 감사합니다.</p>
+                            <p>재밌게 즐겨주세요.</p>
+                            <p>꼭 높은 점수 받으시길!</p>
+                            <button onClick={closeDevMemo} className={styles.devMemoClose}>
+                                닫기
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </Layout>
     );
