@@ -9,10 +9,12 @@ const Ranking = () => {
     const [rankings, setRankings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // 사용자의 순위 (top 100 내에 있다면 등수, 아니면 null)
     const [userPosition, setUserPosition] = useState(null);
     const [nickname, setNickname] = useState('');
 
-    /* 도발 모달(컨펌) 표시 여부 */
+    // 도발 모달(컨펌) 표시 여부
     const [showProvocation, setShowProvocation] = useState(false);
 
     const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -28,8 +30,8 @@ const Ranking = () => {
         localStorage.removeItem('score');
         localStorage.removeItem('totalQuestions');
         localStorage.removeItem('selectedQuizzes');
-        // nickname을 계속 유지하고 싶다면, 지우지 않음.
-        // localStorage.removeItem("nickname");
+        // nickname을 계속 유지하고 싶다면, 주석 처리하거나 지우지 않으면 됨.
+        // localStorage.removeItem('nickname');
 
         navigate('/');
     };
@@ -94,7 +96,7 @@ const Ranking = () => {
                 // 랭킹 데이터
                 let updatedRankings = jsonData.rankings || [];
 
-                // 사용자 순위 찾기
+                // 사용자 순위 찾기 (top 100 결과 안에서)
                 if (userNickname) {
                     const userHighScore = Math.max(score, highScore);
                     const userRank = updatedRankings.find(
@@ -104,7 +106,8 @@ const Ranking = () => {
                     if (userRank) {
                         setUserPosition(userRank.position);
                     } else {
-                        setUserPosition(null); // top100 밖이거나 없는 경우
+                        // top 100 밖이거나 기록 없음
+                        setUserPosition(null);
                     }
                 }
 
@@ -139,7 +142,7 @@ const Ranking = () => {
                                 <br />
                                 <b>“아니 뭐... {nickname || '익명'} 정도면 자기 점수 공개하기 쪽팔리다는 건가?”</b>
                                 <br />
-                                <small>이대로 재명이 차명계좌처럼 숨기기 없기!</small>
+                                <small>이대로 재명이 드럼통처럼 숨기기 없기!</small>
                             </p>
                             <div className={styles.provocationActions}>
                                 <button className={styles.provoCancel} onClick={() => setShowProvocation(false)}>
@@ -159,9 +162,16 @@ const Ranking = () => {
                     </div>
                 )}
 
+                {/* 상단 타이틀 */}
                 <div className={styles.title}>
-                    {nickname ? `너 자신을 알라 ${nickname}, 너는 ${userPosition}등` : '너 자신을 알라'}
+                    {nickname
+                        ? userPosition
+                            ? `너 자신을 알라 ${nickname}, 너는 ${userPosition}등`
+                            : `너 자신을 알라 ${nickname}, 너는 현재 100등 밖이거나 기록 없음. 심각한 수준.`
+                        : '공부 좀 해라. 이것아.'}
                 </div>
+
+                {/* 랭킹 박스 */}
                 <div className={styles.rankBox}>
                     <div className={styles.rankTitle}>RANK</div>
                     <div className={styles.rankList}>
@@ -173,6 +183,7 @@ const Ranking = () => {
                     </div>
                 </div>
 
+                {/* 하단 버튼들 */}
                 <div className={styles.shareButtons}>
                     <button className={styles.retryButton} onClick={handleRetry}>
                         RETRY?

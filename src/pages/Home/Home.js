@@ -171,7 +171,6 @@ const Home = () => {
                         title="베니토 무솔리니"
                     />
                 </div>
-
                 <div className={styles.hint}>10초 기다리면 뭔가 나올지도...?</div>
                 {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
                 {/* WTF Overlay */}
