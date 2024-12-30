@@ -8,6 +8,30 @@ import point from "./point.png";
 import Layout from "../../Layout";
 
 const Quiz = () => {
+  const QuizAnswer = ({ text }) => {
+    const textRef = useRef(null);
+
+    useEffect(() => {
+      const adjustFontSize = () => {
+        const element = textRef.current;
+        if (element) {
+          let fontSize = 24; // 기본 폰트 크기
+          while (element.scrollHeight > element.clientHeight && fontSize > 10) {
+            fontSize -= 1; // 글자 크기 줄이기
+            element.style.fontSize = `${fontSize}px`;
+          }
+        }
+      };
+      adjustFontSize();
+    }, [text]);
+
+    return (
+      <div className="rectangleText" ref={textRef}>
+        {text}
+      </div>
+    );
+  };
+
   const navigate = useNavigate();
 
   // 로딩, 에러, 뒤로가기 제한 관련 상태
@@ -249,7 +273,7 @@ const Quiz = () => {
                 <div className={styles.circleText}>{index + 1}</div>
               </div>
               <div className={styles.rectangle}>
-                <div className={styles.rectangleText}>{ans.TRUE ?? ans.FALSE}</div>
+                <QuizAnswer text={ans.TRUE || ans.FALSE} />
               </div>
             </div>
           ))}

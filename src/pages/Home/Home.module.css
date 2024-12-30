@@ -8,6 +8,13 @@
   overflow: hidden;
   font-family: var(--font-body);
 }
+.container img {
+  pointer-events: none; /* 드래그 방지 */
+}
+
+.container {
+  user-select: none; /* 텍스트 복사 방지 */
+}
 
 .stormingContainer {
   animation: stormRotate 3s ease-in-out forwards;
