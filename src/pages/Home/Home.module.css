@@ -8,9 +8,6 @@
   overflow: hidden;
   font-family: var(--font-body);
 }
-.container img {
-  pointer-events: none; /* 드래그 방지 */
-}
 
 .container {
   user-select: none; /* 텍스트 복사 방지 */
@@ -33,6 +30,7 @@
 .topdiv {
   position: relative;
   min-height: 150px; /* 195px -> 좀 줄이거나 min-height로 */
+  pointer-events: none; /* 드래그 방지 */
 }
 
 /* lefttop, righttop 이미지: floatX 대신 hover 효과로만 */
@@ -115,7 +113,6 @@
   width: 100%;
   transition: transform 0.3s ease, filter 0.3s ease;
   filter: hue-rotate(20deg);
-  pointer-events: auto;
 }
 .otto:hover {
   transform: scale(1.05);
@@ -250,6 +247,7 @@
   margin-top: 160px;
   transition: filter 0.3s ease;
   filter: saturate(1.2);
+  pointer-events: none; /* 드래그 방지 */
 }
 .trump:hover {
   filter: saturate(1.4) hue-rotate(15deg);
