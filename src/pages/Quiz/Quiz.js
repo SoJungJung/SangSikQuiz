@@ -35,9 +35,9 @@ const Quiz = () => {
 
   const navigate = useNavigate();
 
-  // 로딩, 에러, 뒤로가기 제한 관련 상태
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // ---------------------------------------
+  // 뒤로가기 제한
+  // ---------------------------------------
   const maxBackPress = 3;
   const backPressCountRef = useRef(0);
 
@@ -59,41 +59,52 @@ const Quiz = () => {
     };
   }, []);
 
-  // 로컬 스토리지에서 퀴즈 데이터와 관련 상태를 가져오기
-  const [selectedQuizzes, setSelectedQuizzes] = useState(() => {
-    const storedQuizzes = localStorage.getItem("selectedQuizzes");
-    return storedQuizzes ? JSON.parse(storedQuizzes) : [];
-  });
+  // ---------------------------------------
+  // 로딩, 에러 상태
+  // ---------------------------------------
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // ---------------------------------------
+  // 로컬 스토리지에서 상태 복원
+  // ---------------------------------------
+  const [selectedQuizzes, setSelectedQuizzes] = useState(() => {
+    const stored = localStorage.getItem("selectedQuizzes");
+    return stored ? JSON.parse(stored) : [];
+  });
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
     return parseInt(localStorage.getItem("currentQuestionIndex"), 10) || 0;
   });
-
   const [correctAnswersCount, setCorrectAnswersCount] = useState(() => {
     return parseInt(localStorage.getItem("correctAnswersCount"), 10) || 0;
   });
-
   const [score, setScore] = useState(() => {
     return parseInt(localStorage.getItem("score"), 10) || 0;
   });
 
-  // 현재 풀 문제
+  // ---------------------------------------
+  // 현재 보여줄 문제
+  // ---------------------------------------
   const randomQuiz = useMemo(() => {
-    if (selectedQuizzes.length > 0 && currentQuestionIndex < selectedQuizzes.length) {
+    if (selectedQuizzes && selectedQuizzes.length > 0 && currentQuestionIndex < selectedQuizzes.length) {
       return selectedQuizzes[currentQuestionIndex];
     }
     return null;
   }, [selectedQuizzes, currentQuestionIndex]);
 
-  // 퀴즈 데이터를 가져오는 함수
-  const fetchQuizData = useCallback(async () => {
+  // ---------------------------------------
+  // 1) 최초 로딩 시 쓰는 함수 (index/점수 0으로 초기화)
+  // ---------------------------------------
+  const fetchInitialQuizData = useCallback(async () => {
+    console.log("[fetchInitialQuizData] 새 퀴즈 데이터를 불러옵니다. (index=0으로 초기화)");
+
     try {
+      setLoading(true);
       const response = await fetch("/example.json");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+      if (!response.ok) throw new Error("Network response was not ok");
 
       const jsonData = await response.json();
+
       // 난이도별 분류
       const levels = {
         "super-difficult": [],
@@ -120,19 +131,18 @@ const Quiz = () => {
         ...selectRandomQuestions(levels["easy"], 1, 5),
       ];
 
-      // 최종 10문제로 추려냄
+      // 최종 10문제
       selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
 
-      // 각 문제 answer도 랜덤 섞기
+      // 정답 배열도 랜덤
       selectedQuestions.forEach((quiz) => {
         quiz.answer = quiz.answer.sort(() => Math.random() - 0.5);
       });
 
-      // 상태 & 로컬스토리지에 저장
+      // 상태 & 로컬스토리지 저장
       setSelectedQuizzes(selectedQuestions);
       localStorage.setItem("selectedQuizzes", JSON.stringify(selectedQuestions));
 
-      // 기존 인덱스, 점수 정보 리셋
       setCurrentQuestionIndex(0);
       setCorrectAnswersCount(0);
       setScore(0);
@@ -142,30 +152,99 @@ const Quiz = () => {
       localStorage.setItem("score", 0);
 
       setLoading(false);
+      console.log("[fetchInitialQuizData] 로딩 완료. 0번 문제부터 시작합니다.");
     } catch (err) {
+      console.error("[fetchInitialQuizData] 에러:", err);
       setError(err.message);
       setLoading(false);
     }
   }, []);
 
-  // 최초 로딩 시 & selectedQuizzes가 비었을 때만 fetch
-  useEffect(() => {
-    if (!selectedQuizzes || selectedQuizzes.length === 0) {
-      // 새 퀴즈 데이터 로드
-      fetchQuizData();
-    } else {
+  // ---------------------------------------
+  // 2) 중간에 데이터 꼬였을 때 쓰는 함수 (index/점수 유지)
+  // ---------------------------------------
+  const reFetchQuizData = useCallback(async () => {
+    console.log("[reFetchQuizData] 중간에 퀴즈가 꼬여 새 데이터를 받아옵니다. 현재 index:", currentQuestionIndex);
+    try {
+      setLoading(true);
+      const response = await fetch("/example.json");
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      const jsonData = await response.json();
+
+      // 난이도별 분류
+      const levels = {
+        "super-difficult": [],
+        difficult: [],
+        intermediate: [],
+        easy: [],
+      };
+      Object.keys(jsonData).forEach((level) => {
+        jsonData[level].forEach((item) => {
+          levels[level].push({ ...item, level });
+        });
+      });
+
+      // 난이도별 랜덤 문제
+      const selectRandomQuestions = (questions, min, max) => {
+        const count = Math.floor(Math.random() * (max - min + 1)) + min;
+        return questions.sort(() => Math.random() - 0.5).slice(0, count);
+      };
+
+      let newQuizzes = [
+        ...selectRandomQuestions(levels["super-difficult"], 1, 5),
+        ...selectRandomQuestions(levels["difficult"], 1, 5),
+        ...selectRandomQuestions(levels["intermediate"], 1, 5),
+        ...selectRandomQuestions(levels["easy"], 1, 5),
+      ];
+
+      newQuizzes = newQuizzes.sort(() => Math.random() - 0.5).slice(0, 10);
+
+      newQuizzes.forEach((quiz) => {
+        quiz.answer = quiz.answer.sort(() => Math.random() - 0.5);
+      });
+
+      // **index, 점수는 유지**. 문제 배열만 갈아끼움.
+      setSelectedQuizzes(newQuizzes);
+      localStorage.setItem("selectedQuizzes", JSON.stringify(newQuizzes));
+
+      // currentQuestionIndex, correctAnswersCount, score는 그대로.
+      // 다만, 만약 index가 10 이상이면 이미 다 푼 상태이므로 곧바로 결과로 갈 수도 있음.
+      console.log("[reFetchQuizData] 새 퀴즈 데이터 로딩 완료. 문제를 이어서 진행합니다.");
+      setLoading(false);
+    } catch (err) {
+      console.error("[reFetchQuizData] 에러:", err);
+      setError(err.message);
       setLoading(false);
     }
-  }, [selectedQuizzes, fetchQuizData]);
+  }, [currentQuestionIndex]);
+
+  // ---------------------------------------
+  // 컴포넌트 마운트/업데이트 시점에서 처리
+  // ---------------------------------------
+  useEffect(() => {
+    // 1) 처음 시작할 때 selectedQuizzes가 없으면 새로 로드
+    if (!selectedQuizzes || selectedQuizzes.length === 0) {
+      console.log("[Quiz.js] 초기 퀴즈 데이터가 없어 fetchInitialQuizData 실행");
+      fetchInitialQuizData();
+    } else {
+      // 이미 데이터가 있다면 로딩 풀기
+      setLoading(false);
+      console.log("[Quiz.js] 기존 퀴즈 데이터 존재. index:", currentQuestionIndex);
+    }
+  }, [selectedQuizzes, fetchInitialQuizData, currentQuestionIndex]);
 
   /**
-   * 사용자가 답을 클릭하면,
-   *  - 항상 Answer 페이지로 이동
-   *  - Answer 페이지에서 마지막 문제인지 체크 후 /result 또는 /quiz로 보냄
+   * 사용자가 정답을 클릭했을 때:
+   * - 항상 Answer 페이지로 이동
+   * - Answer.js가 "10문제 끝났으면 result로" 판단
    */
   const handleDivClick = useCallback(
     (answer, isRight) => {
-      if (!randomQuiz) return;
+      if (!randomQuiz) {
+        console.log("[handleDivClick] randomQuiz가 없어서 클릭을 무시합니다.");
+        return;
+      }
 
       const correctAnswer = randomQuiz.answer.find((ans) => ans.TRUE)?.TRUE;
       const selectedAnswer = answer.TRUE || answer.FALSE;
@@ -183,7 +262,12 @@ const Quiz = () => {
       localStorage.setItem("correctAnswersCount", newCorrectAnswersCount);
       localStorage.setItem("score", newScore);
 
-      // **무조건** Answer 페이지로 이동
+      console.log(
+        `[handleDivClick] ${currentQuestionIndex + 1}번째 문제 풀었음. ` +
+          `정답 여부=${isRight}, 다음 index=${newQuestionIndex}`
+      );
+
+      // **무조건** /answer로 이동
       navigate(
         `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
           correctAnswer
@@ -193,28 +277,21 @@ const Quiz = () => {
     [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
   );
 
-  // 만약 randomQuiz가 null인데, selectedQuizzes도 비어있지 않다면 로컬스토리지가 꼬인 상황
-  // => 로컬스토리지를 초기화하고 다시 fetch
+  // ---------------------------------------
+  // 3) randomQuiz가 없는데 selectedQuizzes는 있는데(=꼬임) => 리페치
+  // ---------------------------------------
   useEffect(() => {
-    if (!randomQuiz && selectedQuizzes.length > 0 && !loading) {
-      // 이미 퀴즈가 있는데 현재 Quiz를 못 뽑아오는 상황이면 꼬임으로 간주
-      localStorage.removeItem("selectedQuizzes");
-      localStorage.removeItem("currentQuestionIndex");
-      localStorage.removeItem("correctAnswersCount");
-      localStorage.removeItem("score");
-
-      setSelectedQuizzes([]);
-      setCurrentQuestionIndex(0);
-      setCorrectAnswersCount(0);
-      setScore(0);
-
-      // 다시 로딩 시도
-      setLoading(true);
-      fetchQuizData();
+    // 이미 로딩 중이면(=spinner 띄우는 중이면) 굳이 중복 호출 X
+    if (!loading && !randomQuiz && selectedQuizzes.length > 0) {
+      console.log("[Quiz.js] randomQuiz가 없지만 selectedQuizzes가 있음 -> reFetchQuizData 수행");
+      reFetchQuizData();
     }
-  }, [randomQuiz, selectedQuizzes, loading, fetchQuizData]);
+  }, [randomQuiz, selectedQuizzes, loading, reFetchQuizData]);
 
-  // 로딩 중엔 스피너(회전 아이콘)를 표시
+  // ---------------------------------------
+  // UI 렌더링
+  // ---------------------------------------
+  // 로딩 중이면 스피너 표시
   if (loading) {
     return (
       <div className={styles.loadingWrapper}>
@@ -228,25 +305,18 @@ const Quiz = () => {
     return <div className={styles.error}>Error: {error}</div>;
   }
 
-  // 퀴즈가 없으면 (fetch 성공했는데 10문제 분배 실패 등)
+  // 혹시나 randomQuiz가 아직도 없을 경우 -> 다시 스피너 + 로그 (reFetchQuizData가 진행 중일 것)
   if (!randomQuiz) {
-    // selectedQuizzes가 0개라면 또다시 로딩 중이거나 초기화 상황
-    if (selectedQuizzes.length === 0) {
-      return (
-        <div className={styles.loadingWrapper}>
-          <div className={styles.spinner}></div>
-        </div>
-      );
-    }
-    // 꼬였을 경우도 잠깐 No quiz data available이 뜰 수 있으나
-    // 위의 useEffect에서 다시 fetchQuizData()를 실행하고 있으므로
-    // 잠깐 뒤 새 퀴즈가 로딩되어 화면이 바뀔 것임
-    return <div>No quiz data available ... 로딩 중...</div>;
+    console.log("[Quiz.js] 현재 randomQuiz가 없습니다. 재시도 중...");
+    return (
+      <div className={styles.loadingWrapper}>
+        <div className={styles.spinner}></div>
+      </div>
+    );
   }
 
   // 실제 퀴즈 UI
   const circleClasses = [styles.circle, styles.circle2, styles.circle3];
-
   return (
     <Layout>
       <div className={styles.container}>
@@ -260,9 +330,13 @@ const Quiz = () => {
             <div className={styles.pointText}>점수: {score}</div>
           </div>
         </div>
+
+        {/* 문제 영역 */}
         <div className={styles.quizShow}>
-          <QuizText text={randomQuiz?.quiz || "퀴즈 데이터를 불러오는 중..."} />{" "}
+          <QuizText text={randomQuiz?.quiz || "퀴즈 데이터를 불러오는 중..."} />
         </div>
+
+        {/* 보기(정답) 영역 */}
         <div className={styles.answerShow}>
           {randomQuiz.answer.map((ans, index) => (
             <div
@@ -279,7 +353,10 @@ const Quiz = () => {
             </div>
           ))}
         </div>
+
+        {/* 진행 상황 (1/10) */}
         <div className={styles.numShow}>{currentQuestionIndex + 1} / 10</div>
+
         <div className={styles.bottomdiv}>
           <img className={styles.leftbottom} src={leftbottom} alt="Left Bottom" />
         </div>
