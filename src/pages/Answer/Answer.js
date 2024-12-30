@@ -19,6 +19,24 @@ const Answer = () => {
   const backPressCountRef = useRef(0);
   const maxBackPress = 3;
 
+  const textContainerRef = useRef(null); // 텍스트 크기 조정을 위한 Ref
+
+  // 글씨 크기 조정 로직
+  useEffect(() => {
+    const adjustFontSize = () => {
+      const container = textContainerRef.current;
+      if (!container) return;
+
+      let fontSize = 26; // 기본 글씨 크기
+      while (container.scrollHeight > container.clientHeight && fontSize > 14) {
+        fontSize -= 1; // 크기를 줄임
+        container.style.fontSize = `${fontSize}px`;
+      }
+    };
+
+    adjustFontSize();
+  }, [quote, correctAnswer, selectedAnswer]); // 텍스트 변경 시마다 실행
+
   useEffect(() => {
     fetch("/quote.json")
       .then((response) => {
@@ -69,10 +87,7 @@ const Answer = () => {
   }
 
   const handleContinue = () => {
-    // 로컬스토리지에서 currentQuestionIndex를 읽어서
     const currentIndex = parseInt(localStorage.getItem("currentQuestionIndex"), 10) || 0;
-
-    // 10문제 다 풀었다면 => /result 페이지로 이동
     if (currentIndex >= 10) {
       navigate("/result");
     } else {
@@ -86,7 +101,9 @@ const Answer = () => {
         <div className={styles.topdiv}>
           <div className={styles.crtAswShow}>
             <div className={styles.crtAsw}></div>
-            <div className={styles.crtAswShowText}>정답: {correctAnswer}</div>
+            <div className={styles.crtAswShowText} ref={textContainerRef}>
+              정답: {correctAnswer}
+            </div>
           </div>
         </div>
 
