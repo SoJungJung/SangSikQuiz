@@ -9,18 +9,16 @@ import Layout from "../../Layout";
 
 const Quiz = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true); // 로딩 상태 관리
-  const [error, setError] = useState(null); // 에러 상태 관리
-  const [notLoading, setNotLoading] = useState(false); // 결과 화면 전환 상태 관리
 
-  // 1. 뒤로가기 제한 기능 구현
-  const maxBackPress = 3; // 뒤로가기 제한 횟수
-  const backPressCountRef = useRef(0); // 뒤로가기 버튼 누른 횟수 저장 (리렌더링 방지)
+  // 로딩, 에러, 뒤로가기 제한 관련 상태
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const maxBackPress = 3;
+  const backPressCountRef = useRef(0);
 
   useEffect(() => {
     const preventGoBack = () => {
       backPressCountRef.current += 1;
-
       if (backPressCountRef.current >= maxBackPress) {
         alert("뒤로가기 계엄령! 한번만 더 하면 너 진짜 박정희야!");
       } else {
@@ -31,7 +29,6 @@ const Quiz = () => {
 
     window.history.pushState(null, "", window.location.href);
     window.addEventListener("popstate", preventGoBack);
-
     return () => {
       window.removeEventListener("popstate", preventGoBack);
     };
@@ -43,17 +40,19 @@ const Quiz = () => {
     return storedQuizzes ? JSON.parse(storedQuizzes) : [];
   });
 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
-    () => parseInt(localStorage.getItem("currentQuestionIndex"), 10) || 0
-  );
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
+    return parseInt(localStorage.getItem("currentQuestionIndex"), 10) || 0;
+  });
 
-  const [correctAnswersCount, setCorrectAnswersCount] = useState(
-    () => parseInt(localStorage.getItem("correctAnswersCount"), 10) || 0
-  );
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(() => {
+    return parseInt(localStorage.getItem("correctAnswersCount"), 10) || 0;
+  });
 
-  const [score, setScore] = useState(() => parseInt(localStorage.getItem("score"), 10) || 0);
+  const [score, setScore] = useState(() => {
+    return parseInt(localStorage.getItem("score"), 10) || 0;
+  });
 
-  // randomQuiz를 계산: selectedQuizzes와 currentQuestionIndex를 활용해 동적으로 결정
+  // 현재 풀 문제
   const randomQuiz = useMemo(() => {
     if (selectedQuizzes.length > 0 && currentQuestionIndex < selectedQuizzes.length) {
       return selectedQuizzes[currentQuestionIndex];
@@ -61,67 +60,84 @@ const Quiz = () => {
     return null;
   }, [selectedQuizzes, currentQuestionIndex]);
 
-  // 퀴즈 데이터 가져오기
-  useEffect(() => {
-    const fetchQuizData = async () => {
-      try {
-        if (!selectedQuizzes || selectedQuizzes.length === 0) {
-          const response = await fetch("/example.json");
-
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-
-          const jsonData = await response.json();
-
-          // 난이도별로 문제 분류
-          const levels = {
-            "super-difficult": [],
-            difficult: [],
-            intermediate: [],
-            easy: [],
-          };
-
-          Object.keys(jsonData).forEach((level) => {
-            jsonData[level].forEach((item) => {
-              levels[level].push({ ...item, level });
-            });
-          });
-
-          // 난이도별로 랜덤 문제를 선택
-          const selectRandomQuestions = (questions, min, max) => {
-            const count = Math.floor(Math.random() * (max - min + 1)) + min;
-            return questions.sort(() => Math.random() - 0.5).slice(0, count);
-          };
-
-          let selectedQuestions = [
-            ...selectRandomQuestions(levels["super-difficult"], 1, 5),
-            ...selectRandomQuestions(levels["difficult"], 1, 5),
-            ...selectRandomQuestions(levels["intermediate"], 1, 5),
-            ...selectRandomQuestions(levels["easy"], 1, 5),
-          ];
-
-          selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
-
-          // 정답도 랜덤으로 섞음
-          selectedQuestions.forEach((quiz) => {
-            quiz.answer = quiz.answer.sort(() => Math.random() - 0.5);
-          });
-
-          setSelectedQuizzes(selectedQuestions);
-          localStorage.setItem("selectedQuizzes", JSON.stringify(selectedQuestions));
-        }
-        setLoading(false); // 로딩 완료
-      } catch (err) {
-        setError(err.message);
-        setLoading(false); // 에러 발생 시 로딩 종료
+  // 퀴즈 데이터를 가져오는 함수
+  const fetchQuizData = useCallback(async () => {
+    try {
+      const response = await fetch("/example.json");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
 
-    fetchQuizData();
-  }, [selectedQuizzes]);
+      const jsonData = await response.json();
+      // 난이도별 분류
+      const levels = {
+        "super-difficult": [],
+        difficult: [],
+        intermediate: [],
+        easy: [],
+      };
+      Object.keys(jsonData).forEach((level) => {
+        jsonData[level].forEach((item) => {
+          levels[level].push({ ...item, level });
+        });
+      });
 
-  // 정답 클릭 핸들러
+      // 난이도별 랜덤 문제 고르기
+      const selectRandomQuestions = (questions, min, max) => {
+        const count = Math.floor(Math.random() * (max - min + 1)) + min;
+        return questions.sort(() => Math.random() - 0.5).slice(0, count);
+      };
+
+      let selectedQuestions = [
+        ...selectRandomQuestions(levels["super-difficult"], 1, 5),
+        ...selectRandomQuestions(levels["difficult"], 1, 5),
+        ...selectRandomQuestions(levels["intermediate"], 1, 5),
+        ...selectRandomQuestions(levels["easy"], 1, 5),
+      ];
+
+      // 최종 10문제로 추려냄
+      selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
+
+      // 각 문제 answer도 랜덤 섞기
+      selectedQuestions.forEach((quiz) => {
+        quiz.answer = quiz.answer.sort(() => Math.random() - 0.5);
+      });
+
+      // 상태 & 로컬스토리지에 저장
+      setSelectedQuizzes(selectedQuestions);
+      localStorage.setItem("selectedQuizzes", JSON.stringify(selectedQuestions));
+
+      // 기존 인덱스, 점수 정보 리셋
+      setCurrentQuestionIndex(0);
+      setCorrectAnswersCount(0);
+      setScore(0);
+
+      localStorage.setItem("currentQuestionIndex", 0);
+      localStorage.setItem("correctAnswersCount", 0);
+      localStorage.setItem("score", 0);
+
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  }, []);
+
+  // 최초 로딩 시 & selectedQuizzes가 비었을 때만 fetch
+  useEffect(() => {
+    if (!selectedQuizzes || selectedQuizzes.length === 0) {
+      // 새 퀴즈 데이터 로드
+      fetchQuizData();
+    } else {
+      setLoading(false);
+    }
+  }, [selectedQuizzes, fetchQuizData]);
+
+  /**
+   * 사용자가 답을 클릭하면,
+   *  - 항상 Answer 페이지로 이동
+   *  - Answer 페이지에서 마지막 문제인지 체크 후 /result 또는 /quiz로 보냄
+   */
   const handleDivClick = useCallback(
     (answer, isRight) => {
       if (!randomQuiz) return;
@@ -133,6 +149,7 @@ const Quiz = () => {
       const newCorrectAnswersCount = isRight ? correctAnswersCount + 1 : correctAnswersCount;
       const newScore = isRight ? score + 10 : score;
 
+      // 상태/스토리지 업데이트
       setCurrentQuestionIndex(newQuestionIndex);
       setCorrectAnswersCount(newCorrectAnswersCount);
       setScore(newScore);
@@ -141,44 +158,68 @@ const Quiz = () => {
       localStorage.setItem("correctAnswersCount", newCorrectAnswersCount);
       localStorage.setItem("score", newScore);
 
-      if (newQuestionIndex < 10) {
-        navigate(
-          `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
-            correctAnswer
-          )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
-        );
-      } else {
-        localStorage.setItem("score", newScore);
-        localStorage.setItem("totalQuestions", 10);
-        setNotLoading(true);
-      }
+      // **무조건** Answer 페이지로 이동
+      navigate(
+        `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
+          correctAnswer
+        )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
+      );
     },
     [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
   );
 
+  // 만약 randomQuiz가 null인데, selectedQuizzes도 비어있지 않다면 로컬스토리지가 꼬인 상황
+  // => 로컬스토리지를 초기화하고 다시 fetch
   useEffect(() => {
-    if (notLoading) {
-      navigate(`/result`);
-    }
-  }, [notLoading, navigate]);
+    if (!randomQuiz && selectedQuizzes.length > 0 && !loading) {
+      // 이미 퀴즈가 있는데 현재 Quiz를 못 뽑아오는 상황이면 꼬임으로 간주
+      localStorage.removeItem("selectedQuizzes");
+      localStorage.removeItem("currentQuestionIndex");
+      localStorage.removeItem("correctAnswersCount");
+      localStorage.removeItem("score");
 
-  // 로딩 및 에러 처리
+      setSelectedQuizzes([]);
+      setCurrentQuestionIndex(0);
+      setCorrectAnswersCount(0);
+      setScore(0);
+
+      // 다시 로딩 시도
+      setLoading(true);
+      fetchQuizData();
+    }
+  }, [randomQuiz, selectedQuizzes, loading, fetchQuizData]);
+
+  // 로딩 중엔 스피너(회전 아이콘)를 표시
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.loadingWrapper}>
+        <div className={styles.spinner}></div>
+      </div>
+    );
   }
 
+  // 에러 발생 시
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className={styles.error}>Error: {error}</div>;
   }
 
+  // 퀴즈가 없으면 (fetch 성공했는데 10문제 분배 실패 등)
   if (!randomQuiz) {
+    // selectedQuizzes가 0개라면 또다시 로딩 중이거나 초기화 상황
     if (selectedQuizzes.length === 0) {
-      return <div>퀴즈 데이터를 로드 중입니다...</div>;
+      return (
+        <div className={styles.loadingWrapper}>
+          <div className={styles.spinner}></div>
+        </div>
+      );
     }
-    return <div>No quiz data available</div>;
+    // 꼬였을 경우도 잠깐 No quiz data available이 뜰 수 있으나
+    // 위의 useEffect에서 다시 fetchQuizData()를 실행하고 있으므로
+    // 잠깐 뒤 새 퀴즈가 로딩되어 화면이 바뀔 것임
+    return <div>No quiz data available ... 로딩 중...</div>;
   }
 
-  // UI 렌더링
+  // 실제 퀴즈 UI
   const circleClasses = [styles.circle, styles.circle2, styles.circle3];
 
   return (
@@ -208,7 +249,7 @@ const Quiz = () => {
                 <div className={styles.circleText}>{index + 1}</div>
               </div>
               <div className={styles.rectangle}>
-                <div className={styles.rectangleText}>{ans.TRUE ? ans.TRUE : ans.FALSE}</div>
+                <div className={styles.rectangleText}>{ans.TRUE ?? ans.FALSE}</div>
               </div>
             </div>
           ))}
