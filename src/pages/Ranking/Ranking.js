@@ -135,11 +135,11 @@ const Ranking = () => {
                         <div className={styles.provocationBox}>
                             <h3>결과 공유 안 하면...</h3>
                             <p>
-                                이대로 석열이처럼 포기해버리는 건가요?
+                                이대로 철수처럼 포기해버리는 건가요?
                                 <br />
                                 <b>“아니 뭐... {nickname || '익명'} 정도면 자기 점수 공개하기 쪽팔리다는 건가?”</b>
                                 <br />
-                                <small>이대로 숨기기 없기!</small>
+                                <small>이대로 재명이 차명계좌처럼 숨기기 없기!</small>
                             </p>
                             <div className={styles.provocationActions}>
                                 <button className={styles.provoCancel} onClick={() => setShowProvocation(false)}>
