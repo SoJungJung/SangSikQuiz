@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import styles from "./Quiz.module.css";
 
 const QuizText = ({ text }) => {
   const textRef = useRef(null);
@@ -29,6 +30,7 @@ const QuizText = ({ text }) => {
         WebkitLineClamp: 3,
         WebkitBoxOrient: "vertical",
       }}
+      className={styles.quizText}
     >
       {text}
     </div>
