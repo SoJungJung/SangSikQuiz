@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Quiz.module.css";
 import lefttop from "./lefttop.png";
@@ -11,16 +11,12 @@ const Quiz = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   const [error, setError] = useState(null); // 에러 상태 관리
-  const [isDataLoaded, setIsDataLoaded] = useState(false); // 데이터 로드 상태 추가
-  const [selectedQuizzes, setSelectedQuizzes] = useState([]); // 선택된 퀴즈 상태
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 현재 문제 인덱스
-  const [correctAnswersCount, setCorrectAnswersCount] = useState(0); // 정답 개수
-  const [score, setScore] = useState(0); // 점수 상태
-  const [notLoading, setNotLoading] = useState(false); // 퀴즈 완료 여부
+  const [notLoading, setNotLoading] = useState(false); // 결과 화면 전환 상태 관리
 
-  //1. 뒤로가기 제한 기능 구현
-  const maxBackPress = 3; // 뒤로가기 조롱 메시지 출력 조건
-  const backPressCountRef = useRef(0); // useState가 아닌 useRef로 선언하여 불필요한 렌더링 없이 횟수 저장(변수 역할)
+  // 1. 뒤로가기 제한 기능 구현
+  const maxBackPress = 3; // 뒤로가기 제한 횟수
+  const backPressCountRef = useRef(0); // 뒤로가기 버튼 누른 횟수 저장 (리렌더링 방지)
+
   useEffect(() => {
     const preventGoBack = () => {
       backPressCountRef.current += 1;
@@ -30,14 +26,10 @@ const Quiz = () => {
       } else {
         alert("뒤로가기 금지! 금지!! 금.지.!!!");
       }
-      // HTML5의 History API를 사용해 현재 페이지의 상태를 조작하는 코드
-      // 현재 URL을 다시 히스토리에 추가하여 다시 돌아오도록 함.
       window.history.pushState(null, "", window.location.href);
     };
 
     window.history.pushState(null, "", window.location.href);
-    // addEventListener는 DOM 요소에 특정 이벤트가 발생했을 때 실행될 **이벤트 핸들러(콜백 함수)**를 등록하는 메서드입니다.
-    // 이를 통해 브라우저에서 발생하는 다양한 사용자 이벤트(클릭, 키 입력, 스크롤 등) 또는 시스템 이벤트를 감지하고 처리할 수 있습니다.
     window.addEventListener("popstate", preventGoBack);
 
     return () => {
@@ -45,69 +37,94 @@ const Quiz = () => {
     };
   }, []);
 
+  // 로컬 스토리지에서 퀴즈 데이터와 관련 상태를 가져오기
+  const [selectedQuizzes, setSelectedQuizzes] = useState(() => {
+    const storedQuizzes = localStorage.getItem("selectedQuizzes");
+    return storedQuizzes ? JSON.parse(storedQuizzes) : [];
+  });
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
+    () => parseInt(localStorage.getItem("currentQuestionIndex"), 10) || 0
+  );
+
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(
+    () => parseInt(localStorage.getItem("correctAnswersCount"), 10) || 0
+  );
+
+  const [score, setScore] = useState(() => parseInt(localStorage.getItem("score"), 10) || 0);
+
+  // randomQuiz를 계산: selectedQuizzes와 currentQuestionIndex를 활용해 동적으로 결정
+  const randomQuiz = useMemo(() => {
+    if (selectedQuizzes.length > 0 && currentQuestionIndex < selectedQuizzes.length) {
+      return selectedQuizzes[currentQuestionIndex];
+    }
+    return null;
+  }, [selectedQuizzes, currentQuestionIndex]);
+
+  // 퀴즈 데이터 가져오기
   useEffect(() => {
-    // 비동기로 퀴즈 데이터를 가져오는 함수
     const fetchQuizData = async () => {
       try {
-        const response = await fetch("/example.json");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData = await response.json();
+        if (!selectedQuizzes || selectedQuizzes.length === 0) {
+          const response = await fetch("/example.json");
 
-        // 난이도별로 데이터를 정리
-        const levels = {
-          "super-difficult": [],
-          difficult: [],
-          intermediate: [],
-          easy: [],
-        };
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
 
-        Object.keys(jsonData).forEach((level) => {
-          jsonData[level].forEach((item) => {
-            levels[level].push({ ...item, level });
+          const jsonData = await response.json();
+
+          // 난이도별로 문제 분류
+          const levels = {
+            "super-difficult": [],
+            difficult: [],
+            intermediate: [],
+            easy: [],
+          };
+
+          Object.keys(jsonData).forEach((level) => {
+            jsonData[level].forEach((item) => {
+              levels[level].push({ ...item, level });
+            });
           });
-        });
 
-        // 난이도별로 랜덤한 문제를 선택
-        const selectRandomQuestions = (questions, min, max) => {
-          const count = Math.floor(Math.random() * (max - min + 1)) + min;
-          return questions.sort(() => Math.random() - 0.5).slice(0, count);
-        };
+          // 난이도별로 랜덤 문제를 선택
+          const selectRandomQuestions = (questions, min, max) => {
+            const count = Math.floor(Math.random() * (max - min + 1)) + min;
+            return questions.sort(() => Math.random() - 0.5).slice(0, count);
+          };
 
-        let selectedQuestions = [
-          ...selectRandomQuestions(levels["super-difficult"], 1, 5),
-          ...selectRandomQuestions(levels["difficult"], 1, 5),
-          ...selectRandomQuestions(levels["intermediate"], 1, 5),
-          ...selectRandomQuestions(levels["easy"], 1, 5),
-        ];
+          let selectedQuestions = [
+            ...selectRandomQuestions(levels["super-difficult"], 1, 5),
+            ...selectRandomQuestions(levels["difficult"], 1, 5),
+            ...selectRandomQuestions(levels["intermediate"], 1, 5),
+            ...selectRandomQuestions(levels["easy"], 1, 5),
+          ];
 
-        selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
+          selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
 
-        // 답변도 랜덤으로 섞음
-        selectedQuestions.forEach((quiz) => {
-          quiz.answer = quiz.answer.sort(() => Math.random() - 0.5);
-        });
+          // 정답도 랜덤으로 섞음
+          selectedQuestions.forEach((quiz) => {
+            quiz.answer = quiz.answer.sort(() => Math.random() - 0.5);
+          });
 
-        setSelectedQuizzes(selectedQuestions);
-        localStorage.setItem("selectedQuizzes", JSON.stringify(selectedQuestions));
-        setIsDataLoaded(true); // 데이터 로드 완료 상태 설정
+          setSelectedQuizzes(selectedQuestions);
+          localStorage.setItem("selectedQuizzes", JSON.stringify(selectedQuestions));
+        }
+        setLoading(false); // 로딩 완료
       } catch (err) {
         setError(err.message);
-      } finally {
-        setLoading(false);
+        setLoading(false); // 에러 발생 시 로딩 종료
       }
     };
 
     fetchQuizData();
-  }, []);
+  }, [selectedQuizzes]);
 
-  const randomQuiz = isDataLoaded && selectedQuizzes[currentQuestionIndex]; // 데이터가 로드되었는지 확인 후 현재 문제 설정
-
-  // 사용자가 선택지를 클릭했을 때 실행되는 함수
+  // 정답 클릭 핸들러
   const handleDivClick = useCallback(
     (answer, isRight) => {
-      if (!randomQuiz) return; // randomQuiz가 없으면 아무것도 실행하지 않음
+      if (!randomQuiz) return;
 
       const correctAnswer = randomQuiz.answer.find((ans) => ans.TRUE)?.TRUE;
       const selectedAnswer = answer.TRUE || answer.FALSE;
@@ -125,46 +142,43 @@ const Quiz = () => {
       localStorage.setItem("score", newScore);
 
       if (newQuestionIndex < 10) {
-        // 마지막 문제가 아니면 결과 화면으로 이동
         navigate(
           `/answer?isRight=${isRight}&correctAnswer=${encodeURIComponent(
             correctAnswer
           )}&selectedAnswer=${encodeURIComponent(selectedAnswer)}`
         );
       } else {
-        setNotLoading(true); // 마지막 문제일 경우 퀴즈 완료 상태로 변경
+        localStorage.setItem("score", newScore);
+        localStorage.setItem("totalQuestions", 10);
+        setNotLoading(true);
       }
     },
     [randomQuiz, currentQuestionIndex, correctAnswersCount, score, navigate]
   );
 
   useEffect(() => {
-    // 퀴즈가 완료되었을 때 결과 페이지로 이동
     if (notLoading) {
       navigate(`/result`);
     }
   }, [notLoading, navigate]);
 
-  // 로딩 상태 처리
+  // 로딩 및 에러 처리
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // 에러 발생 시 처리
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  // 데이터가 아직 로드되지 않은 경우 처리
-  if (!isDataLoaded) {
-    return <div>Quiz data is loading...</div>;
-  }
-
-  // randomQuiz가 없는 경우 처리
   if (!randomQuiz) {
-    return <div>No quiz available.</div>;
+    if (selectedQuizzes.length === 0) {
+      return <div>퀴즈 데이터를 로드 중입니다...</div>;
+    }
+    return <div>No quiz data available</div>;
   }
 
+  // UI 렌더링
   const circleClasses = [styles.circle, styles.circle2, styles.circle3];
 
   return (
