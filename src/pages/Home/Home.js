@@ -3,8 +3,6 @@ import lefttop from './lefttop.png';
 import leftbottom from './leftbottom.png';
 import righttop from './righttop.png';
 import trump from './trump.png';
-import trump2 from './trump12.gif';
-import trump3 from './trump3.jpg';
 import otto from './otto.png';
 import duce from './duce.png';
 import cartoon from './cartoon.png';
@@ -19,46 +17,22 @@ import { useNavigate } from 'react-router-dom';
 import WtfOverlay from '../../components/WtfOverlay/WtfOverlay'; // WTF 오버레이 추가
 
 const Home = () => {
+    //핵심 변수 선언
     const navigate = useNavigate();
     const [nickname, setNickname] = useState('');
+
+    //음악 관련 변수 선언
     const [isPlaying, setIsPlaying] = useState(false);
     const [audio] = useState(new Audio());
+
+    //부수적인 이펙트 및 이스터에그 변수선언
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const [stormAnimation, setStormAnimation] = useState(false); // 폭풍 애니메이션 상태
     const [showRankingHint, setShowRankingHint] = useState(false);
     const [showWhyBubble, setShowWhyBubble] = useState(false);
     const [showWtfEffect, setShowWtfEffect] = useState(false); // WTF 오버레이 상태
 
-    useEffect(() => {
-        const easterEggTimer = setTimeout(() => {
-            setShowEasterEgg(true);
-        }, 10000);
-
-        const hintTimer = setTimeout(() => {
-            setShowRankingHint(true);
-        }, 5000);
-
-        return () => {
-            clearTimeout(easterEggTimer);
-            clearTimeout(hintTimer);
-        };
-    }, []);
-
-    const handlePlayAudio = () => {
-        if (!isPlaying) {
-            const audios = [audio1, audio2, audio3];
-            const randomAudio = audios[Math.floor(Math.random() * audios.length)];
-            audio.src = randomAudio;
-            audio.play();
-            setIsPlaying(true);
-        } else {
-            audio.pause();
-            audio.currentTime = 0;
-            setIsPlaying(false);
-        }
-    };
-
-    // *** 변경점: 시작하기를 누를 때 이전 퀴즈 데이터(localStorage) 제거 후 새 게임
+    //시작하기를 누를 때 이전 퀴즈 데이터(localStorage) 제거 후 새 게임
     const handleClickNext = () => {
         if (nickname.trim() !== '') {
             // 이전 퀴즈 관련 데이터 제거
@@ -76,6 +50,37 @@ const Home = () => {
             navigate('/quiz');
         } else {
             alert('닉네임도 입력 안하고 뭐하노. 게이야~');
+        }
+    };
+
+    //이스터에그와 랭킹힌트 문구 제공
+    useEffect(() => {
+        const easterEggTimer = setTimeout(() => {
+            setShowEasterEgg(true);
+        }, 10000);
+
+        const hintTimer = setTimeout(() => {
+            setShowRankingHint(true);
+        }, 5000);
+
+        return () => {
+            clearTimeout(easterEggTimer);
+            clearTimeout(hintTimer);
+        };
+    }, []);
+
+    //오디오세팅함수
+    const handlePlayAudio = () => {
+        if (!isPlaying) {
+            const audios = [audio1, audio2, audio3];
+            const randomAudio = audios[Math.floor(Math.random() * audios.length)];
+            audio.src = randomAudio;
+            audio.play();
+            setIsPlaying(true);
+        } else {
+            audio.pause();
+            audio.currentTime = 0;
+            setIsPlaying(false);
         }
     };
 
@@ -171,6 +176,7 @@ const Home = () => {
                         title="베니토 무솔리니"
                     />
                 </div>
+
                 <div className={styles.hint}>10초 기다리면 뭔가 나올지도...?</div>
                 {showEasterEgg && <img className={styles.gigaDolphin} src={gigaDolphin} alt="Giga Dolphin" />}
                 {/* WTF Overlay */}

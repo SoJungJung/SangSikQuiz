@@ -1,429 +1,438 @@
 /* Home.module.css */
 .container {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    /* 기존 background: linear-gradient(...); -> 전역 변수 사용 */
-    background: var(--color-bg-light);
-    overflow: hidden;
-    font-family: var(--font-body);
+  position: relative;
+  width: 100%;
+  min-height: auto;
+  /* 기존 background: linear-gradient(...); -> 전역 변수 사용 */
+  background: var(--color-bg-light);
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+.container img {
+  pointer-events: none; /* 드래그 방지 */
+}
+
+.container {
+  user-select: none; /* 텍스트 복사 방지 */
 }
 
 .stormingContainer {
-    animation: stormRotate 3s ease-in-out forwards;
-    transform-origin: center center;
-    animation: backgroundFadeOut 2s forwards;
+  animation: stormRotate 3s ease-in-out forwards;
+  transform-origin: center center;
+  animation: backgroundFadeOut 2s forwards;
 }
 
 @keyframes backgroundFadeOut {
-    100% {
-        /* 배경을 너무 극단적으로 #000으로 바꾸기보다 살짝 어둡게 */
-        background: #333;
-    }
+  100% {
+    /* 배경을 너무 극단적으로 #000으로 바꾸기보다 살짝 어둡게 */
+    background: #333;
+  }
 }
 
 /* 상단 영역 */
 .topdiv {
-    position: relative;
-    min-height: 150px; /* 195px -> 좀 줄이거나 min-height로 */
+  position: relative;
+  min-height: 150px; /* 195px -> 좀 줄이거나 min-height로 */
 }
 
 /* lefttop, righttop 이미지: floatX 대신 hover 효과로만 */
 .lefttop,
 .righttop {
-    position: absolute;
-    top: 0;
-    transition: filter 0.3s ease, box-shadow 0.3s ease, transform 0.3s;
+  position: absolute;
+  top: 0;
+  transition: filter 0.3s ease, box-shadow 0.3s ease, transform 0.3s;
 }
 .lefttop {
-    left: 0;
+  left: 0;
 }
 .righttop {
-    right: 0;
+  right: 0;
 }
 
 .lefttop:hover,
 .righttop:hover {
-    filter: brightness(1.05);
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.05);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 /* 타이틀 */
 .title {
-    color: var(--color-text-dark);
-    text-align: center;
-    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.25);
-    font-family: var(--font-title); /* 타이틀 폰트 */
-    font-size: 50px;
-    font-weight: 700;
-    position: absolute;
-    top: 60px;
-    width: 100%;
-    /* slight glitch 애니메이션 유지할 수도, 또는 제거 가능 */
-    animation: slightGlitch 3s infinite;
+  color: var(--color-text-dark);
+  text-align: center;
+  text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.25);
+  font-family: var(--font-title); /* 타이틀 폰트 */
+  font-size: 50px;
+  font-weight: 700;
+  position: absolute;
+  top: 60px;
+  width: 100%;
+  /* slight glitch 애니메이션 유지할 수도, 또는 제거 가능 */
+  animation: slightGlitch 3s infinite;
 }
 
 @keyframes slightGlitch {
-    0% {
-        transform: none;
-    }
-    10% {
-        transform: skewX(1deg);
-    }
-    20% {
-        transform: skewX(-1deg);
-    }
-    30% {
-        transform: skewX(0.5deg);
-    }
-    40% {
-        transform: skewX(-0.5deg);
-    }
-    50% {
-        transform: none;
-    }
-    100% {
-        transform: none;
-    }
+  0% {
+    transform: none;
+  }
+  10% {
+    transform: skewX(1deg);
+  }
+  20% {
+    transform: skewX(-1deg);
+  }
+  30% {
+    transform: skewX(0.5deg);
+  }
+  40% {
+    transform: skewX(-0.5deg);
+  }
+  50% {
+    transform: none;
+  }
+  100% {
+    transform: none;
+  }
 }
 
 /* 중앙부 */
 .middiv {
-    display: flex;
-    margin-top: 20px;
+  display: flex;
+  margin-top: 20px;
 }
 
 .mid1 {
-    width: 180px; /* 188px -> 조금 수정 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 180px; /* 188px -> 조금 수정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 비스마르크 (otto) */
 .otto {
-    width: 100%;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    filter: hue-rotate(20deg);
+  position: relative;
+  left: -10px;
+  width: 100%;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: hue-rotate(20deg);
 }
 .otto:hover {
-    transform: scale(1.05);
-    filter: hue-rotate(30deg) saturate(1.2);
+  transform: scale(1.05);
+  filter: hue-rotate(30deg) saturate(1.2);
 }
 
 /* 중앙부 2 */
 .mid2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
 }
 
 .cartoonTextBox {
-    position: relative;
-    height: 93px;
-    width: 190px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  height: 93px;
+  width: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cartoon2,
 .cartoon,
 .cartoon3 {
-    width: 190px;
-    position: absolute;
-    z-index: 1;
-    opacity: 0.9;
+  width: 190px;
+  position: absolute;
+  z-index: 1;
+  opacity: 0.9;
 }
 
 /* 텍스트에 약간의 펄스 효과 */
 .cartoonText,
 .cartoonText2,
 .cartoonText3 {
-    font-family: var(--font-body);
-    text-align: center;
-    font-size: 36px;
-    position: relative;
-    z-index: 2;
-    font-weight: bold;
-    color: var(--color-text-dark);
-    text-shadow: 0px 0px 3px #fff;
-    animation: pulseText 2s infinite alternate;
+  font-family: var(--font-body);
+  text-align: center;
+  font-size: 36px;
+  position: relative;
+  z-index: 2;
+  font-weight: bold;
+  color: var(--color-text-dark);
+  text-shadow: 0px 0px 3px #fff;
+  animation: pulseText 2s infinite alternate;
 }
 
 @keyframes pulseText {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.05);
-    }
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
 }
 
 .midMargin {
-    height: 15px;
+  height: 15px;
 }
 
 /* 닉네임 입력 */
 .nicknameInput {
-    width: 190px;
-    height: 48px;
-    background: var(--color-text-light);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: #555;
-    font-family: var(--font-body);
-    font-size: 20px;
-    margin: 15px 0;
-    padding-left: 15px;
-    border: none;
-    border-radius: 10px;
-    transition: box-shadow 0.3s ease;
+  width: 190px;
+  height: 48px;
+  background: var(--color-text-light);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #555;
+  font-family: var(--font-body);
+  font-size: 20px;
+  margin: 15px 0;
+  padding-left: 15px;
+  border: none;
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease;
 }
 .nicknameInput:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
 }
 
 /* 시작 버튼 */
 .start {
-    display: inline-flex;
-    padding: 14px 28px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
-    background: var(--color-primary); /* #ffc107 -> 통일 */
-    color: var(--color-text-dark);
-    font-family: var(--font-title);
-    font-size: 30px;
-    font-weight: 400;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-flex;
+  padding: 14px 28px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background: var(--color-primary); /* #ffc107 -> 통일 */
+  color: var(--color-text-dark);
+  font-family: var(--font-title);
+  font-size: 30px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .start:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
 }
 
 .mid3 {
-    width: 160px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 160px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 오디오 버튼 */
 .audioButton {
-    position: absolute;
-    top: 155px;
-    background-color: #f4dca2; /* 혹은 var(--color-primary) 연한 색 */
-    border-radius: 20%;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    font-size: 14px;
-    transform: rotate(-20deg);
-    transition: transform 0.3s ease, background 0.3s ease;
+  position: absolute;
+  top: 130px;
+  background-color: #f4dca2; /* 혹은 var(--color-primary) 연한 색 */
+  border-radius: 20%;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 14px;
+  transform: rotate(-30deg);
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 .audioButton:hover {
-    transform: rotate(-10deg) scale(1.1);
-    background: #f2c66d;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transform: rotate(-10deg) scale(1.1);
+  background: #f2c66d;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 /* 트럼프 이미지 */
 .trump {
-    width: 100%;
-    margin-top: 160px;
-    transition: filter 0.3s ease;
-    filter: saturate(1.2);
+  width: 100%;
+  margin-top: 160px;
+  transition: filter 0.3s ease;
+  filter: saturate(1.2);
 }
 .trump:hover {
-    filter: saturate(1.4) hue-rotate(15deg);
+  filter: saturate(1.4) hue-rotate(15deg);
 }
 
 /* 아래 영역 */
 .blw {
-    width: 100%;
-    min-height: 250px; /* 기존 297px -> min-height로 조정 */
-    position: relative;
-    bottom: 60px; /* 76px -> 조금 조정 */
+  width: 100%;
+  min-height: 250px; /* 기존 297px -> min-height로 조정 */
+  position: relative;
 }
 
 .leftbottom {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    /* animation: floatY 3s ease-in-out infinite alternate; -> 필요시 유지 */
-    transition: filter 0.3s ease, transform 0.3s;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  /* animation: floatY 3s ease-in-out infinite alternate; -> 필요시 유지 */
+  transition: filter 0.3s ease, transform 0.3s;
 }
 .leftbottom:hover {
-    filter: brightness(1.05) saturate(1.1);
-    transform: translateY(-5px) scale(1.05);
+  filter: brightness(1.05) saturate(1.1);
+  transform: translateY(-5px) scale(1.05);
 }
 
 /* 무솔리니(두체) */
 .duce {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    filter: contrast(1.1);
+  width: 45%;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: contrast(1.1);
 }
 .duce:hover {
-    transform: scale(1.05);
-    filter: hue-rotate(-10deg) saturate(1.3);
+  transform: scale(1.05);
+  filter: hue-rotate(-10deg) saturate(1.3);
 }
 
 .bottomCartoonDiv {
-    position: relative;
-    height: 93px;
-    width: 190px;
-    left: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  height: 93px;
+  width: 190px;
+  left: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 힌트 */
 .hint {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.5);
-    font-family: var(--font-body);
+  position: absolute;
+  bottom: 10px;
+  left: 100px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: var(--font-body);
 }
 
 /* 기가 돌핀 (유지) */
 .gigaDolphin {
-    position: absolute;
-    bottom: 100px;
-    right: 100px;
-    width: 100px;
-    animation: dolphinMove 2s infinite alternate;
-    transition: filter 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  bottom: 35px;
+  right: 250px;
+  width: 100px;
+  animation: dolphinMove 2s infinite alternate;
+  transition: filter 0.3s ease, transform 0.3s ease;
 }
 .gigaDolphin:hover {
-    transform: scale(1.1);
-    filter: brightness(1.1);
+  transform: scale(1.1);
+  filter: brightness(1.1);
 }
 
 @keyframes dolphinMove {
-    0% {
-        transform: translateX(0) rotate(0deg);
-    }
-    100% {
-        transform: translateX(20px) rotate(5deg);
-    }
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateX(20px) rotate(5deg);
+  }
 }
 
 /* 폭풍 애니메이션 */
 .storming {
-    position: absolute !important;
-    animation: stormRotate 3s ease-in-out forwards;
-    z-index: 9999;
+  position: absolute !important;
+  animation: stormRotate 3s ease-in-out forwards;
+  z-index: 9999;
 }
 
 @keyframes stormRotate {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-    50% {
-        transform: translate(50%, -50%) rotate(360deg) scale(1.2);
-    }
-    100% {
-        transform: translate(calc(50vw - 50%), calc(50vh - 50%)) rotate(720deg) scale(0.5);
-    }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(50%, -50%) rotate(360deg) scale(1.2);
+  }
+  100% {
+    transform: translate(calc(50vw - 50%), calc(50vh - 50%)) rotate(720deg) scale(0.5);
+  }
 }
 
 /* transform-origin 공통 */
 .otto,
 .trump,
 .duce {
-    transition: transform 0.3s ease, filter 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 .otto.storming,
 .trump.storming,
 .duce.storming {
-    transform-origin: center center;
+  transform-origin: center center;
 }
 
 /* 말풍선 */
 .ottoWrapper {
-    position: relative;
+  position: relative;
 }
 
 .rankingHintBubble {
-    position: absolute;
-    top: 10px;
-    left: 120px;
-    background: var(--color-text-light);
-    border: 2px solid #000;
-    border-radius: 10px;
-    padding: 10px;
-    width: 220px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    animation: shakeHint 1s infinite alternate;
-    z-index: 999;
+  position: absolute;
+  top: 10px;
+  left: 120px;
+  background: var(--color-text-light);
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 10px;
+  width: 220px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  animation: shakeHint 1s infinite alternate;
+  z-index: 999;
 }
 
 .rankingHintText {
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: #000;
-    text-align: center;
-    line-height: 1.4;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #000;
+  text-align: center;
+  line-height: 1.4;
 }
 
 .highlight {
-    color: red;
-    font-weight: bold;
+  color: red;
+  font-weight: bold;
 }
 
 .whyBubble {
-    position: absolute;
-    top: 10px;
-    left: 30%;
-    margin-left: 10px;
-    background: var(--color-text-light);
-    border: 2px solid #000;
-    border-radius: 10px;
-    padding: 5px 10px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: #000;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    animation: fadeInOut 3s forwards;
-    z-index: 1000;
+  position: absolute;
+  top: 10px;
+  left: 30%;
+  margin-left: 10px;
+  background: var(--color-text-light);
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  animation: fadeInOut 3s forwards;
+  z-index: 1000;
 }
 
 @keyframes fadeInOut {
-    0% {
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes shakeHint {
-    0% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(-3px);
-    }
-    100% {
-        transform: translateX(3px);
-    }
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(3px);
+  }
 }

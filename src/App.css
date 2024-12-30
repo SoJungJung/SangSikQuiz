@@ -1,41 +1,48 @@
 /* 예시: App.css 최상단 */
 
-@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Nanum+Gothic&display=swap');
-@import './styles/variables.css'; /* ← 파일 경로 주의 */
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Nanum+Gothic&display=swap");
+@import "./styles/variables.css"; /* ← 파일 경로 주의 */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 .App {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    /* 기존 height: 100vh; 는 min-height 권장 */
-    min-height: 100vh;
+  /* 기존 height: 100vh; 는 min-height 권장 */
+  min-height: 100vh;
 
-    /* 배경색이나 배경이미지를 변수 사용 또는 주석 처리 */
-    /* background-image: url("./assets/images/backgroundImg.png"); */
-    background-size: cover;
-    background-position: center;
+  /* 배경색이나 배경이미지를 변수 사용 또는 주석 처리 */
+  /* background-image: url("./assets/images/backgroundImg.png"); */
+  background-size: cover;
+  background-position: center;
 
-    /* 전역 변수로 배경색 지정 예시: */
-    background: var(--color-bg-light);
-    /* (dark 테마를 원한다면 var(--color-bg-dark) 등으로 교체) */
+  /* 전역 변수로 배경색 지정 예시: */
+  background: var(--color-bg-light);
+  /* (dark 테마를 원한다면 var(--color-bg-dark) 등으로 교체) */
 }
 
 .content {
-    width: 100%;
-    height: 100%; /* 혹은 min-height: 100% (상황에 맞게) */
-    max-width: 480px; /* 모바일 최대 크기 */
+  width: 100%;
+  height: 100%; /* 혹은 min-height: 100% (상황에 맞게) */
+  max-width: 480px; /* 모바일 최대 크기 */
 
-    /* 흰색 배경 -> 전역 변수 사용 예시 */
-    background-color: var(--color-text-light);
-    /* 혹은 var(--color-bg-light), 원하는 변수 사용 */
+  /* 흰색 배경 -> 전역 변수 사용 예시 */
+  background-color: var(--color-text-light);
+  /* 혹은 var(--color-bg-light), 원하는 변수 사용 */
 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /*반응형 미디어 쿼리*/
 @media (max-width: 480px) {
-    .App {
-        background-image: none;
-    }
+  .App {
+    background-image: none;
+  }
 }

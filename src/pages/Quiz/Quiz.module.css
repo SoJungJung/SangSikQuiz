@@ -1,280 +1,315 @@
 .container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: linear-gradient(to bottom, #222, #333);
-    overflow: hidden;
-    font-family: 'Nanum Gothic', sans-serif;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom, #222, #333);
+  overflow: hidden;
+  font-family: "Nanum Gothic", sans-serif;
+}
+.container img {
+  pointer-events: none; /* 드래그 방지 */
 }
 
+.container {
+  user-select: none; /* 텍스트 복사 방지 */
+}
 .topdiv {
-    position: relative;
-    height: 195px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  height: 195px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lefttop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: floatX 4s ease-in-out infinite alternate;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* animation: floatX 4s ease-in-out infinite alternate; */
 }
 
 .righttop {
-    position: absolute;
-    top: 0;
-    right: 0;
-    animation: floatX 4s ease-in-out infinite alternate-reverse;
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* animation: floatX 4s ease-in-out infinite alternate-reverse; */
 }
 
 .pointShow {
-    position: relative;
-    width: 206px;
-    height: 67px;
-    right: 100px;
-    bottom: 20px;
-    text-align: center;
+  position: relative;
+  width: 206px;
+  height: 67px;
+  right: 100px;
+  bottom: 20px;
+  text-align: center;
 }
 
 .point {
-    color: #000;
-    font-family: Inter, sans-serif;
-    font-style: normal;
-    font-size: 20px;
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-size: 20px;
 }
 
 .pointText {
-    position: absolute;
-    font-size: 35px;
-    top: 7px;
-    left: 10px;
-    color: white;
-    text-shadow: 0 0 8px #fff;
-    animation: wiggle 3s infinite;
+  position: absolute;
+  font-size: 35px;
+  top: 7px;
+  left: 10px;
+  color: white;
+  text-shadow: 0 0 8px #fff;
+  animation: wiggle 3s infinite;
 }
 
 .quizShow {
-    position: relative;
-    width: 344px;
-    background-color: #7a8b8b;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 100px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    animation: glow 2s ease-in-out infinite alternate;
+  position: relative;
+  width: 344px;
+  background-color: #7a8b8b;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 100px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  animation: glow 2s ease-in-out infinite alternate;
 }
 
 .quizText {
-    width: 300px;
-    text-align: left;
-    font-size: 30px;
-    overflow: hidden;
-    color: #fff;
-    font-weight: bold;
+  width: 300px;
+  text-align: left;
+  font-size: 25px;
+  overflow: hidden;
+  color: #fff;
+  font-weight: bold;
 }
 
 .answerShow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: -60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -20px;
 }
 
 .circleDiv {
-    position: relative;
-    display: flex;
-    align-items: center;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .circle,
 .circle2,
 .circle3 {
-    width: 4rem;
-    height: 4rem;
-    border-radius: 100%;
-    position: relative;
-    left: 15px;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    transition: width 0.3s ease, height 0.3s ease, font-size 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 100%;
+  position: relative;
+  left: 5px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  transition: width 0.3s ease, height 0.3s ease, font-size 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .circle {
-    background-color: #4caf50;
+  background-color: #4caf50;
 }
 
 .circle2 {
-    background-color: #ffc107;
+  background-color: #ffc107;
 }
 
 .circle3 {
-    background-color: #ff6f61;
+  background-color: #ff6f61;
 }
 
 .answerDiv {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    opacity: 0.85;
-    margin: 10px 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0.85;
+  margin: 10px 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 .answerDiv:hover {
-    opacity: 1;
-    transform: scale(1.05);
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 .midAnswerDiv {
-    margin: 15px 0 15px 0;
+  margin: 15px 0 15px 0;
 }
 
 .rectangle {
-    width: 270px;
-    background-color: #fff9c4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 15px;
-    z-index: 1;
-    padding: 10px;
-    box-sizing: border-box;
-    border-radius: 5px;
+  width: 270px;
+  background-color: #fff9c4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 15px;
+  z-index: 1;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
 }
 
 .rectangleText {
-    width: 235px;
-    font-style: normal;
-    font-size: 24px;
-    text-align: center;
-    word-wrap: break-word;
-    overflow: hidden;
-    color: #333;
+  width: 235px;
+  font-style: normal;
+  font-size: 24px;
+  text-align: center;
+  word-wrap: break-word;
+  overflow: hidden;
+  color: #333;
 }
 
 .numShow {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    width: 120px;
-    height: 50px;
-    border-radius: 20px;
-    background-color: #5bc0eb;
-    color: white;
-    font-size: 27px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px #5bc0eb;
-    animation: pulse 2s infinite;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 120px;
+  height: 50px;
+  border-radius: 20px;
+  background-color: #5bc0eb;
+  color: white;
+  font-size: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px #5bc0eb;
+  animation: pulse 2s infinite;
 }
 
 .bottomdiv {
-    position: absolute;
-    bottom: 10px;
-    text-align: left;
+  position: absolute;
+  bottom: 10px;
+  text-align: left;
 }
 
 .leftbottom {
-    position: relative;
-    bottom: 0;
-    left: 0;
-    animation: floatY 3s ease-in-out infinite alternate;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  /* animation: floatY 3s ease-in-out infinite alternate; */
 }
 
 /* 애니메이션 keyframes */
 @keyframes floatX {
-    0% {
-        transform: translateX(0px);
-    }
-    100% {
-        transform: translateX(20px);
-    }
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(20px);
+  }
 }
 
 @keyframes floatY {
-    0% {
-        transform: translateY(0px);
-    }
-    100% {
-        transform: translateY(15px);
-    }
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(15px);
+  }
 }
 
 @keyframes wiggle {
-    0% {
-        transform: rotate(0deg);
-    }
-    25% {
-        transform: rotate(2deg);
-    }
-    50% {
-        transform: rotate(-2deg);
-    }
-    75% {
-        transform: rotate(2deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  50% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 @keyframes glow {
-    0% {
-        box-shadow: 0 0 15px #fff;
-    }
-    100% {
-        box-shadow: 0 0 30px #fff;
-    }
+  0% {
+    box-shadow: 0 0 15px #fff;
+  }
+  100% {
+    box-shadow: 0 0 30px #fff;
+  }
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* 잘못된 답 선택 시 전체 보기들 날아가는 애니메이션 */
 body.wrongAnswers .answerDiv {
-    animation: vanish 0.5s forwards;
+  animation: vanish 0.5s forwards;
 }
 
 @keyframes vanish {
-    0% {
-        opacity: 1;
-        transform: translateX(0) rotate(0deg);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-300px) rotate(-360deg);
-    }
+  0% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-300px) rotate(-360deg);
+  }
 }
 
 .loading,
 .error,
 .noData {
-    color: #fff;
-    font-size: 24px;
-    text-align: center;
-    margin-top: 50px;
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* 로딩 래퍼 */
+.loadingWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+/* 간단한 스피너 예시 */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #ddd;
+  border-top-color: #4aba91;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: auto;
+}
+
+/* 스피너 회전 애니메이션 */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
