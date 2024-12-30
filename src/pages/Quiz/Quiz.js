@@ -6,6 +6,7 @@ import leftbottom from "./leftbottom.png";
 import righttop from "./righttop.png";
 import point from "./point.png";
 import Layout from "../../Layout";
+import QuizText from "./QuizText";
 
 const Quiz = () => {
   const QuizAnswer = ({ text }) => {
@@ -260,7 +261,7 @@ const Quiz = () => {
           </div>
         </div>
         <div className={styles.quizShow}>
-          <div className={styles.quizText}>{randomQuiz?.quiz || "퀴즈 데이터를 불러오는 중..."}</div>
+          <QuizText text={randomQuiz?.quiz || "퀴즈 데이터를 불러오는 중..."} />{" "}
         </div>
         <div className={styles.answerShow}>
           {randomQuiz.answer.map((ans, index) => (
