@@ -19,14 +19,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  animation: floatX 4s ease-in-out infinite alternate;
+  /* animation: floatX 4s ease-in-out infinite alternate; */
 }
 
 .righttop {
   position: absolute;
   top: 0;
   right: 0;
-  animation: floatX 4s ease-in-out infinite alternate-reverse;
+  /* animation: floatX 4s ease-in-out infinite alternate-reverse; */
 }
 
 .pointShow {
@@ -193,7 +193,7 @@
   position: relative;
   bottom: 0;
   left: 0;
-  animation: floatY 3s ease-in-out infinite alternate;
+  /* animation: floatY 3s ease-in-out infinite alternate; */
 }
 
 /* 애니메이션 keyframes */
