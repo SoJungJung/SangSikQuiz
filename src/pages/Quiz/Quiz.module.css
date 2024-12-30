@@ -82,7 +82,7 @@
 .quizText {
   width: 300px;
   text-align: left;
-  font-size: 30px;
+  font-size: 25px;
   overflow: hidden;
   color: #fff;
   font-weight: bold;
@@ -94,7 +94,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  top: -60px;
+  top: -20px;
 }
 
 .circleDiv {
