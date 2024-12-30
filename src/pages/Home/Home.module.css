@@ -437,3 +437,47 @@
     transform: translateX(3px);
   }
 }
+
+.devMemoOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.devMemoBox {
+  background: #fff;
+  color: #333;
+  width: 80%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.devMemoBox h2 {
+  margin-bottom: 10px;
+}
+
+.devMemoBox p {
+  margin-bottom: 8px;
+}
+
+.devMemoClose {
+  margin-top: 12px;
+  padding: 8px 16px;
+  border: none;
+  background: #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.devMemoClose:hover {
+  background: #bbb;
+}
