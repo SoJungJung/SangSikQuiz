@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- 홈페이지 ("/") -->
+  <url>
+    <loc>https://molsangsik.kr/</loc>
+    <lastmod>2025-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 퀴즈 ("/quiz") -->
+  <url>
+    <loc>https://molsangsik.kr/quiz</loc>
+    <lastmod>2025-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 답변 ("/answer") -->
+  <url>
+    <loc>https://molsangsik.kr/answer</loc>
+    <lastmod>2025-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 결과 ("/result") -->
+  <url>
+    <loc>https://molsangsik.kr/result</loc>
+    <lastmod>2025-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 랭킹 ("/ranking") -->
+  <url>
+    <loc>https://molsangsik.kr/ranking</loc>
+    <lastmod>2025-01-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>
