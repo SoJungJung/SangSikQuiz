@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+```markdown
+# 싱글벙글 상식퀴즈
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> “어? 이거 진짜 맞히기 어렵네?!”
+>
+> 쉬운 상식 퀴즈에 섞여 있는, 아주 까다로운 문제들을 맞추며  
+> 재미있게 속아보는(?) 프로젝트입니다.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 프로젝트 링크
 
-### `npm start`
+-   **배포 링크**: [https://molsangsik.kr](https://molsangsik.kr/)
+-   **Instagram**: [https://www.instagram.com/molsangsik.kr/](https://www.instagram.com/molsangsik.kr/%EC%95%BC)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 프로젝트 개요
 
-### `npm test`
+싱글벙글 상식퀴즈는 **매우 어려운 난이도의 상식 퀴즈**를 **쉬운 난이도의 퀴즈**들과 적절히 섞어 출제하여,  
+사용자들에게 “어? 이 정도는 쉬운데?”라는 방심을 유도하고 **갑작스러운 난이도의 상승**으로 놀라게 만드는 것을 목표로 합니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**주요 특징**
 
-### `npm run build`
+1. 쉬운 상식문제와 매우 어려운 문제가 균등하게 출제
+2. 사용자 경험 중심의 UI/UX로, 문제 풀이에 집중하게 함
+3. 사용자를 ‘싱글벙글’ 웃게 만드는(?) 다소 논란이 되는 이미지와 이펙트
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 주요 기능
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   **퀴즈 생성**: 쉬운/어려운 문제 혼합 제출 로직
+-   **실시간 정답 확인**: 문제 풀이 직후 정답 여부 표시
+-   **사용자 랭킹**: 사용자 이름, 점수, 등수 제공
+-   **반응형 디자인**: 다양한 디바이스(PC/모바일)에서 편하게 이용
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 기술 스택 (STACK)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| 구분   |           기술           | 비고                  |
+| :----- | :----------------------: | :-------------------- |
+| 프론트 |       **React.js**       | SPA 구현, UI/UX 담당  |
+| 백엔드 | **Node.js / Express.js** | API, 서버 로직        |
+| DB     |      **PostgreSQL**      | 관계형 DB             |
+| 배포   |      **Cloudtype**       | 서버/프론트 배포      |
+| 협업   |    **GitHub, Notion**    | 소스 코드 관리/문서화 |
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# SingleBungle Common Sense Quiz
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+> "Huh? This is really hard to guess?!"
+>
+> This project mixes extremely difficult trivia questions with easy ones,
+> fooling you in a fun way.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Project Links
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   **Deployment Link**: [https://molsangsik.kr](https://molsangsik.kr/)
+-   **Instagram**: [https://www.instagram.com/molsangsik.kr/](https://www.instagram.com/molsangsik.kr/%EC%95%BC)
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Project Overview
 
-### Analyzing the Bundle Size
+SingleBungle Common Sense Quiz creates a mix of **extremely challenging quizzes** with **easy quizzes**,  
+leading users to think "Huh? This is easy?" and then surprising them with **a sudden jump in difficulty**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Key Features**
 
-### Making a Progressive Web App
+1. Both easy and extremely hard common sense questions appear evenly
+2. Focus on user experience in UI/UX, allowing users to concentrate on solving questions
+3. Somewhat controversial images and effects that make users "smile"
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Main Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+-   **Quiz Generation**: Mixed submission logic for easy/difficult questions
+-   **Real-time Answer Checking**: Displays whether your answer is correct immediately after submission
+-   **User Ranking**: Provides user name, score, and rank
+-   **Responsive Design**: Accessible on various devices (PC/mobile)
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Tech Stack (STACK)
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Category |        Technology        |            Notes            |
+| :------: | :----------------------: | :-------------------------: |
+| Frontend |       **React.js**       |  SPA implementation, UI/UX  |
+| Backend  | **Node.js / Express.js** |      API, server logic      |
+|    DB    |      **PostgreSQL**      |        Relational DB        |
+| Hosting  |      **Cloudtype**       | Server/Frontend deployment  |
+| Teamwork |    **GitHub, Notion**    | Source code management/docs |
